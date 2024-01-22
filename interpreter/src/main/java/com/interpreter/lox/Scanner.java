@@ -79,6 +79,9 @@ class Scanner {
       case '/':
         if (match('/')) {
           while (peek() != '\n' && !isAtEnd()) advance();
+        } else if (match('*')) {
+          while (peek() != '/' && !isAtEnd()) advance();
+          advance();
         } else {
           addToken(SLASH);
         }

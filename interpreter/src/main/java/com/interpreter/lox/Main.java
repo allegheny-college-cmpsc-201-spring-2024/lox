@@ -12,15 +12,14 @@ public class Main {
 
   static boolean hadError = false;
 
-  static void error(int line, String message) {
-    report(line, "", message);
+  public static String error(int line, String message) {
+    return report(line, "", message);
   }
 
-  private static void report(int line, String where, String message) {
-    System.err.println(
-      "[line " + line + "] Error" + where + ": " + message
-    );
+  private static String report(int line, String where, String message) {
+    String fullMessage = "[line " + line + "] Error" + where + ": " + message;
     hadError = true;
+    return fullMessage;
   }
 
   private static void runFile(String path) throws IOException {
