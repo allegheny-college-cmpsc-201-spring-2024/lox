@@ -76,6 +76,14 @@ testing and executing the code for the book, outlined in the
 
 |Unit |Unit name |Build status |
 |:----|:---------|:------------|
-|1    |Introduction to `Lox` |[![Gatorgrader](../../actions/workflows/main.yml/badge.svg?branch=1-lox-introduction)](../../actions/workflows/main.yml) |[Chapters 1-3](../../tree/1-lox-introduction) 
-|2    |Scanning |[![Gatorgrader](../../actions/workflows/main.yml/badge.svg?branch=2-scanning)](../../actions/workflows/main.yml) |[Chapter 4](../../tree/2-scanning) 
-|3    |Representing Code |[![Gatorgrader](../../actions/workflows/main.yml/badge.svg?branch=3-representing-code)](../../actions/workflows/main.yml) |[Chapter 4](../../tree/3-representing-code) 
+|1    |Introduction to `Lox` |[![Gatorgrader](../../actions/workflows/main.yml/badge.svg?branch=1-lox-introduction)](../../actions/workflows/main.yml) |[Chapters 1-3](../../tree/1-lox-introduction) |
+|2    |Scanning |[![Gatorgrader](../../actions/workflows/main.yml/badge.svg?branch=2-scanning)](../../actions/workflows/main.yml) |[Chapter 4](../../tree/2-scanning) |
+|3    |Representing Code |[![Gatorgrader](../../actions/workflows/main.yml/badge.svg?branch=3-representing-code)](../../actions/workflows/main.yml) |[Chapter 5](../../tree/3-representing-code) |
+|4    |Parsing Expressions |[![Gatorgrader](../../actions/workflows/main.yml/badge.svg?branch=4-parsing-expressions)](../../actions/workflows/main.yml) |[Chapter 6](../../tree/4-parsing-expressions) | 
+|5    |Evaluating Expressions |[![Gatorgrader](../../actions/workflows/main.yml/badge.svg?branch=5-evaluating-expressions)](../../actions/workflows/main.yml) |[Chapter 7](../../tree/5-evaluating-expressions) | 
+|6    |Statements and State |[![Gatorgrader](../../actions/workflows/main.yml/badge.svg?branch=6-statements-state)](../../actions/workflows/main.yml) |[Chapter 8](../../tree/6-statements-state) |
+|7    |Control Flow |[![Gatorgrader](../../actions/workflows/main.yml/badge.svg?branch=7-control-flow)](../../actions/workflows/main.yml) |[Chapter 9](../../tree/3-control-flow) | 
+|8    |Functions |[![Gatorgrader](../../actions/workflows/main.yml/badge.svg?branch=8-functions)](../../actions/workflows/main.yml) |[Chapter 10](../../tree/8-functions) |
+|9    |Resolving and Binding |[![Gatorgrader](../../actions/workflows/main.yml/badge.svg?branch=9-resolving-binding)](../../actions/workflows/main.yml) |[Chapter 11](../../tree/9-resolving-binding) |
+|10    |Classes |[![Gatorgrader](../../actions/workflows/main.yml/badge.svg?branch=10-representing-code)](../../actions/workflows/main.yml) |[Chapter 12](../../tree/10-classes) |
+|11    |Inheritance |[![Gatorgrader](../../actions/workflows/main.yml/badge.svg?branch=11-inheritance)](../../actions/workflows/main.yml) |[Chapter 13](../../tree/13-inheritance) | 
