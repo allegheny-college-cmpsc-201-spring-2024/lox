@@ -6,6 +6,22 @@ by Robert Nystrom. It uses [Apache Maven](https://maven.apache.org/), Apache's b
 tool commonly used with Java. Instructions for using this repository exist in the
 [repository wiki](../../wiki/).
 
+## Completion log
+
+|Unit |Unit name |Build status |Chapters in branch |Due Date (EOD) |
+|:----|:---------|:------------|:--------|:--------|
+|1    |Introduction to `Lox` |[![Gatorgrader](../../actions/workflows/main.yml/badge.svg?branch=1-lox-introduction)](../../actions/workflows/main.yml) |[Chapters 1-3](../../tree/1-lox-introduction) | 29 January |
+|2    |Scanning |[![Gatorgrader](../../actions/workflows/main.yml/badge.svg?branch=2-scanning)](../../actions/workflows/main.yml) |[Chapter 4](../../tree/2-scanning) | 5 February |
+|3    |Representing Code |[![Gatorgrader](../../actions/workflows/main.yml/badge.svg?branch=3-representing-code)](../../actions/workflows/main.yml) |[Chapter 5](../../tree/3-representing-code) | 12 February |
+|4    |Parsing Expressions |[![Gatorgrader](../../actions/workflows/main.yml/badge.svg?branch=4-parsing-expressions)](../../actions/workflows/main.yml) |[Chapter 6](../../tree/4-parsing-expressions) | 19 February |
+|5    |Evaluating Expressions |[![Gatorgrader](../../actions/workflows/main.yml/badge.svg?branch=5-evaluating-expressions)](../../actions/workflows/main.yml) |[Chapter 7](../../tree/5-evaluating-expressions) | 19 February |
+|6    |Statements and State |[![Gatorgrader](../../actions/workflows/main.yml/badge.svg?branch=6-statements-state)](../../actions/workflows/main.yml) |[Chapter 8](../../tree/6-statements-state) | 26 February |
+|7    |Control Flow |[![Gatorgrader](../../actions/workflows/main.yml/badge.svg?branch=7-control-flow)](../../actions/workflows/main.yml) |[Chapter 9](../../tree/7-control-flow) | 11 March | 
+|8    |Functions |[![Gatorgrader](../../actions/workflows/main.yml/badge.svg?branch=8-functions)](../../actions/workflows/main.yml) |[Chapter 10](../../tree/8-functions) | 18 March |
+|9    |Resolving and Binding |[![Gatorgrader](../../actions/workflows/main.yml/badge.svg?branch=9-resolving-binding)](../../actions/workflows/main.yml) |[Chapter 11](../../tree/9-resolving-binding) | 25 March |
+|10    |Classes |[![Gatorgrader](../../actions/workflows/main.yml/badge.svg?branch=10-representing-code)](../../actions/workflows/main.yml) |[Chapter 12](../../tree/10-classes) | 1 April (that's no joke) |
+|11    |Inheritance |[![Gatorgrader](../../actions/workflows/main.yml/badge.svg?branch=11-inheritance)](../../actions/workflows/main.yml) |[Chapter 13](../../tree/13-inheritance) | 8 April |
+
 ## Programmatic content
 
 Intended as the main educational tool for `CMPSC 201: Programming Languages` at Allegheny College,
@@ -71,19 +87,3 @@ up the Java SDK and runtime in addition to helpful Maven tools for VSCode. In ad
 repository's Wiki outlines some of the common Apache Maven lifecycle commands used in compiling,
 testing and executing the code for the book, outlined in the 
 [Compiling and Testing Java Programs](wiki/Compiling-and-Testing-Java-Programs) entry.
-
-## Completion log
-
-|Unit |Unit name |Build status |Chapters in branch |Due Date |
-|:----|:---------|:------------|:--------|:--------|
-|1    |Introduction to `Lox` |[![Gatorgrader](../../actions/workflows/main.yml/badge.svg?branch=1-lox-introduction)](../../actions/workflows/main.yml) |[Chapters 1-3](../../tree/1-lox-introduction) | 29 January |
-|2    |Scanning |[![Gatorgrader](../../actions/workflows/main.yml/badge.svg?branch=2-scanning)](../../actions/workflows/main.yml) |[Chapter 4](../../tree/2-scanning) | 5 February |
-|3    |Representing Code |[![Gatorgrader](../../actions/workflows/main.yml/badge.svg?branch=3-representing-code)](../../actions/workflows/main.yml) |[Chapter 5](../../tree/3-representing-code) | 12 February |
-|4    |Parsing Expressions |[![Gatorgrader](../../actions/workflows/main.yml/badge.svg?branch=4-parsing-expressions)](../../actions/workflows/main.yml) |[Chapter 6](../../tree/4-parsing-expressions) | 19 February |
-|5    |Evaluating Expressions |[![Gatorgrader](../../actions/workflows/main.yml/badge.svg?branch=5-evaluating-expressions)](../../actions/workflows/main.yml) |[Chapter 7](../../tree/5-evaluating-expressions) | 19 February |
-|6    |Statements and State |[![Gatorgrader](../../actions/workflows/main.yml/badge.svg?branch=6-statements-state)](../../actions/workflows/main.yml) |[Chapter 8](../../tree/6-statements-state) | 26 February |
-|7    |Control Flow |[![Gatorgrader](../../actions/workflows/main.yml/badge.svg?branch=7-control-flow)](../../actions/workflows/main.yml) |[Chapter 9](../../tree/7-control-flow) | 11 March | 
-|8    |Functions |[![Gatorgrader](../../actions/workflows/main.yml/badge.svg?branch=8-functions)](../../actions/workflows/main.yml) |[Chapter 10](../../tree/8-functions) | 18 March |
-|9    |Resolving and Binding |[![Gatorgrader](../../actions/workflows/main.yml/badge.svg?branch=9-resolving-binding)](../../actions/workflows/main.yml) |[Chapter 11](../../tree/9-resolving-binding) | 25 March |
-|10    |Classes |[![Gatorgrader](../../actions/workflows/main.yml/badge.svg?branch=10-representing-code)](../../actions/workflows/main.yml) |[Chapter 12](../../tree/10-classes) | 1 April (that's no joke) |
-|11    |Inheritance |[![Gatorgrader](../../actions/workflows/main.yml/badge.svg?branch=11-inheritance)](../../actions/workflows/main.yml) |[Chapter 13](../../tree/13-inheritance) | 8 April |
