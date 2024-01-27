@@ -78,3 +78,4 @@ testing and executing the code for the book, outlined in the
 |:----|:---------|:------------|
 |1    |Introduction to `Lox` |[![Gatorgrader](../../actions/workflows/main.yml/badge.svg?branch=1-lox-introduction)](../../actions/workflows/main.yml) |[Chapters 1-3](../../tree/1-lox-introduction) 
 |2    |Scanning |[![Gatorgrader](../../actions/workflows/main.yml/badge.svg?branch=2-scanning)](../../actions/workflows/main.yml) |[Chapter 4](../../tree/2-scanning) 
+|3    |Representing Code |[![Gatorgrader](../../actions/workflows/main.yml/badge.svg?branch=3-representing-code)](../../actions/workflows/main.yml) |[Chapter 4](../../tree/3-representing-code) 
