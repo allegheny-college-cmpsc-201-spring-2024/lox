@@ -76,4 +76,5 @@ testing and executing the code for the book, outlined in the
 
 |Unit |Unit name |Build status |
 |:----|:---------|:------------|
-|1    |Introduction to `Lox` |[![Gatorgrader](../../actions/workflows/1.yml/badge.svg?branch=round-1)](../../actions/workflows/round-1.yml) |[Round 1](../../tree/round-1) 
+|1    |Introduction to `Lox` |[![Gatorgrader](../../actions/workflows/main.yml/badge.svg?branch=1-lox-introduction)](../../actions/workflows/main.yml) |[Chapters 1-3](../../tree/1-lox-introduction) 
+|2    |Scanning |[![Gatorgrader](../../actions/workflows/main.yml/badge.svg?branch=2-scanning)](../../actions/workflows/main.yml) |[Chapter 4](../../tree/2-scanning) 
