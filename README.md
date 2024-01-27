@@ -74,8 +74,8 @@ testing and executing the code for the book, outlined in the
 
 ## Completion log
 
-|Unit |Unit name |Build status |Due Date |
-|:----|:---------|:------------|:--------|
+|Unit |Unit name |Build status |Chapters in branch |Due Date |
+|:----|:---------|:------------|:--------|:--------|
 |1    |Introduction to `Lox` |[![Gatorgrader](../../actions/workflows/main.yml/badge.svg?branch=1-lox-introduction)](../../actions/workflows/main.yml) |[Chapters 1-3](../../tree/1-lox-introduction) | 29 January |
 |2    |Scanning |[![Gatorgrader](../../actions/workflows/main.yml/badge.svg?branch=2-scanning)](../../actions/workflows/main.yml) |[Chapter 4](../../tree/2-scanning) | 5 February |
 |3    |Representing Code |[![Gatorgrader](../../actions/workflows/main.yml/badge.svg?branch=3-representing-code)](../../actions/workflows/main.yml) |[Chapter 5](../../tree/3-representing-code) | 12 February |
