@@ -71,3 +71,9 @@ up the Java SDK and runtime in addition to helpful Maven tools for VSCode. In ad
 repository's Wiki outlines some of the common Apache Maven lifecycle commands used in compiling,
 testing and executing the code for the book, outlined in the 
 [Compiling and Testing Java Programs](wiki/Compiling-and-Testing-Java-Programs) entry.
+
+## Completion log
+
+|Unit |Unit name |Build status |
+|:----|:---------|:------------|
+|1    |Introduction to `Lox` |[![Gatorgrader](../../actions/workflows/1.yml/badge.svg?branch=round-1)](../../actions/workflows/round-1.yml) |[Round 1](../../tree/round-1) 
