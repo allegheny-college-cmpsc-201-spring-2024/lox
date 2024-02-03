@@ -1,12 +1,29 @@
-# The Lox Programming Language: Introduction
+# The Lox Programming Language: Grammar
 
-This branch mirrors content from chapter `4` of _Crafting Interpreters_, which introduces the tokens
-of the Lox language. These are the building blocks of what the language's `Parser` will use; think
-of them like words that have meaning or purpose in and of themselves which can make sentences, but
-aren't really up for coherent paragraphs yet.
+This branch mirrors content from chapter `5` of _Crafting Interpreters_. Here, we're concerned
+with putting together the "words" we've learned into fuller expressions described by the `Lox`
+language's _grammar_. We'll explore how formal languages enforce their rules beyond scanning
+for the "form"-level validation of tokens by implementing the idea of "production rules," which
+describe tokens come together to produce statements and expressions.
+
+This week's work introduces and explains a software design pattern common to interpreters and
+compilers: the `Visitor` pattern. Understanding this pattern constitutes a key concept in at
+least this interpreter's implementation. 
 
 For a primer on the language's general syntax and usage, refer to 
 [Crafting Interpreters, Chapter 3](https://www.craftinginterpreters.com/the-lox-language.html).
+
+## Note about the chapter
+
+At the end of the chapter Nystrom writes:
+
+> You can go ahead and delete this method. We won’t need it. Also, as we add new syntax tree types, 
+> I won’t bother showing the necessary visit methods for them in AstPrinter. If you want to (and you 
+> want the Java compiler to not yell at you), go ahead and add them yourself. It will come in handy 
+> in the next chapter when we start parsing Lox code into syntax trees. Or, if you don’t care to maintain 
+> AstPrinter, feel free to delete it. We won’t need it again.
+
+Don't follow the book's advice here: _keep everything currently in `ASTPrinter`_! It's important to our work.
 
 ## Learning objectives
 
@@ -14,7 +31,7 @@ This assignment directly addresses the following course learning objectives:
 
 * Correctly identify and describe the steps in the design and implementation of a programming language
 * Interpret and use an existing programming language grammar
-* Design, implement, and evaluate a correct scanner and parser for a programming language
+* Using knowledge of the general principles of programming languages, correctly implement a computer program in a heretofore unknown programming language
 
 ## Using this repository
 
@@ -26,49 +43,25 @@ up the Java SDK and runtime in addition to helpful Maven tools for VSCode.
 
 Unless tagged as optional, all challenges below are required by this week's work.
 
-1. Implement multi-line Lox comments such that your program can implement them and pass 
-the test case in [interpreter/src/test/resources/test.lox](interpreter/src/test/resources/test.lox).
-
-An example of a multi-line comment in the `C` tradition might look like any of the following:
-
+1. Nystrom presents us with the following hypothetical production rule:
 ```
-/* This is a comment using multiline, but really isn't */
-
-/*
-  This is a comment
-  that takes up more
-  than one line
-*/
-
-/* This is a comment
-   using more than one line
-   but not using extra spaces
-   to delimit the ends */
+expr → expr ( "(" ( expr ( "," expr )* )? ")" | "." IDENTIFIER )+
+     | IDENTIFIER
+     | NUMBER
 ```
+Admittedly, as the author writes, there are several "tricks" here to make the grammar of it more compact.
+If `*`, `|`, `+`, and `?` are "syntactical sugar" (i.e., programmatic shorthand), how many different 
+individual production rules does this single rule encode? What are some examples of how they might occur
+in the `Lox` language? Provide examples for each derivation.
+* Note: this production rule accounts for _several_ (i.e. more than 3) different derivations
 
-Complete this work in the [`interpreter/src/test/resources/test.lox`](interpreter/src/test/resources/test.lox) 
-file. Like last challenge, the file must contain:
+2. Our Code Golf exercise from last week worked in the Scheme language which used "normal Polish notation" 
+(NPN), e.g., `(+ 1 2)` to represent `2 + 1`. Reverse Polish notation (RPN) would represent this differently: 
+`(1 2 +)`. Our `ASTPrinter` file contains an additional `RPNPrinter` class which should produce statements 
+in RPN rather than the current modified `Lox` NPN. 
+* Work in [ASTPrinter.java](interpreter/src/main/java/com/interpreter/lox/ASTPrinter.java) to complete this
+task
 
-* fully functional code that achieves the objective outlined above
-  * i.e. it must pass `mvn test`
-* at least `1` multi-line comment in Lox multiline comment style
+Answer both of the above concept-based questions in the [reflection.md](docs/reflection.md) keeping the 
+requirements and tips above in mind.
 
-`Note`: you cannot _remove_ or _modify_ existing code; your submission should _add_ code to the file. 
-
-2. Nystrom: "Aside from separating tokens—distinguishing `print foo` from `printfoo`—spaces aren’t used for much in most languages. 
-However, in a couple of dark corners, a space does affect how code is parsed in CoffeeScript, Ruby, and the C preprocessor. Where 
-and what effect does it have in each of those languages?"
-s
-For two of the languages above (`CoffeeScript`, `Ruby`): find an example where whitespace matters, and for each language:
-
-* include that example in a Markdown `code fence`
-* write a brief explananation of the effect of whitespace in the example
-
-3. Nystrom: "Our scanner here, like most, discards comments and whitespace since those aren’t needed by the parser. Why might you 
-want to write a scanner that does not discard those? What would it be useful for?"
-
-Keeping mind the examples you found for the question above, consider the last two parts of `#3` and respond under the appropriate
-headings in the reflection document.
-
-Answer both of the above concept-based questions in the [reflection.md](docs/reflection.md) keeping the requirements and tips above
-in mind.

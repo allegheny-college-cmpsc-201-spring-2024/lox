@@ -1,7 +1,5 @@
 /* 
-   This serves as the
-   multiline comment
+    TODO: Create expression to match the 
+    derviation the second README question
 */
-var a = 2;
-var b = 3;
-var c = 2 + 3;
+((10 * (6 / ((9 + 3) * -11))) + 17) + 5

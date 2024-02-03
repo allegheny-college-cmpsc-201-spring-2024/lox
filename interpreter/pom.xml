@@ -19,7 +19,7 @@
       <version>1.4.0</version>
       <configuration>
           <executable>java</executable>
-          <mainClass>com.interpreter.lox.ASTPrinter</mainClass>
+          <mainClass>com.interpreter.lox.Main</mainClass>
           <arguments>
             <argument>${session.executionRootDirectory}/src/test/resources/test.lox</argument>
           </arguments>
