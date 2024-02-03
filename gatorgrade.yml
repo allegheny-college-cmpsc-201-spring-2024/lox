@@ -9,24 +9,17 @@ setup: |
   check: ExecuteCommand
   options:
     command: cd interpreter && mvn exec:java
-- description: Test cases pass; program handles multi-line comments without breaking other functionality (mvn test)
+- description: Test cases pass; both AST and RPN representations are correct
   category: Tests
   check: ExecuteCommand
   options:
     command: mvn test
 - interpreter/src/test/resources/test.lox:
-  - description: Program contains at least 1 Lox multi-line comment
-    category: Lox Programming
-    check: CountMultipleLineComments
-    options:
-      language: Java
-      count: 1
-      exact: false
-  - description: Program file contains no TODOs
-    category: TODOs
+  - description: test.lox program contains no TODOs
+    category: TODOS
     check: MatchFileFragment
     options:
-      fragment: TODO
+      fragment: "TODO"
       count: 0
       exact: true
 - docs/reflection.md:
@@ -37,15 +30,36 @@ setup: |
       fragment: TODO
       count: 0
       exact: true
-  - description: Reflection responds to all open-ended, free-response prompts
-    category: Reflection
-    check: CountFileParagraphs
-    options:
-      count: 3
   - description: Reflection contains adequate number of code fences
     category: Reflection
     check: CountMarkdownTags
     options:
       tag: code_block
-      count: 2
+      count: 6
       exact: false
+- interpreter/src/main/java/com/interpreter/lox/Expr.java:
+  - description: Expr.java file exists (AST generated)
+    category: AST
+    check: ConfirmFileExists
+- interpreter/src/main/java/com/interpreter/lox/ASTPrinter.java:
+  - description: ASTPrinter.java contains no TODOs
+    category: TODOs
+    check: MatchFileFragment
+    options:
+      fragment: "TODO"
+      count: 0
+      exact: true
+  - description: ASTPrinter.java implements RPN without using System.out.println
+    category: AST
+    check: MatchFileFragment
+    options:
+      fragment: "System.out.print"
+      count: 0
+      exact: true
+  - description: ASTPrinter.java's implementation of RPN leverages BinaryExpr groups
+    category: AST
+    check: MatchFileRegex
+    options:
+      regex: '\(Expr\.Binary\)(\s)?expr\.expression'
+      count: 1
+      exact: true

@@ -1,31 +1,47 @@
-# CMPSC 201: Scanning
+# CMPSC 201: Representing Code
 
-## Challenge `#2`
-
-### `CoffeeScript`
-
-#### Example
-
-```coffeescript
-// Codem volutpat.
+Given the following hypothetical omnibus production rule, how many different
+derivations does it describe?
+```
+expr → expr ( "(" ( expr ( "," expr )* )? ")" | "." IDENTIFIER )+
+     | IDENTIFIER
+     | NUMBER
 ```
 
-##### Description
+Copy enough of the numbered entry blocks below to describe the derivations.
 
-Lorem ipsum.
-
-### `Ruby` 
-
-#### Example
-
-```ruby
-// Lorem codem.
+1. `Replace this with the rule derivation` 
+```
+Copy and paste code blocks and populate with
+examples of the production rule in Lox.
 ```
 
-##### Description
+1. `Replace this with the rule derivation` 
+```
+Copy and paste code blocks and populate with
+examples of the production rule in Lox.
+```
 
-Lorem ipsum.
+1. `Replace this with the rule derivation` 
+```
+Copy and paste code blocks and populate with
+examples of the production rule in Lox.
+```
 
-## Challenge `#3`
+1. `Replace this with the rule derivation` 
+```
+Copy and paste code blocks and populate with
+examples of the production rule in Lox.
+```
 
-Lorem ipsum.
+1. `Replace this with the rule derivation` 
+```
+Copy and paste code blocks and populate with
+examples of the production rule in Lox.
+```
+
+1. `Replace this with the rule derivation` 
+```
+Copy and paste code blocks and populate with
+examples of the production rule in Lox.
+```

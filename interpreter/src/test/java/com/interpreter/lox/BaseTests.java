@@ -48,7 +48,8 @@ class BaseTests {
   void testProgramOutput(String[] args) throws Exception {
     Main.main(args);
     assertEquals(
-      "1 2 + 4 3 - *",
+      "AST: (+ (group (+ (group (* 10.0 (group (/ 6.0 (group (* (group (+ 9.0 3.0)) (- 11.0))))))) 17.0)) 5.0)\n" + //
+      "RPN: 10.0 6.0 9.0 3.0 + 11.0 - * / * 17.0 + 5.0 +",
       outContent.toString().strip()
     );
   }

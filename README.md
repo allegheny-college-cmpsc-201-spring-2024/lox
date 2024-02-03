@@ -54,14 +54,19 @@ If `*`, `|`, `+`, and `?` are "syntactical sugar" (i.e., programmatic shorthand)
 individual production rules does this single rule encode? What are some examples of how they might occur
 in the `Lox` language? Provide examples for each derivation.
 * Note: this production rule accounts for _several_ (i.e. more than 3) different derivations
+* Respond to this question in the [reflection.md](docs/reflection.md) using individual code fences
+for each example
 
 2. Our Code Golf exercise from last week worked in the Scheme language which used "normal Polish notation" 
 (NPN), e.g., `(+ 1 2)` to represent `2 + 1`. Reverse Polish notation (RPN) would represent this differently: 
 `(1 2 +)`. Our `ASTPrinter` file contains an additional `RPNPrinter` class which should produce statements 
 in RPN rather than the current modified `Lox` NPN. 
-* Work in [ASTPrinter.java](interpreter/src/main/java/com/interpreter/lox/ASTPrinter.java) to complete this
-task
 
-Answer both of the above concept-based questions in the [reflection.md](docs/reflection.md) keeping the 
-requirements and tips above in mind.
+To test, let's consider the following connundrum:
+* There exists an expression whose `RPN` representation is: `10.0 6.0 9.0 3.0 + 11.0 - * / * 17.0 + 5.0 +`
+  * `Hint`: Its result is `22`
+
+* Work in: 
+  * [ASTPrinter.java](interpreter/src/main/java/com/interpreter/lox/ASTPrinter.java) to complete the `RPN` representation
+  * [test.lox](interpreter/src/test/resources/test.lox) to write the correct arithmetic expression
 

@@ -1,34 +1,17 @@
-# CMPSC 201: Scanning
+# CMPSC 201: Representing Code
 
-## Challenge `#2`
-
-* `TODO`: Use the template below to respond to `README` Challenge `#2` for this branch. Recall
-that you need `2` examples and explanations for languages defined in the `README`.
-
-### `CoffeeScript`
-
-#### Example
-
-```coffeescript
-// TODO: 
+Given the following hypothetical omnibus production rule, how many different
+derivations does it describe?
+```
+expr → expr ( "(" ( expr ( "," expr )* )? ")" | "." IDENTIFIER )+
+     | IDENTIFIER
+     | NUMBER
 ```
 
-##### Description
+Copy enough of the numbered entry blocks below to describe the derivations.
 
-`TODO`: Provide a description of the example above.
-
-### `Ruby` 
-
-#### Example
-
-```ruby
-// TODO:
+1. `TODO: Replace this with the rule derivation` 
 ```
-
-##### Description
-
-`TODO`: Provide a description of the example above.
-
-## Challenge `#3`
-
-* `TODO`: Respond to `README` Challenge `#3` in the space below.
+TODO: Copy and paste code blocks and populate with
+      examples of the production rule in Lox.
+```
