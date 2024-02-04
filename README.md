@@ -43,7 +43,9 @@ up the Java SDK and runtime in addition to helpful Maven tools for VSCode.
 
 Unless tagged as optional, all challenges below are required by this week's work.
 
-1. Nystrom presents us with the following hypothetical production rule:
+### Challenge 1
+
+Nystrom presents us with the following hypothetical production rule:
 ```
 expr → expr ( "(" ( expr ( "," expr )* )? ")" | "." IDENTIFIER )+
      | IDENTIFIER
@@ -57,16 +59,25 @@ in the `Lox` language? Provide examples for each derivation.
 * Respond to this question in the [reflection.md](docs/reflection.md) using individual code fences
 for each example
 
-2. Our Code Golf exercise from last week worked in the Scheme language which used "normal Polish notation" 
+### Challenge 2
+
+Our Code Golf exercise from last week worked in the Scheme language which used "normal Polish notation" 
 (NPN), e.g., `(+ 1 2)` to represent `2 + 1`. Reverse Polish notation (RPN) would represent this differently: 
 `(1 2 +)`. Our `ASTPrinter` file contains an additional `RPNPrinter` class which should produce statements 
 in RPN rather than the current modified `Lox` NPN. 
 
 To test, let's consider the following connundrum:
 * There exists an expression whose `RPN` representation is: `10.0 6.0 9.0 3.0 + 11.0 - * / * 17.0 + 5.0 +`
-  * `Hint`: Its result is `22`
+  * Program the appropriate `Lox` equivalent in the `test.lox` file
+    * Use the expression only; no need for a `var ... =` prefix
+  * `Hint`: Its result, when calculated, _would be_ `22`
 
 * Work in: 
   * [ASTPrinter.java](interpreter/src/main/java/com/interpreter/lox/ASTPrinter.java) to complete the `RPN` representation
   * [test.lox](interpreter/src/test/resources/test.lox) to write the correct arithmetic expression
+
+#### Testing
+
+To test your `RPN` representation, you might use the book's suggested example: `(1 + 2) * (4 - 3)`, which 
+resolves to a reverse Polish notation form: `1 2 + 4 3 -`. You may think of others to try as well!
 
