@@ -1,14 +1,15 @@
 package com.interpreter.lox;
 
 class RPNPrinter implements Expr.Visitor<String> {
+
   String print(Expr expr) {
     return expr.accept(this);
   }
 
   @Override
   public String visitBinaryExpr(Expr.Binary expr) {
-    return parenthesize(expr.operator.lexeme,
-                        expr.left, expr.right);
+    return pair(expr.operator.lexeme,
+                expr.left, expr.right);
   }
 
   @Override
@@ -24,10 +25,10 @@ class RPNPrinter implements Expr.Visitor<String> {
 
   @Override
   public String visitUnaryExpr(Expr.Unary expr) {
-    return parenthesize(expr.operator.lexeme, expr.right);
+    return pair(expr.operator.lexeme, expr.right);
   }
 
-  private String parenthesize(String name, Expr... exprs) {
+  private String pair(String name, Expr... exprs) {
     StringBuilder builder = new StringBuilder();
     for (Expr expr : exprs) {
       builder.append(expr.accept(this));
@@ -36,6 +37,7 @@ class RPNPrinter implements Expr.Visitor<String> {
     builder.append(name);
     return builder.toString();
   }
+  
 }
 
 class ASTPrinter implements Expr.Visitor<String> {

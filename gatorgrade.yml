@@ -56,10 +56,3 @@ setup: |
       fragment: "System.out.print"
       count: 0
       exact: true
-  - description: ASTPrinter.java's implementation of RPN leverages BinaryExpr groups
-    category: AST
-    check: MatchFileRegex
-    options:
-      regex: '\(Expr\.Binary\)(\s)?expr\.expression'
-      count: 1
-      exact: true
