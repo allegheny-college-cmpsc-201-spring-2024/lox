@@ -16,7 +16,7 @@ setup: |
     command: mvn test
 - interpreter/src/test/resources/test.lox:
   - description: test.lox program contains no TODOs
-    category: TODOS
+    category: TODOs
     check: MatchFileFragment
     options:
       fragment: "TODO"
