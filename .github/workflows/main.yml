@@ -2,7 +2,7 @@ name: GatorGrader
 
 on:
   push:
-    branches: [2-scanning]
+    branches: [3-representing-code]
 
 jobs: 
   grade:
