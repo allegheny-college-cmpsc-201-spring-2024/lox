@@ -15,6 +15,8 @@ For a primer on the language's general syntax and usage, refer to
 
 ## Note about the chapter
 
+### `ASTPrinter.java`
+
 At the end of the chapter Nystrom writes:
 
 > You can go ahead and delete this method. We won’t need it. Also, as we add new syntax tree types, 
@@ -24,6 +26,13 @@ At the end of the chapter Nystrom writes:
 > AstPrinter, feel free to delete it. We won’t need it again.
 
 Don't follow the book's advice here: _keep everything currently in `ASTPrinter`_! It's important to our work.
+
+### `Expr.java`
+
+The `Expr.java` file doesn't exist...yet. You will need to _make it_. However, you've got a tool whose entire
+purpose is to manufacture this file without any action on your part. If you look at your `Maven` window, you'll
+probably notice the `AST Generator` below the `Interpreter`. Run the `exec:java` favorite
+there and the `Expr.java` file will create itself in the `Interpreter`'s file path.
 
 ## Learning objectives
 
