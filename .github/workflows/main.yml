@@ -2,7 +2,7 @@ name: GatorGrader
 
 on:
   push:
-    branches: [3-representing-code]
+    branches: [4-parsing-expressions]
 
 jobs: 
   grade:
@@ -17,7 +17,6 @@ jobs:
         sudo apt-get install default-jre
         sudo apt-get install default-jdk
         sudo apt-get install maven
-        mvn install
     - name: Setup Python
       if: always()
       uses: actions/setup-python@v4
@@ -28,6 +27,7 @@ jobs:
         sudo apt-get update
         sudo python -m pip install --upgrade pip
         sudo python -m pip install gatorgrade --ignore-installed PyYAML
+      if: always()
     - name: Grade repository
       run: |
         gatorgrade --config gatorgrade.yml --report file json gatorgrade_summary.json
