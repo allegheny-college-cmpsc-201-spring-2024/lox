@@ -9,11 +9,16 @@ setup: |
   check: ExecuteCommand
   options:
     command: cd interpreter && mvn exec:java
-- description: Test cases pass; both AST and RPN representations are correct
+- description: Comma expression production rule functions correctly
   category: Tests
   check: ExecuteCommand
   options:
-    command: mvn test
+    command: mvn test -Dtest=BaseTests#testCommaOperator -f "interpreter/pom.xml"
+- description: Ternary expression production rule functions correctly
+  category: Tests
+  check: ExecuteCommand
+  options:
+    command: mvn test -Dtest=BaseTests#testTernaryExpr -f "interpreter/pom.xml"
 - interpreter/src/test/resources/test.lox:
   - description: test.lox program contains no TODOs
     category: TODOs
