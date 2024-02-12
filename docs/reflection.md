@@ -1,47 +1,27 @@
-# CMPSC 201: Representing Code
+# CMPSC 201: Parsing Expressions
 
-Given the following hypothetical omnibus production rule, how many different
-derivations does it describe?
+1. Write the `comma` production rule below.
 ```
-expr → expr ( "(" ( expr ( "," expr )* )? ")" | "." IDENTIFIER )+
-     | IDENTIFIER
-     | NUMBER
+comma      → conditional ( "," conditional )* ;
 ```
 
-Copy enough of the numbered entry blocks below to describe the derivations.
-
-1. `Replace this with the rule derivation` 
+2. Write the `ternary` production rule.
 ```
-Copy and paste code blocks and populate with
-examples of the production rule in Lox.
+conditional → equality ( "?" expression ":" conditional )? ;
 ```
 
-1. `Replace this with the rule derivation` 
+3. Add the `comma` and `ternary` production rules to the correct spot in the processing hierarcy below:
 ```
-Copy and paste code blocks and populate with
-examples of the production rule in Lox.
-```
-
-1. `Replace this with the rule derivation` 
-```
-Copy and paste code blocks and populate with
-examples of the production rule in Lox.
-```
-
-1. `Replace this with the rule derivation` 
-```
-Copy and paste code blocks and populate with
-examples of the production rule in Lox.
-```
-
-1. `Replace this with the rule derivation` 
-```
-Copy and paste code blocks and populate with
-examples of the production rule in Lox.
-```
-
-1. `Replace this with the rule derivation` 
-```
-Copy and paste code blocks and populate with
-examples of the production rule in Lox.
+expression     → assignment ;
+assignment     → IDENTIFIER "=" assignment
+               | comma ;
+conditional    → equality ( "?" expression ":" conditional )? ;
+equality       → comparison ( ( "!=" | "==" ) comparison )* ;
+comparison     → term ( ( ">" | ">=" | "<" | "<=" ) term )* ;
+term           → factor ( ( "-" | "+" ) factor )* ;
+factor         → unary ( ( "/" | "*" ) unary )* ;
+unary          → ( "!" | "-" ) unary
+               | primary ;
+primary        → NUMBER | STRING | "true" | "false" | "nil"
+               | "(" expression ")" ;
 ```

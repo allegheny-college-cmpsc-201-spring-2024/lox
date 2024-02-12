@@ -27,6 +27,20 @@ class Parser {
     return assignment();
   }
 
+  private Expr assignment() {
+    Expr expr = comma();
+    if (match(EQUAL)) {
+      Token equals = previous();
+      Expr value = assignment();
+      if (expr instanceof Expr.Variable) {
+        Token name = ((Expr.Variable)expr).name;
+        return new Expr.Assign(name, value);
+      }
+      error(equals, "Assignment invalid.");
+    }
+    return expr;
+  }
+
   private Expr comma() {
     Expr expr = conditional();
     while(match(COMMA)) {
@@ -97,20 +111,6 @@ class Parser {
       return new Expr.Unary(operator, right);
     }
     return primary();
-  }
-
-  private Expr assignment() {
-    Expr expr = comma();
-    if (match(EQUAL)) {
-      Token equals = previous();
-      Expr value = assignment();
-      if (expr instanceof Expr.Variable) {
-        Token name = ((Expr.Variable)expr).name;
-        return new Expr.Assign(name, value);
-      }
-      error(equals, "Assignment invalid.");
-    }
-    return expr;
   }
 
   private Expr primary() {

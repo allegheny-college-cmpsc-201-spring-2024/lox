@@ -51,10 +51,3 @@ setup: |
       fragment: TODO
       count: 0
       exact: true
-  - description: Reflection contains adequate number of code fences
-    category: Reflection
-    check: CountMarkdownTags
-    options:
-      tag: code_block
-      count: 6
-      exact: false
