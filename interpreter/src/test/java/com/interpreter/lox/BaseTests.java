@@ -14,6 +14,8 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.CoreMatchers.containsString;
 
 class BaseTests {
 
@@ -34,7 +36,16 @@ class BaseTests {
     System.setErr(new PrintStream(errContent));
   }
 
-  static Stream<Arguments> testProgramOutput() throws Exception {
+  static Stream<Arguments> testCommaOperator() throws Exception {
+    URL resource = BaseTests.class.getClassLoader().getResource("test.lox");
+    File file = Paths.get(resource.toURI()).toFile();
+    String absPath = file.getAbsolutePath();
+    return Stream.of(
+      Arguments.of((Object) new String[]{absPath})
+    );
+  }
+
+  static Stream<Arguments> testTernaryExpr() throws Exception {
     URL resource = BaseTests.class.getClassLoader().getResource("test.lox");
     File file = Paths.get(resource.toURI()).toFile();
     String absPath = file.getAbsolutePath();
@@ -45,12 +56,21 @@ class BaseTests {
 
   @MethodSource
   @ParameterizedTest
-  void testProgramOutput(String[] args) throws Exception {
+  void testCommaOperator(String[] args) throws Exception {
     Main.main(args);
-    assertEquals(
-      "AST: (+ (group (+ (group (* 10.0 (group (/ 6.0 (group (* (group (+ 9.0 3.0)) (- 11.0))))))) 17.0)) 5.0)\n" + //
-      "RPN: 10.0 6.0 9.0 3.0 + 11.0 - * / * 17.0 + 5.0 +",
-      outContent.toString().strip()
+    assertThat(
+      outContent.toString().strip(),
+      containsString("(if-else (== a 1.0) true false)")
+    );
+  }
+
+  @MethodSource
+  @ParameterizedTest
+  void testTernaryExpr(String[] args) throws Exception {
+    Main.main(args);
+    assertThat(
+        outContent.toString().strip(),
+        containsString("(=  (, (if-else (== a 1.0) true false) (== a 2.0)))")
     );
   }
 

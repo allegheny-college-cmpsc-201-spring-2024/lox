@@ -88,7 +88,10 @@ public class GenerateAST {
       "Binary: Expr left, Token operator, Expr right",
       "Grouping: Expr expression",
       "Literal: Object value",
-      "Unary: Token operator, Expr right"
+      "Unary: Token operator, Expr right",
+      "Conditional: Expr expression, Expr thenBranch, Expr elseBranch",
+      "Variable: Token name",
+      "Assign: Token name, Expr value"
     ));
   }
 

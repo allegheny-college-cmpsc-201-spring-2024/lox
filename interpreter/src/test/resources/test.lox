@@ -1,5 +1,1 @@
-/* 
-    Create expression to match the 
-    derviation the second README challenge
-*/
-((10 * (6 / ((9 + 3) * -11))) + 17) + 5
+r = a == 1 ? true : false, a == 2

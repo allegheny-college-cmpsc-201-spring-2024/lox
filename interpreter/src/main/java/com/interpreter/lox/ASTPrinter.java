@@ -28,6 +28,24 @@ class ASTPrinter implements Expr.Visitor<String> {
     return parenthesize(expr.operator.lexeme, expr.right);
   }
 
+  @Override
+  public String visitConditionalExpr(Expr.Conditional expr) {
+    if(expr.elseBranch == null) {
+        return parenthesize("if", expr.expression, expr.thenBranch);
+    }
+    return parenthesize("if-else", expr.expression, expr.thenBranch, expr.elseBranch);
+  }
+
+  @Override
+  public String visitVariableExpr(Expr.Variable expr) {
+    return expr.name.lexeme;
+  }
+
+  @Override
+  public String visitAssignExpr(Expr.Assign expr) {
+    return parenthesize("=", expr.name.lexeme, expr.value);
+  }
+
   private String parenthesize(String name, Expr... exprs) {
     StringBuilder builder = new StringBuilder();
 
@@ -40,5 +58,18 @@ class ASTPrinter implements Expr.Visitor<String> {
 
     return builder.toString();
   }
+
+  private String parenthesize(String name, Object...parts) {
+    StringBuilder builder = new StringBuilder();
+    builder.append("(").append(name);
+    for (Object part : parts) {
+      builder.append(" ");
+      if (part instanceof Expr) {
+        builder.append(((Expr)part).accept(this));
+      }
+    }
+    builder.append(")");
+    return builder.toString();
+ }
 
 }
