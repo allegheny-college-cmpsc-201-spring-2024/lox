@@ -16,6 +16,7 @@ TODO: Remove this line, add comma and ternary production rules at the correct sp
 expression     → equality ;
 assignment     → IDENTIFIER "=" assignment
                | comma ;
+comma          → conditional ( "," conditional )* ;
 equality       → comparison ( ( "!=" | "==" ) comparison )* ;
 comparison     → term ( ( ">" | ">=" | "<" | "<=" ) term )* ;
 term           → factor ( ( "-" | "+" ) factor )* ;
