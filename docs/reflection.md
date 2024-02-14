@@ -15,6 +15,7 @@ conditional → equality ( "?" expression ":" conditional )? ;
 expression     → assignment ;
 assignment     → IDENTIFIER "=" assignment
                | comma ;
+comma          → conditional ( "," conditional )* ;
 conditional    → equality ( "?" expression ":" conditional )? ;
 equality       → comparison ( ( "!=" | "==" ) comparison )* ;
 comparison     → term ( ( ">" | ">=" | "<" | "<=" ) term )* ;
