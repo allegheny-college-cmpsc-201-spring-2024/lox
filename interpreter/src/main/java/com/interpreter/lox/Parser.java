@@ -24,7 +24,28 @@ class Parser {
   private static class ParseError extends RuntimeException {}
 
   private Expr expression() {
-    return equality();
+    return comma();
+  }
+
+  private Expr comma() {
+    Expr expr = conditional();
+    while(match(COMMA)) {
+      Token operator = previous();
+      Expr right = equality();
+      expr = new Expr.Binary(expr, operator, right);
+    }
+    return expr;
+  }
+
+  private Expr conditional() {
+    Expr expr = equality();
+    if (match(QUESTION)) {
+        Expr thenBranch = expression();
+        consume(COLON, "Expect ':' after then branch.");
+        Expr elseBranch = conditional();
+        expr = new Expr.Conditional(expr, thenBranch, elseBranch);
+    }
+    return expr;
   }
 
   private Expr equality() {
@@ -44,13 +65,11 @@ class Parser {
       Expr right = term();
       expr = new Expr.Binary(expr, operator, right);
     }
-
     return expr;
   }
 
   private Expr term() {
     Expr expr = factor();
-
     while(match(MINUS, PLUS)) {
       Token operator = previous();
       Expr right = factor();
@@ -62,7 +81,6 @@ class Parser {
 
   private Expr factor() {
     Expr expr = unary();
-
     while(match(SLASH, STAR)) {
       Token operator = previous();
       Expr right = unary();
@@ -78,7 +96,6 @@ class Parser {
       Expr right = unary();
       return new Expr.Unary(operator, right);
     }
-
     return primary();
   }
 
