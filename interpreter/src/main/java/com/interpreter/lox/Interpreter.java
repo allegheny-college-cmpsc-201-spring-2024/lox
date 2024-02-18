@@ -160,6 +160,12 @@ class Interpreter implements Expr.Visitor<Object>,
     return null;
   }
 
+  @Override
+  public Object visitConditionalExpr(Expr.Conditional expr) {
+    // Reserved for future development.
+    return null;
+  }
+
   private boolean isTruthy(Object object) {
     if (object == null) return false;
     if (object instanceof Boolean) return (boolean)object;
