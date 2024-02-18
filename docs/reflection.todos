@@ -1,27 +1,15 @@
-# CMPSC 201: Parsing Expressions
+# CMPSC 201: Evaluating Expressions
 
-1. Write the `comma` production rule below.
-```
-TODO: Comma production rule
-```
+1. Describe Java's implementation of the divide-by-zero operation. Why does this happen?
 
-2. Write the `ternary` production rule.
-```
-TODO: Ternary production rule
-```
+> Hint: This may require some looking-up/reading.
 
-3. Add the `comma` and `ternary` production rules to the correct spot in the processing hierarcy below:
-```
-TODO: Remove this line, add comma and ternary production rules at the correct spots
-expression     → equality ;
-assignment     → IDENTIFIER "=" assignment
-               | comma ;
-equality       → comparison ( ( "!=" | "==" ) comparison )* ;
-comparison     → term ( ( ">" | ">=" | "<" | "<=" ) term )* ;
-term           → factor ( ( "-" | "+" ) factor )* ;
-factor         → unary ( ( "/" | "*" ) unary )* ;
-unary          → ( "!" | "-" ) unary
-               | primary ;
-primary        → NUMBER | STRING | "true" | "false" | "nil"
-               | "(" expression ")" ;
-```
+`TODO: Respond to the question above.`
+
+2. Identify and describe at least two additional unique ways that other languages implement divide-by-zero.
+
+`TODO: Respond to the question above.`
+
+3. How do language design principles affect or influence the above `3` ways of implementing the calculation?
+
+`TODO: Respond to the question above for all three language examples.`

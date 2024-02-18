@@ -1,12 +1,9 @@
 # The Lox Programming Language: Grammar
 
-This branch mirrors content from chapter `6` of _Crafting Interpreters_. In pursuit of implementing
-our ability to parse expressions for content, these exercises consider _precedence_ and additional
-implications of our productions rules, derivations, and grammar.
-
-This week's work expands and complicates a software design pattern common to interpreters and
-compilers: the `Visitor` pattern. Understanding this pattern constitutes a key concept in at
-least this interpreter's implementation. 
+This branch mirrors content from chapter `7` of _Crafting Interpreters_. To date, our interpreter
+provides precedence and order of operations; we're aware of the ways that grammars tell a language
+to process its expressions, but blissfully ignorant of how they do so. In so far as arithmetic
+expressions are concerned, this chapter addresses one half of the parsing task: computation in `Lox`.
 
 For a primer on the language's general syntax and usage, refer to 
 [Crafting Interpreters, Chapter 3](https://www.craftinginterpreters.com/the-lox-language.html).
@@ -31,31 +28,39 @@ Unless tagged as optional, all challenges below are required by this week's work
 
 ### Challenge 1
 
-Many languages implement the ability to parse multiple expressions as part of the assignment process. Before
-we assign expressions as interpretable objects, we need to understand how to prioritize and separate expressions.
-Here, Nystrom points out the [comma operator](https://en.wikipedia.org/wiki/Comma_operator) as the main mechanism
-for this kind of multiple assignment.
+In many languages, arithmetic operators can perform _non-arithmetic_ tasks. For example, the following Python operations
+allow string manipulation for non-numeric literals:
+```python
+# String concatenation
+lox = "lox" + "lox"
+lox = "lox" * 2
+```
+`Lox` doesn't possess these features..._yet_. Your task is two-fold: to implement both the `+` and `*` operators in the
+context of computing `string`s in `Lox`. Each should function similar to their counterpart operators in `Python`. To
+implement functionalty for these operators, work in the `visitBinaryExpr` method of `Interpreter.java`.
 
-Implementing this operator helps us learn about _precedence_. Your task is to work across a few files to implement
-the comma operator. To complete this, you'll need to think back to our experience with tokens to full complete it.
-Mostly, we'll be working in:
 
-* [Parser.java](interpreter/src/main/java/com/interpreter/lox/Parser.java)
-* [ASTPrinter.java](interpreter/src/main/java/com/interpreter/lox/ASTPrinter.java)
+Given that we're not up to parsing multiple expressions yet, we need to work in distinct files to test these challenges:
 
-Your program should correctly interpret the expressions in [test.lox](interpreter/src/test/resources/test.lox).
+|Operator |File |
+|:--------|:----|
+|`+` | [plus.lox](interpreter/src/test/resources/plus.lox) |
+|`*` | [star.lox](interpreter/src/test/resources/star.lox) |
 
 ### Challenge 2
 
-To further explore concepts this week, implement _ternary_ expressions for `Lox`. The example from our `test.lox`:
-```
-a == 1 ? true : false
-```
-evaluates to "If `a` is `1`, return `true`, else `false`. For our ternary expressions, your parser should process
-anything with two branches as `if-else` statements and anything only one as an `if` statement.
+At present, if we divide by `0`, it appears that what happens...shouldn't. At all. Ever. It's practically universe-ending. However,
+it shows that  different programming languages interpret the divide by zero operation in unique ways.
 
-To complete this work, you'll need to _add_ tokens to our language, so you'll be working in `3` files:
+As policy in the `Lox` language, we should emit an error if this case ever occurs. 
 
-* [Parser.java](interpreter/src/main/java/com/interpreter/lox/Parser.java)
-* [TokenType.java](interpreter/src/main/java/com/interpreter/lox/TokenType.java)
-* [ASTPrinter.java](interpreter/src/main/java/com/interpreter/lox/ASTPrinter.java)
+This task is three-fold:
+
+1. describe why Java interprets the operation the way it does, and
+2. identify at least two unique ways that other programming languages handle the case
+3. implement the above-defined behavior in the interpreter
+
+Parts `1` and `2` should be completed in your [reflection.md](docs/reflection.md) file. Implement Part `3` in by editing the `visitBinaryExpr` 
+method of `Interpreter.java` to throw an error.
+
+Your program should correctly interpret the expression in [divide.lox](interpreter/src/test/resources/divide.lox).
