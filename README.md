@@ -34,7 +34,8 @@ referred to as a `REPL` -- a `R`ead `E`valuate `P`rint `L`oop.)
 
 Our work this week has removed some of its previous flexibility; for example, we can't input single 
 expressions and return results anymore! Our job is to restore that functionality so that expressions 
-_and_ statements work.
+_and_ statements work -- functionality similiar to what happens if we type `python` at the command line
+and write code.
 
 This particular task has several possible paths for implementation:
 

@@ -1,27 +1,28 @@
-# CMPSC 201: Parsing Expressions
+# CMPSC 201: Parsing Statements
 
-1. Write the `comma` production rule below.
+Consider the following `Lox` program:
 ```
-comma      → conditional ( "," conditional )* ;
+var a = 1;
+{
+  var a = a + 2;
+  print a;
+}
 ```
 
-2. Write the `ternary` production rule.
-```
-conditional → equality ( "?" expression ":" conditional )? ;
-```
+1. What do you think the code does?
 
-3. Add the `comma` and `ternary` production rules to the correct spot in the processing hierarcy below:
+`TODO: Respond to the question above.`
+
+2. Is that in line with what you think it _should_ do? Why or why not?
+
+`TOOD: Respond to the question above.`
+
+3. Code the same situation in Python. How does that one differ in form and function?
+```python
+TODO: Provide example from another language
 ```
-expression     → assignment ;
-assignment     → IDENTIFIER "=" assignment
-               | comma ;
-conditional    → equality ( "?" expression ":" conditional )? ;
-equality       → comparison ( ( "!=" | "==" ) comparison )* ;
-comparison     → term ( ( ">" | ">=" | "<" | "<=" ) term )* ;
-term           → factor ( ( "-" | "+" ) factor )* ;
-factor         → unary ( ( "/" | "*" ) unary )* ;
-unary          → ( "!" | "-" ) unary
-               | primary ;
-primary        → NUMBER | STRING | "true" | "false" | "nil"
-               | "(" expression ")" ;
-```
+`TODO: Explain how it does or doesn't differ from the Lox code`
+
+4. What does the code at the top _actually_ do? How did it compare with your `Python` version?
+
+`TODO: Respond to the question above.

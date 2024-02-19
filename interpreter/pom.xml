@@ -25,9 +25,6 @@
       <configuration>
           <executable>java</executable>
           <mainClass>com.interpreter.lox.Main</mainClass>
-          <arguments>
-            <argument>${session.executionRootDirectory}/src/test/resources/test.lox</argument>
-          </arguments>
           <additionalClasspathElements>
             <additionalClasspathElement>${session.executionRootDirectory}/interpreter/target/classes</additionalClasspathElement>
           </additionalClasspathElements>
