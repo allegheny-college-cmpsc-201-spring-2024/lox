@@ -1,19 +1,11 @@
-var a = "global a";
-var b = "global b";
-var c = "global c";
-{
-  var a = "outer a";
-  var b = "outer b";
-  {
-    var a = "inner a";
-    print a;
-    print b;
-    print c;
-  }
-  print a;
-  print b;
-  print c;
-}
-print a;
-print b;
-print c;
+// Variables created, not initialized 
+var a;
+var b;
+var c = 3;
+var d;
+
+a = "assigned";
+print a; // OK, was assigned first  
+print c; 
+
+print b; // Not OK; hasn't been assigned

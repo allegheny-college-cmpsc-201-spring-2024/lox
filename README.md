@@ -58,19 +58,19 @@ Traditionally, programming languages raise errors when accessing variables which
 but not _assigned_. `Lox`, at least as is designed now, _doesn't_ follow this rule. It's probably better
 that it _does_. For example (taken from Nystrom's book):
 ```
-// No initializers.
+// Variables created, not initialized
 var a;
 var b;
 
 a = "assigned";
-print a; // OK, was assigned first.
+print a; // OK, was assigned first
 
-print b; // Error!
+print b; // Not OK; hasn't been assigned.
 ```
 Force the interpreter to produce a `RuntimeError` in the above situation. This assignment partly bases its test
 case for this challenge on the code above. You can find out more by looking at the code the test case runs:
 
-* [interpreter/src/test/resources/init.lox](interpreter/src/test/resources/init.lox)
+* [interpreter/src/test/resources/test.lox](interpreter/src/test/resources/test.lox)
 
 ### Challenge 3
 

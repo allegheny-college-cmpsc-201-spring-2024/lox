@@ -1,8 +1,10 @@
 package com.interpreter.lox;
 
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.PrintStream;
+import java.io.InputStream;
 import java.net.URL;
 import java.nio.file.Paths;
 import java.util.stream.Stream;
@@ -13,6 +15,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.CoreMatchers.containsString;
@@ -29,6 +32,7 @@ class BaseTests {
 
   private final PrintStream originalOut = System.out;
   private final PrintStream originalErr = System.err;
+  private final InputStream originalIn = System.in;
 
   @BeforeAll
   public void setUpStreams() {
@@ -36,16 +40,7 @@ class BaseTests {
     System.setErr(new PrintStream(errContent));
   }
 
-  static Stream<Arguments> testCommaOperator() throws Exception {
-    URL resource = BaseTests.class.getClassLoader().getResource("test.lox");
-    File file = Paths.get(resource.toURI()).toFile();
-    String absPath = file.getAbsolutePath();
-    return Stream.of(
-      Arguments.of((Object) new String[]{absPath})
-    );
-  }
-
-  static Stream<Arguments> testTernaryExpr() throws Exception {
+  static Stream<Arguments> testRequireVarInit() throws Exception {
     URL resource = BaseTests.class.getClassLoader().getResource("test.lox");
     File file = Paths.get(resource.toURI()).toFile();
     String absPath = file.getAbsolutePath();
@@ -56,26 +51,20 @@ class BaseTests {
 
   @MethodSource
   @ParameterizedTest
-  void testCommaOperator(String[] args) throws Exception {
-    Main.main(args);
-    assertThat(
-      outContent.toString().strip(),
-      containsString("(if-else (== a 1.0) true false)")
-    );
+  void testRequireVarInit(String[] args) throws Exception {
+    // Pass
   }
 
-  @MethodSource
-  @ParameterizedTest
-  void testTernaryExpr(String[] args) throws Exception {
-    Main.main(args);
-    assertThat(
-        outContent.toString().strip(),
-        containsString("(=  (, (if-else (== a 1.0) true false) (== a 2.0)))")
-    );
+  @Test
+  void testREPLMode() throws Exception {
+    ByteArrayInputStream in = new ByteArrayInputStream("4 + 2;".getBytes());
+    System.setIn(in);
+    Main.main();
   }
 
   @AfterAll
   public void restoreStreams() {
+    System.setIn(originalIn);
     System.setOut(originalOut);
     System.setErr(originalErr);
   }

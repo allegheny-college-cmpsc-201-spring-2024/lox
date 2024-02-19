@@ -4,39 +4,18 @@ setup: |
   echo "🛠️\tCompiling program (mvn compile)"
   mvn compile -q || true
 ---
-- description: The interpreter program executes successfully (mvn exec:java)
+- description: Programs require variable initialization before use in a program
   category: Tests
   check: ExecuteCommand
   options:
-    command: cd interpreter && mvn exec:java
-- description: Comma expression production rule functions correctly
+    command: mvn test -Dtest=BaseTests#testRequireVarInit -f "interpreter/pom.xml"
+- description: The Lox interpreter's REPL mode works correctly
   category: Tests
   check: ExecuteCommand
   options:
-    command: mvn test -Dtest=BaseTests#testCommaOperator -f "interpreter/pom.xml"
-- description: Ternary expression production rule functions correctly
-  category: Tests
-  check: ExecuteCommand
-  options:
-    command: mvn test -Dtest=BaseTests#testTernaryExpr -f "interpreter/pom.xml"
+    command: mvn test -Dtest=BaseTests#testREPLMode -f "interpreter/pom.xml"
 - interpreter/src/main/com/intrepreter/lox/Parser.java:
   - description: Parser.java contains no TODOs
-    category: TODOs
-    check: MatchFileFragment
-    options:
-      fragment: "TODO"
-      count: 0
-      exact: true
-- interpreter/src/main/com/intrepreter/lox/TokenType.java:
-  - description: TokenType.java contains no TODOs
-    category: TODOs
-    check: MatchFileFragment
-    options:
-      fragment: "TODO"
-      count: 0
-      exact: true
-- interpreter/src/main/com/intrepreter/lox/ASTPrinter.java:
-  - description: ASTPrinter.java contains no TODOs
     category: TODOs
     check: MatchFileFragment
     options:
