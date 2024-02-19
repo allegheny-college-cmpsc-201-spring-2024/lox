@@ -1,15 +1,12 @@
-# The Lox Programming Language: Grammar
+# The Lox Programming Language: Statements
 
-This branch mirrors content from chapter `6` of _Crafting Interpreters_. In pursuit of implementing
-our ability to parse expressions for content, these exercises consider _precedence_ and additional
-implications of our productions rules, derivations, and grammar.
+This branch mirrors content from chapter `8` of _Crafting Interpreters_. Finally, we'll be able
+to fully parse statements. Here, we're looking to retread some of the ideas we covered in previous
+chapters while considering expression grammar. Having moved from scanning (lexing) to parsing, the
+last step in our journey toward code that executes in a recognizable way is _interpreting statements_.
 
-This week's work expands and complicates a software design pattern common to interpreters and
-compilers: the `Visitor` pattern. Understanding this pattern constitutes a key concept in at
-least this interpreter's implementation. 
-
-For a primer on the language's general syntax and usage, refer to 
-[Crafting Interpreters, Chapter 3](https://www.craftinginterpreters.com/the-lox-language.html).
+This exercise will use the `Lox` programming language. For a primer on the language's general syntax and usage, 
+refer to  [Crafting Interpreters, Chapter 3](https://www.craftinginterpreters.com/the-lox-language.html).
 
 ## Learning objectives
 
@@ -31,31 +28,60 @@ Unless tagged as optional, all challenges below are required by this week's work
 
 ### Challenge 1
 
-Many languages implement the ability to parse multiple expressions as part of the assignment process. Before
-we assign expressions as interpretable objects, we need to understand how to prioritize and separate expressions.
-Here, Nystrom points out the [comma operator](https://en.wikipedia.org/wiki/Comma_operator) as the main mechanism
-for this kind of multiple assignment.
+To this point, we've run files through the interpreter in order to test our various explorations and
+improvements. But did you know that, like `Python`, `Lox` has an interactive mode? (This is commonly
+referred to as a `REPL` -- a `R`ead `E`valuate `P`rint `L`oop.)
 
-Implementing this operator helps us learn about _precedence_. Your task is to work across a few files to implement
-the comma operator. To complete this, you'll need to think back to our experience with tokens to full complete it.
-Mostly, we'll be working in:
+Our work this week has removed some of its previous flexibility; for example, we can't input single 
+expressions and return results anymore! Our job is to restore that functionality so that expressions 
+_and_ statements work.
 
-* [Parser.java](interpreter/src/main/java/com/interpreter/lox/Parser.java)
-* [ASTPrinter.java](interpreter/src/main/java/com/interpreter/lox/ASTPrinter.java)
+This particular task has several possible paths for implementation:
 
-Your program should correctly interpret the expressions in [test.lox](interpreter/src/test/resources/test.lox).
+* try to parse the input as a statement
+  * if the parser encounters an error, then try to parse as an expression
+  * if that didn't work, it's probably bad syntax
+
+* Add a new object to our parser to control statements entered into the `REPL` (the interactive mode)
+  * This might modify at least the following files:
+    * `Parser.java`
+    * `Interpreter.java`
+    * `Main.java`
 
 ### Challenge 2
 
-To further explore concepts this week, implement _ternary_ expressions for `Lox`. The example from our `test.lox`:
+Traditionally, programming languages raise errors when accessing variables which have been _defined_,
+but not _assigned_. `Lox`, at least as is designed now, _doesn't_ follow this rule. It's probably better
+that it _does_. For example (taken from Nystrom's book):
 ```
-a == 1 ? true : false
+// No initializers.
+var a;
+var b;
+
+a = "assigned";
+print a; // OK, was assigned first.
+
+print b; // Error!
 ```
-evaluates to "If `a` is `1`, return `true`, else `false`. For our ternary expressions, your parser should process
-anything with two branches as `if-else` statements and anything only one as an `if` statement.
+Force the interpreter to produce a `RuntimeError` in the above situation. This assignment partly bases its test
+case for this challenge on the code above. You can find out more by looking at the code the test case runs:
 
-To complete this work, you'll need to _add_ tokens to our language, so you'll be working in `3` files:
+* [interpreter/src/test/resources/init.lox](interpreter/src/test/resources/init.lox)
 
-* [Parser.java](interpreter/src/main/java/com/interpreter/lox/Parser.java)
-* [TokenType.java](interpreter/src/main/java/com/interpreter/lox/TokenType.java)
-* [ASTPrinter.java](interpreter/src/main/java/com/interpreter/lox/ASTPrinter.java)
+### Challenge 3
+
+Consider the following program:
+```
+var a = 1;
+{
+  var a = a + 2;
+  print a;
+}
+```
+In the [docs/reflection.md](reflection.md) document, answer a few questions, namely:
+
+* What do you think the code does?
+* Is that in line with what you think it _should_ do?
+* Code the same situation in another language. How does that one differ in form and function?
+* What does it _actually_ do?
+* Is that the best design approach? Why or why not?
