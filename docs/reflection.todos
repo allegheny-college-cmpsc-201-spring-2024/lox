@@ -26,3 +26,7 @@ TODO: Provide example from another language
 4. What does the code at the top _actually_ do? How did it compare with your `Python` version?
 
 `TODO: Respond to the question above.
+
+5. What kind of behavior _should_ the code have?
+
+As the book's author comments, this should probably be an error.

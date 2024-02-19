@@ -31,6 +31,11 @@ Unless tagged as optional, all challenges below are required by this week's work
 
 ### Challenge 1
 
+> Note: this task is something that can't be auto-graded; as such, the check for it will
+> fail until the instructor runs a manual test after the due date. However, to test, you
+> can use `var a = 1; {var a = a + 2; print a; 2 + 2;}` and any basic arithmetic to see
+> if your solution works.
+
 To this point, we've run files through the interpreter in order to test our various explorations and
 improvements. But did you know that, like `Python`, `Lox` has an interactive mode? (This is commonly
 referred to as a `REPL` -- a `R`ead `E`valuate `P`rint `L`oop.)

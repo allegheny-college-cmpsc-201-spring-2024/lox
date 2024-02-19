@@ -13,7 +13,7 @@ setup: |
   category: Tests
   check: ExecuteCommand
   options:
-    command: mvn test -Dtest=BaseTests#testREPLMode -f "interpreter/pom.xml"
+    command: $(false)
 - interpreter/src/main/com/intrepreter/lox/Interpreter.java:
   - description: Interpreter.java contains no TODOs
     category: TODOs

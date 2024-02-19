@@ -52,7 +52,7 @@ public class Main {
     }
   }
 
-  private static void runPrompt() throws IOException {
+  public static void runPrompt() throws IOException {
     InputStreamReader input = new InputStreamReader(System.in);
     BufferedReader reader = new BufferedReader(input);
     for (;;) {

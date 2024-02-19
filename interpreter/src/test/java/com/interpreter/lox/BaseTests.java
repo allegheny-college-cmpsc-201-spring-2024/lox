@@ -71,7 +71,7 @@ class BaseTests {
   void testREPLMode(String[] args) throws Exception {
     ByteArrayInputStream in = new ByteArrayInputStream("4 + 2;\n".getBytes());
     System.setIn(in);
-    Main.main(args);
+    Main.runPrompt();
     assertEquals(
         outContent.toString().strip(),
         "= 6"
