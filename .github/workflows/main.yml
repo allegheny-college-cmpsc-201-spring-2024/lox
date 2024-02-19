@@ -2,7 +2,7 @@ name: GatorGrader
 
 on:
   push:
-    branches: [4-parsing-expressions]
+    branches: [5-evaluating-expressions]
 
 jobs: 
   grade:
@@ -40,7 +40,7 @@ jobs:
       uses: term-world/wizard@v0.7.4
       with:
         grader-report: 'gatorgrade_summary.json'
-        report-name: '4 - Parsing Expressions'
+        report-name: '5 - Evaluating Expressions'
       if: always()
     env:
       GITHUB_TOKEN: ${{ secrets.WIZARD }}
