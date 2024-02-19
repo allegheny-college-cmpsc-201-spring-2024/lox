@@ -9,13 +9,13 @@ setup: |
   check: ExecuteCommand
   options:
     command: mvn test -Dtest=BaseTests#testRequireVarInit -f "interpreter/pom.xml"
-- description: The Lox interpreter's REPL mode works correctly
+- description: The Lox interpreter's REPL mode works correctly; evaluates expressions and statements
   category: Tests
   check: ExecuteCommand
   options:
     command: mvn test -Dtest=BaseTests#testREPLMode -f "interpreter/pom.xml"
-- interpreter/src/main/com/intrepreter/lox/Parser.java:
-  - description: Parser.java contains no TODOs
+- interpreter/src/main/com/intrepreter/lox/Interpreter.java:
+  - description: Interpreter.java contains no TODOs
     category: TODOs
     check: MatchFileFragment
     options:

@@ -9,8 +9,10 @@ import java.net.URL;
 import java.nio.file.Paths;
 import java.util.stream.Stream;
 
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
+
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -49,17 +51,31 @@ class BaseTests {
     );
   }
 
+  static Stream<Arguments> testREPLMode() throws Exception {
+    return Stream.of(
+        Arguments.of((Object) new String[]{})
+    );
+  }
+
   @MethodSource
   @ParameterizedTest
   void testRequireVarInit(String[] args) throws Exception {
-    // Pass
+    assertThrows(
+        java.io.IOException.class,
+        () -> {Main.main(args);}
+    );
   }
 
-  @Test
-  void testREPLMode() throws Exception {
-    ByteArrayInputStream in = new ByteArrayInputStream("4 + 2;".getBytes());
+  @MethodSource
+  @ParameterizedTest
+  void testREPLMode(String[] args) throws Exception {
+    ByteArrayInputStream in = new ByteArrayInputStream("4 + 2;\n".getBytes());
     System.setIn(in);
-    Main.main();
+    Main.main(args);
+    assertEquals(
+        outContent.toString().strip(),
+        "= 6"
+    );
   }
 
   @AfterAll

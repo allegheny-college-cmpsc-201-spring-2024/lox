@@ -47,7 +47,8 @@ public class Main {
       System.exit(65);
     }
     if (hadRuntimeError) {
-      System.exit(70);
+        throw new IOException();
+        //System.exit(70);
     }
   }
 
