@@ -4,21 +4,21 @@ setup: |
   echo "🛠️\tCompiling program (mvn compile)"
   mvn compile -q || true
 ---
-- description: The interpreter program executes successfully (mvn exec:java)
+- description: Divide by zero throws a RuntimeError
   category: Tests
   check: ExecuteCommand
   options:
-    command: cd interpreter && mvn exec:java
-- description: Comma expression production rule functions correctly
+    command:  mvn test -Dtest=BaseTests#testThrownError -f "interpreter/pom.xml"
+- description: String concatenation works correctly
   category: Tests
   check: ExecuteCommand
   options:
-    command: mvn test -Dtest=BaseTests#testCommaOperator -f "interpreter/pom.xml"
-- description: Ternary expression production rule functions correctly
+    command: mvn test -Dtest=BaseTests#testPlusOperator -f "interpreter/pom.xml"
+- description: String multiplication works correctly
   category: Tests
   check: ExecuteCommand
   options:
-    command: mvn test -Dtest=BaseTests#testTernaryExpr -f "interpreter/pom.xml"
+    command: mvn test -Dtest=BaseTests#testStarOperator -f "interpreter/pom.xml"
 - interpreter/src/main/com/intrepreter/lox/Interpreter.java:
   - description: Interpreter.java contains no TODOs
     category: TODOs

@@ -6,6 +6,7 @@ import java.io.PrintStream;
 import java.net.URL;
 import java.nio.file.Paths;
 import java.util.stream.Stream;
+import java.io.IOException;
 
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
@@ -13,6 +14,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.CoreMatchers.containsString;
@@ -36,8 +38,8 @@ class BaseTests {
     System.setErr(new PrintStream(errContent));
   }
 
-  static Stream<Arguments> testCommaOperator() throws Exception {
-    URL resource = BaseTests.class.getClassLoader().getResource("test.lox");
+  static Stream<Arguments> testPlusOperator() throws Exception {
+    URL resource = BaseTests.class.getClassLoader().getResource("plus.lox");
     File file = Paths.get(resource.toURI()).toFile();
     String absPath = file.getAbsolutePath();
     return Stream.of(
@@ -45,8 +47,17 @@ class BaseTests {
     );
   }
 
-  static Stream<Arguments> testTernaryExpr() throws Exception {
-    URL resource = BaseTests.class.getClassLoader().getResource("test.lox");
+  static Stream<Arguments> testStarOperator() throws Exception {
+    URL resource = BaseTests.class.getClassLoader().getResource("star.lox");
+    File file = Paths.get(resource.toURI()).toFile();
+    String absPath = file.getAbsolutePath();
+    return Stream.of(
+      Arguments.of((Object) new String[]{absPath})
+    );
+  }
+
+  static Stream<Arguments> testThrownError() throws Exception {
+    URL resource = BaseTests.class.getClassLoader().getResource("divide.lox");
     File file = Paths.get(resource.toURI()).toFile();
     String absPath = file.getAbsolutePath();
     return Stream.of(
@@ -56,21 +67,30 @@ class BaseTests {
 
   @MethodSource
   @ParameterizedTest
-  void testCommaOperator(String[] args) throws Exception {
+  void testPlusOperator(String[] args) throws Exception {
     Main.main(args);
-    assertThat(
+    assertEquals(
       outContent.toString().strip(),
-      containsString("(if-else (== a 1.0) true false)")
+      "lox rox"
     );
   }
 
   @MethodSource
   @ParameterizedTest
-  void testTernaryExpr(String[] args) throws Exception {
+  void testStarOperator(String[] args) throws Exception {
     Main.main(args);
-    assertThat(
+    assertEquals(
         outContent.toString().strip(),
-        containsString("(=  (, (if-else (== a 1.0) true false) (== a 2.0)))")
+        "loxloxloxloxlox"
+    );
+  }
+
+  @MethodSource
+  @ParameterizedTest
+  void testThrownError(String[] args) throws Exception {
+    assertThrows(
+        java.io.IOException.class,
+        () -> {Main.main(args);}
     );
   }
 

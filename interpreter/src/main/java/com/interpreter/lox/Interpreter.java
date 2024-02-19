@@ -82,10 +82,22 @@ class Interpreter implements Expr.Visitor<Object> {
           "Operands must be two numbers or two strings.");
       case SLASH:
         checkNumberOperands(expr.operator, left, right);
+        if((double)right == 0) {
+            throw new RuntimeError(expr.operator, "Cannot divide by zero.");
+        }
         return (double)left / (double)right;
       case STAR:
-        checkNumberOperands(expr.operator, left, right);
-        return (double)left * (double)right;
+        if (left instanceof Double && right instanceof Double) {
+            checkNumberOperands(expr.operator, left, right);
+            return (double)left * (double)right;
+        }
+        if (left instanceof String && right instanceof Double) {
+            StringBuilder builder = new StringBuilder();
+            for(int i = 1; i <= (double)right; i++){
+                builder.append((String)left);
+            }
+            return builder.toString();
+        }
       case BANG_EQUAL:
         return !isEqual(left, right);
       case EQUAL_EQUAL:
