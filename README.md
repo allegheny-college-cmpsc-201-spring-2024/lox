@@ -5,6 +5,9 @@ to fully parse statements. Here, we're looking to retread some of the ideas we c
 chapters while considering expression grammar. Having moved from scanning (lexing) to parsing, the
 last step in our journey toward code that executes in a recognizable way is _interpreting statements_.
 
+> Note: `mvn exec:java` does something different this week than it has in the past. Take a look at 
+> [Challenge 1](#challenge-1) below for more information.
+
 This exercise will use the `Lox` programming language. For a primer on the language's general syntax and usage, 
 refer to  [Crafting Interpreters, Chapter 3](https://www.craftinginterpreters.com/the-lox-language.html).
 
