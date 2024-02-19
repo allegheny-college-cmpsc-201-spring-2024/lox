@@ -55,11 +55,21 @@ public class Main {
     InputStreamReader input = new InputStreamReader(System.in);
     BufferedReader reader = new BufferedReader(input);
     for (;;) {
-      System.out.print("> ");
-      String line = reader.readLine();
-      if (line == null) break;
-      run(line);
       hadError = false;
+      System.out.print("> ");
+      Scanner scanner = new Scanner(reader.readLine());
+      List<Token> tokens = scanner.scanTokens();
+      Parser parser = new Parser(tokens);
+      Object syntax = parser.parseRepl();
+      if(hadError) continue;
+      if(syntax instanceof List) {
+        interpreter.interpret((List<Stmt>)syntax);
+      } else if (syntax instanceof Expr) {
+        String result = interpreter.interpret((Expr)syntax);
+        if (result != null) {
+            System.out.println("= " + result);
+        }
+      }
     }
   }
 

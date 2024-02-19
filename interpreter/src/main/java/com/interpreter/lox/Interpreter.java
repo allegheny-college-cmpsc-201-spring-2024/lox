@@ -17,6 +17,16 @@ class Interpreter implements Expr.Visitor<Object>,
     }
   }
 
+  String interpret(Expr expression) {
+    try{
+        Object value = evaluate(expression);
+        return stringify(value);
+    } catch (RuntimeError error) {
+        Main.runtimeError(error);
+        return null;
+    }
+  }
+
   @Override
   public Object visitLiteralExpr(Expr.Literal expr) {
     return expr.value;

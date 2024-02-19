@@ -7,11 +7,27 @@ import static com.interpreter.lox.TokenType.*;
 
 class Parser {
 
+  private boolean allowExpression;
+  private boolean foundExpression = false;
   private final List<Token> tokens;
   private int current = 0;
 
   Parser(List<Token> tokens) {
     this.tokens = tokens;
+  }
+
+  Object parseRepl() {
+    allowExpression = true;
+    List<Stmt> statements = new ArrayList<>();
+    while(!isAtEnd()) {
+        statements.add(declaration());
+        if(foundExpression) {
+            Stmt last = statements.get(statements.size() - 1);
+            return ((Stmt.Expression)last).expression;
+        }
+        allowExpression = false;
+    }
+    return statements;
   }
 
   List<Stmt> parse() {
@@ -52,14 +68,17 @@ class Parser {
     if (match(EQUAL)) {
       initializer = expression();
     }
-
     consume(SEMICOLON, "Expect ';' after variable declaration.");
     return new Stmt.Var(name, initializer);
   }
 
   private Stmt expressionStatement() {
     Expr expr = expression();
-    consume(SEMICOLON, "Expect ';' after expression.");
+    if(allowExpression && isAtEnd()) {
+        foundExpression = true;
+    } else {
+        consume(SEMICOLON, "Expect ';' after expression.");
+    }
     return new Stmt.Expression(expr);
   }
 
@@ -75,7 +94,7 @@ class Parser {
   }
 
   private Expr assignment() {
-    Expr expr = equality();
+    Expr expr = comma();
 
     if (match(EQUAL)) {
       Token equals = previous();
@@ -92,7 +111,7 @@ class Parser {
   }
 
   private Expr expression() {
-    return comma();
+    return assignment();
   }
 
   private Expr comma() {
