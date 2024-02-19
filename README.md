@@ -14,7 +14,7 @@ This assignment directly addresses the following course learning objectives:
 
 * Correctly identify and describe the steps in the design and implementation of a programming language
 * Interpret and use an existing programming language grammar
-* Using knowledge of the general principles of programming languages, correctly implement a computer program in a heretofore unknown programming language
+* Design, implement, and evaluate a correct scanner and parser for a programming language.
 
 ## Using this repository
 
