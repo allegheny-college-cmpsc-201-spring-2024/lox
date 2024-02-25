@@ -91,8 +91,10 @@ public class GenerateAST {
       "Literal: Object value",
       "Logical: Expr left, Token operator, Expr right",
       "Unary: Token operator, Expr right",
-      "Variable: Token name"
+      "Variable: Token name",
+      "Conditional: Expr expression, Expr thenBranch, Expr elseBranch"
     ));
+
     defineAST(outputDir, "Stmt", Arrays.asList(
       "Block     : List<Stmt> statements",
       "Expression: Expr expression",

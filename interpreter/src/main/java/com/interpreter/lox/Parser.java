@@ -8,11 +8,27 @@ import static com.interpreter.lox.TokenType.*;
 
 class Parser {
 
+  private boolean allowExpression;
+  private boolean foundExpression = false;
   private final List<Token> tokens;
   private int current = 0;
 
   Parser(List<Token> tokens) {
     this.tokens = tokens;
+  }
+
+  Object parseRepl() {
+    allowExpression = true;
+    List<Stmt> statements = new ArrayList<>();
+    while(!isAtEnd()) {
+        statements.add(declaration());
+        if(foundExpression) {
+            Stmt last = statements.get(statements.size() - 1);
+            return ((Stmt.Expression)last).expression;
+        }
+        allowExpression = false;
+    }
+    return statements;
   }
 
   List<Stmt> parse() {
@@ -24,10 +40,6 @@ class Parser {
   }
 
   private static class ParseError extends RuntimeException {}
-
-  private Expr expression() {
-    return assignment();
-  }
 
   private Stmt declaration() {
     try {
@@ -59,9 +71,10 @@ class Parser {
       initializer = expressionStatement();
     }
     Expr condition = null;
-    if(!check(RIGHT_PAREN)) {
+    if(!check(SEMICOLON)) {
       condition = expression();
     }
+    consume(SEMICOLON, "Expect ';' after loop condition.");
     Expr increment = null;
     if(!check(RIGHT_PAREN)) {
       increment = expression();
@@ -110,7 +123,6 @@ class Parser {
     if (match(EQUAL)) {
       initializer = expression();
     }
-
     consume(SEMICOLON, "Expect ';' after variable declaration.");
     return new Stmt.Var(name, initializer);
   }
@@ -125,7 +137,11 @@ class Parser {
 
   private Stmt expressionStatement() {
     Expr expr = expression();
-    consume(SEMICOLON, "Expect ';' after expression.");
+    if(allowExpression && isAtEnd()) {
+        foundExpression = true;
+    } else {
+        consume(SEMICOLON, "Expect ';' after expression.");
+    }
     return new Stmt.Expression(expr);
   }
 
@@ -153,7 +169,31 @@ class Parser {
 
       error(equals, "Invalid assignment target.");
     }
+    return expr;
+  }
 
+  private Expr expression() {
+    return assignment();
+  }
+
+  private Expr comma() {
+    Expr expr = conditional();
+    while(match(COMMA)) {
+      Token operator = previous();
+      Expr right = equality();
+      expr = new Expr.Binary(expr, operator, right);
+    }
+    return expr;
+  }
+
+  private Expr conditional() {
+    Expr expr = equality();
+    if (match(QUESTION)) {
+        Expr thenBranch = expression();
+        consume(COLON, "Expect ':' after then branch.");
+        Expr elseBranch = conditional();
+        expr = new Expr.Conditional(expr, thenBranch, elseBranch);
+    }
     return expr;
   }
 
@@ -193,13 +233,11 @@ class Parser {
       Expr right = term();
       expr = new Expr.Binary(expr, operator, right);
     }
-
     return expr;
   }
 
   private Expr term() {
     Expr expr = factor();
-
     while(match(MINUS, PLUS)) {
       Token operator = previous();
       Expr right = factor();
@@ -211,7 +249,6 @@ class Parser {
 
   private Expr factor() {
     Expr expr = unary();
-
     while(match(SLASH, STAR)) {
       Token operator = previous();
       Expr right = unary();
@@ -227,7 +264,6 @@ class Parser {
       Expr right = unary();
       return new Expr.Unary(operator, right);
     }
-
     return primary();
   }
 

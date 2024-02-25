@@ -6,6 +6,7 @@ class Interpreter implements Expr.Visitor<Object>,
                              Stmt.Visitor<Void> {
 
   private Environment environment = new Environment();
+  private static Object uninitialized = new Object();
 
   void interpret(List<Stmt> statements) {
     try {
@@ -14,6 +15,16 @@ class Interpreter implements Expr.Visitor<Object>,
       }
     } catch (RuntimeError error) {
       Main.runtimeError(error);
+    }
+  }
+
+  String interpret(Expr expression) {
+    try{
+        Object value = evaluate(expression);
+        return stringify(value);
+    } catch (RuntimeError error) {
+        Main.runtimeError(error);
+        return null;
     }
   }
 
@@ -55,7 +66,12 @@ class Interpreter implements Expr.Visitor<Object>,
 
   @Override
   public Object visitVariableExpr(Expr.Variable expr) {
-    return environment.get(expr.name);
+    Object value = environment.get(expr.name);
+    if (value == uninitialized) {
+        throw new RuntimeError(expr.name,
+            "Variable must be initialized before using.");
+    }
+    return value;
   }
 
   private void checkNumberOperand(Token operator, Object operand) {
@@ -104,7 +120,7 @@ class Interpreter implements Expr.Visitor<Object>,
 
   @Override
   public Void visitVarStmt(Stmt.Var stmt) {
-    Object value = null;
+    Object value = uninitialized;
     if (stmt.initializer != null) {
       value = evaluate(stmt.initializer);
     }
@@ -186,6 +202,12 @@ class Interpreter implements Expr.Visitor<Object>,
         return isEqual(left, right);
     }
 
+    return null;
+  }
+
+  @Override
+  public Object visitConditionalExpr(Expr.Conditional expr) {
+    // Reserved for future development.
     return null;
   }
 
