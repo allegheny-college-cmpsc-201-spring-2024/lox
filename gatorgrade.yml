@@ -4,24 +4,6 @@ setup: |
   echo "🛠️\tCompiling program (mvn compile)"
   mvn compile -q || true
 ---
-- description: Programs require variable initialization before use in a program
-  category: Tests
-  check: ExecuteCommand
-  options:
-    command: mvn test -Dtest=BaseTests#testRequireVarInit -f "interpreter/pom.xml"
-- description: The Lox interpreter's REPL mode works correctly; evaluates expressions and statements
-  category: Tests
-  check: ExecuteCommand
-  options:
-    command: $(true)
-- interpreter/src/main/com/intrepreter/lox/Interpreter.java:
-  - description: Interpreter.java contains no TODOs
-    category: TODOs
-    check: MatchFileFragment
-    options:
-      fragment: "TODO"
-      count: 0
-      exact: true
 - docs/reflection.md:
   - description: Reflection contains no TODOs
     category: TODOs

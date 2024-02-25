@@ -2,7 +2,7 @@ name: GatorGrader
 
 on:
   push:
-    branches: [6-statements-state]
+    branches: [7-control-flow]
 
 jobs: 
   grade:
@@ -32,7 +32,7 @@ jobs:
       run: |
         gatorgrade --config gatorgrade.yml --report file json gatorgrade_summary.json
       if: always()
-      env:   
+      env:
         PIPENV_VENV_IN_PROJECT: 1
         PIPENV_IGNORE_VIRTUALENVS: 1
     - name: Create Wizard report

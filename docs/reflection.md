@@ -1,47 +1,24 @@
 # CMPSC 201: Parsing Statements
 
-Consider the following `Lox` program:
-```
-var a = 1;
-{
-  var a = a + 2;
-  print a;
-}
-```
+1. What is the name of the special optimization described in the readme?
 
-1. What do you think the code does?
+`TODO: Respond to the question above`
 
-This prints `3`.
+2. Given your knowledge of `Lox` functions, what would an implementation look like?
 
-2. Is that in line with what you think it _should_ do? Why or why not?
+> HINT: an example of counting from `1` to `100` would be acceptable, using a `print`
+> statement to display the outcome.
 
-Despite the scoping braces, the variable doesn't double-initialize. It's shadowed by the first instantiation
-and adds to itself.
-
-3. Code the same situation in Python. How does that one differ in form and function?
-```python
-# Option 1
-a = 1
-def shadow():
-    a = 2
-    print(a)
-# Option 2
-a = 2
-lambda a: a + 1
-a
-# Option 3
-global a
-a = 1
-lambda a: a + 1
-a
+```lox
+TODO: Provide code in the code fence
 ```
 
-It actually strikes me as impossible to write the equivalent in Python as shadowing works differently.
+3. What other languages use this type of function optimization? Why?
 
-4. What does the code at the top _actually_ do? How did it compare with your `Python` version?
+`TODO: Respond to the question above`
 
-It prints `3`; students probably won't stumble into the correct answer unless they run it.
+4. Provide an example from the language cited above.
 
-5. What kind of behavior _should_ the code have?
-
-As the book's author comments, this should probably be an error.
+```
+TODO: Provide an example of this optimization in the language discussed in #3
+```
