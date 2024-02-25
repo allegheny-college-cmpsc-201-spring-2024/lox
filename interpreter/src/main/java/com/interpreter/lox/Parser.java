@@ -12,6 +12,7 @@ class Parser {
   private boolean foundExpression = false;
   private final List<Token> tokens;
   private int current = 0;
+  private int loopDepth = 0;
 
   Parser(List<Token> tokens) {
     this.tokens = tokens;
@@ -133,6 +134,10 @@ class Parser {
     consume(RIGHT_PAREN, "Expect ')' after condition.");
     Stmt body = statement();
     return new Stmt.While(condition, body);
+  }
+
+  private Stmt breakStatement() {
+    return new Stmt.Break();
   }
 
   private Stmt expressionStatement() {

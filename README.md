@@ -1,12 +1,17 @@
-# The Lox Programming Language: Statements
+# The Lox Programming Language: Iteration and Flow Control
 
-This branch mirrors content from chapter `8` of _Crafting Interpreters_. Finally, we'll be able
-to fully parse statements. Here, we're looking to retread some of the ideas we covered in previous
-chapters while considering expression grammar. Having moved from scanning (lexing) to parsing, the
-last step in our journey toward code that executes in a recognizable way is _interpreting statements_.
+This branch mirrors content from chapter `9` of _Crafting Interpreters_. Our work on implementing
+statements and declarations in last week's lab goes a step further as we explore how iteration 
+and other control of flow operations occur in `Lox`. Here, we mean `if`, `for`, and `while`
+statements. These structures embed logical statements such as those arbitrated by `and` and `or`
+operators. 
 
-> Note: `mvn exec:java` does something different this week than it has in the past. Take a look at 
-> [Challenge 1](#challenge-1) below for more information.
+Our challenges explore integrating previous functionality (`ternary` statements`, comma-separated
+declarations) into the new grammar and how to incorporate new functionality such as `break` and
+`continue`, which also affect the flow control of a program. To complete this work, you've been 
+given a novel program writtein the `Lox` language, located in [`interpreter/test/resources/test.lox`](interpreter/test/resources/test.lox).
+You will need to remove comments marked by `TODO`s in order to expose some of the functionality to
+write your solutions.
 
 This exercise will use the `Lox` programming language. For a primer on the language's general syntax and usage, 
 refer to  [Crafting Interpreters, Chapter 3](https://www.craftinginterpreters.com/the-lox-language.html).
@@ -31,66 +36,44 @@ Unless tagged as optional, all challenges below are required by this week's work
 
 ### Challenge 1
 
-> Note: this task is something that can't be auto-graded; as such, the check for it will
-> fail until the instructor runs a manual test after the due date. However, to test, you
-> can use `var a = 1; {var a = a + 2; print a; 2 + 2;}` and any basic arithmetic to see
-> if your solution works.
+When iterating, there are times that we want to jump of out a loop when a certain combination of
+conditions occurs that are _not_ the sentinel condition (e.g., breaking out of a forced infinite
+loop). In other instances, we want to skip the product of an iteration and start with the next
+iteration without bothering with the functionality in the `for` or `while` statement's body.
 
-To this point, we've run files through the interpreter in order to test our various explorations and
-improvements. But did you know that, like `Python`, `Lox` has an interactive mode? (This is commonly
-referred to as a `REPL` -- a `R`ead `E`valuate `P`rint `L`oop.)
+Implement the keywords that make this behavior possible:
 
-Our work this week has removed some of its previous flexibility; for example, we can't input single 
-expressions and return results anymore! Our job is to restore that functionality so that expressions 
-_and_ statements work -- functionality similiar to what happens if we type `python` at the command line
-and write code.
+* `break`
+* `continue`
 
-This particular task has several possible paths for implementation:
+> Hint: you'll want to implement `break` first, as the solution shows you the various areas
+> of the files to work in.
 
-* try to parse the input as a statement
-  * if the parser encounters an error, then try to parse as an expression
-  * if that didn't work, it's probably bad syntax
+To complete this work, you'll largely be in:
 
-* Add a new object to our parser to control statements entered into the `REPL` (the interactive mode)
-  * This might modify at least the following files:
-    * `Parser.java`
-    * `Interpreter.java`
-    * `Main.java`
+* `Parser.java`
+* `Scanner.java`
+* `Interpreter.java`
+* `TokenType.java`
+
+There are some supporting functions already created for you. However, they are not necessarily
+populated with helpful code.
 
 ### Challenge 2
 
-Traditionally, programming languages raise errors when accessing variables which have been _defined_,
-but not _assigned_. `Lox`, at least as is designed now, _doesn't_ follow this rule. It's probably better
-that it _does_. For example (taken from Nystrom's book):
-```
-// Variables created, not initialized
-var a;
-var b;
-
-a = "assigned";
-print a; // OK, was assigned first
-
-print b; // Not OK; hasn't been assigned.
-```
-Force the interpreter to produce a `RuntimeError` in the above situation. This assignment partly bases its test
-case for this challenge on the code above. You can find out more by looking at the code the test case runs:
-
-* [interpreter/src/test/resources/test.lox](interpreter/src/test/resources/test.lox)
+In previous weeks, we implemented other pieces of an advanced grammar: `comma` and `conditional` (i.e. `ternary`)
+rules. However, they're not accounted for in the current grammar. Provide implementations of the above structures
+such that they satisfy the `TODO`'d-out functionality in `test.lox`.
 
 ### Challenge 3
 
-Consider the following program:
-```
-var a = 1;
-{
-  var a = a + 2;
-  print a;
-}
-```
-In the [docs/reflection.md](reflection.md) document, answer a few questions, namely:
+Here, we see iteration in its plainest form. As we prepare for next chapter's work on functions, there's yet
+another way that we can integrate recursion into our programs using functions. You're probably aware of versions
+of this method of looping (i.e. it has a special name, starting with the letter `r`). However, there's a key
+difference between `for` loops and what is described above.
 
-* What do you think the code does?
-* Is that in line with what you think it _should_ do?
-* Code the same situation in another language. How does that one differ in form and function?
-* What does it _actually_ do?
-* Is that the best design approach? Why or why not?
+Versions of this method enable an optimization that allows for deep (i.e. long) loops. What is the name of this
+specific type of iteration? What is an example of a language that implements this as its primary (or only) method
+of iteration?
+
+> Hint: we've golfed using this language.
