@@ -77,3 +77,5 @@ specific type of iteration? What is an example of a language that implements thi
 of iteration?
 
 > Hint: we've golfed using this language.
+
+Discuss this using the prompts in our [`docs/reflection.md`](docs/reflection.md) file.
