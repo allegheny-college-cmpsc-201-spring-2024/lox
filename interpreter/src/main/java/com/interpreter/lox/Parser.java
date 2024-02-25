@@ -156,8 +156,13 @@ class Parser {
     return statements;
   }
 
+  private Expr expression() {
+    return assignment();
+  }
+
   private Expr assignment() {
-    Expr expr = or();
+    Expr expr = comma();
+    //Expr expr = or();
     if (match(EQUAL)) {
       Token equals = previous();
       Expr value = assignment();
@@ -172,27 +177,13 @@ class Parser {
     return expr;
   }
 
-  private Expr expression() {
-    return assignment();
-  }
-
   private Expr comma() {
-    Expr expr = conditional();
+    Expr expr = or();
+    //Expr expr = conditional();
     while(match(COMMA)) {
       Token operator = previous();
-      Expr right = equality();
+      Expr right = equality();//equality();
       expr = new Expr.Binary(expr, operator, right);
-    }
-    return expr;
-  }
-
-  private Expr conditional() {
-    Expr expr = equality();
-    if (match(QUESTION)) {
-        Expr thenBranch = expression();
-        consume(COLON, "Expect ':' after then branch.");
-        Expr elseBranch = conditional();
-        expr = new Expr.Conditional(expr, thenBranch, elseBranch);
     }
     return expr;
   }
@@ -208,14 +199,27 @@ class Parser {
   }
 
   private Expr and() {
-    Expr expr = equality();
+    Expr expr = conditional();
+    //Expr expr = equality();
     while (match(AND)) {
       Token operator = previous();
-      Expr right = equality();
+      Expr right = conditional();//equality();
       expr = new Expr.Logical(expr, operator, right);
     }
     return expr;
   }
+
+  private Expr conditional() {
+    Expr expr = equality();
+    if (match(QUESTION)) {
+        Expr thenBranch = expression();
+        consume(COLON, "Expect ':' after then branch.");
+        Expr elseBranch = conditional();
+        expr = new Expr.Conditional(expr, thenBranch, elseBranch);
+    }
+    return expr;
+  }
+
   private Expr equality() {
     Expr expr = comparison();
     while(match(BANG_EQUAL, EQUAL_EQUAL)) {

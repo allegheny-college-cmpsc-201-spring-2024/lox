@@ -7,6 +7,7 @@ class Interpreter implements Expr.Visitor<Object>,
 
   private Environment environment = new Environment();
   private static Object uninitialized = new Object();
+  private static class BreakException extends RuntimeException {}
 
   void interpret(List<Stmt> statements) {
     try {
@@ -208,6 +209,17 @@ class Interpreter implements Expr.Visitor<Object>,
   @Override
   public Object visitConditionalExpr(Expr.Conditional expr) {
     // Reserved for future development.
+    return null;
+  }
+
+  @Override
+  public Void visitBreakStmt(Stmt.Break stmt) {
+    throw new BreakException();
+  }
+
+  @Override
+  public Void visitContinueStmt(Stmt.Continue stmt) {
+    // Do nothing...yet
     return null;
   }
 

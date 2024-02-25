@@ -27,7 +27,12 @@ public class GenerateAST {
     writer.println("  static class " + className + " extends " +
         baseName + " {");
     writer.println("    " + className + "(" + fieldList + ") {");
-    String[] fields = fieldList.split(", ");
+    String[] fields;
+    if (fieldList.isEmpty()) {
+        fields = new String[0];
+    } else {
+        fields = fieldList.split(", ");
+    }
     for (String field : fields) {
       String name = field.split(" ")[1];
       writer.println("      this." + name + " = " + name + ";");
@@ -97,6 +102,8 @@ public class GenerateAST {
 
     defineAST(outputDir, "Stmt", Arrays.asList(
       "Block     : List<Stmt> statements",
+      "Break     : ",
+      "Continue  : ",
       "Expression: Expr expression",
       "If        : Expr condition, Stmt thenBranch," +
                  " Stmt elseBranch ",

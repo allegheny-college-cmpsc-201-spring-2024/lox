@@ -64,7 +64,6 @@ class Scanner {
       case '+': addToken(PLUS); break;
       case ';': addToken(SEMICOLON); break;
       case '*': addToken(STAR); break;
-      // TODO: Remove ternary accomodation
       case '?': addToken(QUESTION); break;
       case ':': addToken(COLON); break;
       case '!':
