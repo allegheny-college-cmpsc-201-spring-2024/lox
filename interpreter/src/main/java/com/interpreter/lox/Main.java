@@ -81,10 +81,12 @@ public class Main {
     List<Stmt> statements = parser.parse();
     if (hadError) return;
     interpreter.interpret(statements);
+    /* Uncomment to look at AST
     for(Stmt statement : statements) {
         System.out.print(new ASTPrinter().print(statement));
     }
     System.out.println();
+    */
   }
 
   public static void main(String[] args) throws IOException {

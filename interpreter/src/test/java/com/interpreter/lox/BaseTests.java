@@ -42,7 +42,7 @@ class BaseTests {
     System.setErr(new PrintStream(errContent));
   }
 
-  static Stream<Arguments> testRequireVarInit() throws Exception {
+  static Stream<Arguments> testBreakStatement() throws Exception {
     URL resource = BaseTests.class.getClassLoader().getResource("test.lox");
     File file = Paths.get(resource.toURI()).toFile();
     String absPath = file.getAbsolutePath();
@@ -51,30 +51,32 @@ class BaseTests {
     );
   }
 
-  static Stream<Arguments> testREPLMode() throws Exception {
+  static Stream<Arguments> testTernaryExpression() throws Exception {
+    URL resource = BaseTests.class.getClassLoader().getResource("test.lox");
+    File file = Paths.get(resource.toURI()).toFile();
+    String absPath = file.getAbsolutePath();
     return Stream.of(
-        Arguments.of((Object) new String[]{})
+      Arguments.of((Object) new String[]{absPath})
     );
   }
 
   @MethodSource
   @ParameterizedTest
-  void testRequireVarInit(String[] args) throws Exception {
-    assertThrows(
-        java.io.IOException.class,
-        () -> {Main.main(args);}
-    );
-  }
-
-  @MethodSource
-  @ParameterizedTest
-  void testREPLMode(String[] args) throws Exception {
-    ByteArrayInputStream in = new ByteArrayInputStream("4 + 2;\n".getBytes());
-    System.setIn(in);
-    Main.runPrompt();
-    assertEquals(
+  void testBreakStatement(String[] args) throws Exception {
+    Main.main(args);
+    assertThat(
         outContent.toString().strip(),
-        "= 6"
+        containsString("LOOP ENDED AT: 7.0")
+    );
+  }
+
+  @MethodSource
+  @ParameterizedTest
+  void testTernaryExpression(String[] args) throws Exception {
+    Main.main(args);
+    assertThat(
+        outContent.toString().strip(),
+        containsString("LOOP BROKE AT 7.0: true")
     );
   }
 

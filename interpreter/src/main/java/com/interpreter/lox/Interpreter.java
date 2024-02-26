@@ -132,9 +132,16 @@ class Interpreter implements Expr.Visitor<Object>,
 
   @Override
   public Void visitWhileStmt(Stmt.While stmt) {
+    try {
+    // KEEP
     while (isTruthy(evaluate(stmt.condition))) {
       execute(stmt.body);
     }
+    // KEEP
+    } catch (BreakException ex) {
+        // Do nary a thing.
+    }
+    // KEEP
     return null;
   }
 
@@ -189,6 +196,14 @@ class Interpreter implements Expr.Visitor<Object>,
         if (left instanceof String && right instanceof String) {
           return (String)left + (String)right;
         }
+        if (left instanceof String && right instanceof Double) {
+          double value = (double)right;
+          return (String)left + String.valueOf(value);
+        }
+        if (left instanceof String && right instanceof Boolean) {
+          boolean value = (boolean)right;
+          return (String)left + Boolean.toString(value);
+        }
         throw new RuntimeError(expr.operator,
           "Operands must be two numbers or two strings.");
       case SLASH:
@@ -208,7 +223,14 @@ class Interpreter implements Expr.Visitor<Object>,
 
   @Override
   public Object visitConditionalExpr(Expr.Conditional expr) {
-    // Reserved for future development.
+    // REMOVE
+    Expr condition = expr.expression;
+    if(isTruthy(evaluate(condition))){
+        return evaluate(expr.thenBranch);
+    } else if (!isTruthy(evaluate(condition)) && expr.elseBranch != null) {
+        return evaluate(expr.elseBranch);
+    }
+    // REMOVE
     return null;
   }
 

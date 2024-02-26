@@ -22,3 +22,23 @@ TODO: Provide code in the code fence
 ```
 TODO: Provide an example of this optimization in the language discussed in #3
 ```
+
+5. Re-order the grammar below to reflect your revised grammar precedence.
+
+```
+expression     → assignment ;
+assignment     → IDENTIFIER "=" assignment
+               | comma ;
+comma          → conditional ( "," conditional )* ;
+conditional    → equality ( "?" expression ":" conditional )? ;
+equality       → comparison ( ( "!=" | "==" ) comparison )* ;
+comparison     → term ( ( ">" | ">=" | "<" | "<=" ) term )* ;
+term           → factor ( ( "-" | "+" ) factor )* ;
+factor         → unary ( ( "/" | "*" ) unary )* ;
+unary          → ( "!" | "-" ) unary
+               | primary ;
+primary        → NUMBER | STRING | "true" | "false" | "nil"
+               | "(" expression ")" ;
+logical_or     → TODO
+logical_and    → TODO
+```

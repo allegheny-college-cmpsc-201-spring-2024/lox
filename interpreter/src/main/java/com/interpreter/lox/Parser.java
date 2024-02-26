@@ -58,6 +58,9 @@ class Parser {
     if (match(PRINT)) return printStatement();
     if (match(WHILE)) return whileStatement();
     if (match(LEFT_BRACE)) return new Stmt.Block(block());
+    // REMOVE
+    if (match(BREAK)) return breakStatement();
+    // REMOVE
     return expressionStatement();
   }
 
@@ -81,6 +84,10 @@ class Parser {
       increment = expression();
     }
     consume(RIGHT_PAREN, "Expect ')' after for clauses.");
+
+    try{
+        loopDepth++;
+    // KEEP
     Stmt body = statement();
     if (increment != null) {
       body = new Stmt.Block(
@@ -96,6 +103,10 @@ class Parser {
       body = new Stmt.Block(Arrays.asList(initializer, body));
     }
     return body;
+    // KEEP
+    } finally {
+        loopDepth--;
+    }
   }
 
   private Stmt ifStatement() {
@@ -132,11 +143,24 @@ class Parser {
     consume(LEFT_PAREN, "Expect '(' after 'while'.");
     Expr condition = expression();
     consume(RIGHT_PAREN, "Expect ')' after condition.");
+    try {
+        loopDepth++;
+    // KEEP
     Stmt body = statement();
     return new Stmt.While(condition, body);
+    // KEEP
+    } finally {
+        loopDepth--;
+    }
   }
 
   private Stmt breakStatement() {
+    // REMOVE
+    if (loopDepth == 0) {
+        error(previous(), "Break statement must be inside loop.");
+    }
+    consume(SEMICOLON, "Expect ';' after 'break'.");
+    // REMOVE
     return new Stmt.Break();
   }
 
@@ -184,10 +208,9 @@ class Parser {
 
   private Expr comma() {
     Expr expr = or();
-    //Expr expr = conditional();
     while(match(COMMA)) {
       Token operator = previous();
-      Expr right = equality();//equality();
+      Expr right = and();
       expr = new Expr.Binary(expr, operator, right);
     }
     return expr;

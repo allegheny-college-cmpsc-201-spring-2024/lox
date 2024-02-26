@@ -4,6 +4,16 @@ setup: |
   echo "🛠️\tCompiling program (mvn compile)"
   mvn compile -q || true
 ---
+- description: Break statement ends loop at the correct number (a == 7)
+  category: Tests
+  check: ExecuteCommand
+  options:
+    command: mvn test -Dtest=BaseTests#testBreakStatement -f "interpreter/pom.xml"
+- description: Ternary expression assesses value of a and returns correct branch
+  category: Tests
+  check: ExecuteCommand
+  options:
+    command: mvn test -Dtest=BaseTests#testTernaryExpression -f "interpreter/pom.xml"
 - docs/reflection.md:
   - description: Reflection contains no TODOs
     category: TODOs

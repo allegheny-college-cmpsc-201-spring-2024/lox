@@ -61,9 +61,15 @@ populated with helpful code.
 
 ### Challenge 2
 
-In previous weeks, we implemented other pieces of an advanced grammar: `comma` and `conditional` (i.e. `ternary`)
-rules. However, they're not accounted for in the current grammar. Provide implementations of the above structures
-such that they satisfy the `TODO`'d-out functionality in `test.lox`.
+In a previous week, we implemented other pieces of an advanced grammar. Primarily, we're concerned with the
+`conditional` (i.e. `ternary`) rule. However, it's not accounted for in the current grammar. Provide 
+an implementation of the `conditional` structure such that it satisfies the `TODO`'d-out functionality in 
+`test.lox`.
+
+To complete this work, work in:
+
+* `Parser.java`
+* `Interpreter.java`
 
 ### Challenge 3
 
