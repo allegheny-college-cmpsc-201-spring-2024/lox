@@ -60,6 +60,7 @@ class Parser {
     if (match(LEFT_BRACE)) return new Stmt.Block(block());
     // REMOVE
     if (match(BREAK)) return breakStatement();
+    if (match(CONTINUE)) return continueStatement();
     // REMOVE
     return expressionStatement();
   }
@@ -162,6 +163,16 @@ class Parser {
     consume(SEMICOLON, "Expect ';' after 'break'.");
     // REMOVE
     return new Stmt.Break();
+  }
+
+  private Stmt continueStatement() {
+    // REMOVE
+    if (loopDepth == 0) {
+        error(previous(), "Continue statement must be inside loop.");
+    }
+    consume(SEMICOLON, "Expect ';' after 'continue'.");
+    // REMOVE
+    return new Stmt.Continue();
   }
 
   private Stmt expressionStatement() {

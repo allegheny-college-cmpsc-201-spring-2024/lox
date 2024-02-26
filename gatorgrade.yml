@@ -9,6 +9,11 @@ setup: |
   check: ExecuteCommand
   options:
     command: mvn test -Dtest=BaseTests#testBreakStatement -f "interpreter/pom.xml"
+- description: Continue statement bypasses the fourth iteration
+  category: Tests
+  check: ExecuteCommand
+  options:
+    command: mvn test -Dtest=BaseTests#testContinueStatement -f "interpreter/pom.xml"
 - description: Ternary expression assesses value of a and returns correct branch
   category: Tests
   check: ExecuteCommand

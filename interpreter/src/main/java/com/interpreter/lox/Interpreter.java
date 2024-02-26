@@ -8,6 +8,7 @@ class Interpreter implements Expr.Visitor<Object>,
   private Environment environment = new Environment();
   private static Object uninitialized = new Object();
   private static class BreakException extends RuntimeException {}
+  private static class ContinueException extends RuntimeException {}
 
   void interpret(List<Stmt> statements) {
     try {
@@ -135,7 +136,20 @@ class Interpreter implements Expr.Visitor<Object>,
     try {
     // KEEP
     while (isTruthy(evaluate(stmt.condition))) {
-      execute(stmt.body);
+      try {
+        execute(stmt.body);
+      } catch (ContinueException ex) {
+        Expr.Binary sentinel = (Expr.Binary)stmt.condition;
+        if( ((Expr.Literal)sentinel.right).value instanceof Double ){
+            double value = (double)this.environment.get(((Expr.Variable)sentinel.left).name);
+            this.environment.assign(
+                ((Expr.Variable)sentinel.left).name, value + 1
+            );
+        } else {
+            throw new RuntimeError(null,
+                "Conitnue only advances iteration by number literal.");
+        }
+      }
     }
     // KEEP
     } catch (BreakException ex) {
@@ -241,8 +255,7 @@ class Interpreter implements Expr.Visitor<Object>,
 
   @Override
   public Void visitContinueStmt(Stmt.Continue stmt) {
-    // Do nothing...yet
-    return null;
+    throw new ContinueException();
   }
 
   private boolean isTruthy(Object object) {

@@ -6,6 +6,9 @@ for(a = 0; a < 10; a = a + 1) {
     if (a == 7 and breakNext) {
        break;
     }
+    if (a == 3) {
+        continue;
+    }
     if (a == 6) {
       breakNext = true;
     }

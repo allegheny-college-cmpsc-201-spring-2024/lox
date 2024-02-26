@@ -6,10 +6,11 @@ and other control of flow operations occur in `Lox`. Here, we mean `if`, `for`, 
 statements. These structures embed logical statements such as those arbitrated by `and` and `or`
 operators. 
 
-Our challenges explore integrating previous functionality (`ternary` statements`, comma-separated
-declarations) into the new grammar and how to incorporate new functionality such as `break` and
-`continue`, which also affect the flow control of a program. To complete this work, you've been 
-given a novel program writtein the `Lox` language, located in [`interpreter/test/resources/test.lox`](interpreter/test/resources/test.lox).
+Our challenges explore integrating previous functionality (`ternary` statements) into the new grammar 
+and how to incorporate new functionality such as `break` and `continue`, which also affect the flow 
+control of a program. To complete this work, you've been given a novel program written in the `Lox` language, 
+located in [`interpreter/test/resources/test.lox`](interpreter/test/resources/test.lox).
+
 You will need to remove comments marked by `TODO`s in order to expose some of the functionality to
 write your solutions.
 
@@ -41,10 +42,8 @@ conditions occurs that are _not_ the sentinel condition (e.g., breaking out of a
 loop). In other instances, we want to skip the product of an iteration and start with the next
 iteration without bothering with the functionality in the `for` or `while` statement's body.
 
-Implement the keywords that make this behavior possible:
-
-* `break`
-* `continue`
+Implement the `break` keyword to bail on loops instantly, a functionality like that of Python's
+`break`.
 
 > Hint: you'll want to implement `break` first, as the solution shows you the various areas
 > of the files to work in.
@@ -58,6 +57,12 @@ To complete this work, you'll largely be in:
 
 There are some supporting functions already created for you. However, they are not necessarily
 populated with helpful code.
+
+#### Extra 
+
+It's also possible to implement the `continue` keyword. For the chance to earn an entire complete branch,
+implement the `continue` keyword. Discuss with the instructor so that you can get the additional test
+to verify.
 
 ### Challenge 2
 

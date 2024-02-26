@@ -14,7 +14,7 @@ enum TokenType {
   IDENTIFIER, STRING, NUMBER,
 
   // REMOVE
-  BREAK,
+  BREAK, CONTINUE,
   // REMOVE
 
   // Keywords.

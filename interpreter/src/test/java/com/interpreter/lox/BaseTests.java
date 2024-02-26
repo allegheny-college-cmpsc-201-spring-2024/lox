@@ -21,6 +21,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.CoreMatchers.containsString;
+import static org.hamcrest.CoreMatchers.not;
 
 class BaseTests {
 
@@ -60,6 +61,15 @@ class BaseTests {
     );
   }
 
+  static Stream<Arguments> testContinueStatement() throws Exception {
+    URL resource = BaseTests.class.getClassLoader().getResource("test.lox");
+    File file = Paths.get(resource.toURI()).toFile();
+    String absPath = file.getAbsolutePath();
+    return Stream.of(
+      Arguments.of((Object) new String[]{absPath})
+    );
+  }
+
   @MethodSource
   @ParameterizedTest
   void testBreakStatement(String[] args) throws Exception {
@@ -77,6 +87,16 @@ class BaseTests {
     assertThat(
         outContent.toString().strip(),
         containsString("LOOP BROKE AT 7.0: true")
+    );
+  }
+
+  @MethodSource
+  @ParameterizedTest
+  void testContinueStatement(String[] args) throws Exception {
+    Main.main(args);
+    assertThat(
+        outContent.toString().strip(),
+        not(containsString("3"))
     );
   }
 

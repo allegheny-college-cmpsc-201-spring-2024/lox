@@ -31,6 +31,7 @@ class Scanner {
     keywords.put("while",  WHILE);
     // REMOVE
     keywords.put("break",  BREAK);
+    keywords.put("continue", CONTINUE);
     // REMOVE
   }
 
