@@ -14,6 +14,38 @@ setup: |
   check: ExecuteCommand
   options:
     command: mvn test -Dtest=BaseTests#testTernaryExpression -f "interpreter/pom.xml"
+- interpreter/src/main/java/com/interpreter/lox/Interpreter.java:
+  - description: Interpreter.java file contains no TODOs
+    category: TODOs
+    check: MatchFileFragment
+    options:
+      fragment: TODO
+      count: 0
+      exact: true
+- interpreter/src/main/java/com/interpreter/lox/Parser.java:
+  - description: Parser.java file contains no TODOs
+    category: TODOs
+    check: MatchFileFragment
+    options:
+      fragment: TODO
+      count: 0
+      exact: true
+- interpreter/src/main/java/com/interpreter/lox/Scanner.java:
+  - description: Scanner.java file contains no TODOs
+    category: TODOs
+    check: MatchFileFragment
+    options:
+      fragment: TODO
+      count: 0
+      exact: true
+- interpreter/src/main/java/com/interpreter/lox/TokenType.java:
+  - description: TokenType.java file contains no TODOs
+    category: TODOs
+    check: MatchFileFragment
+    options:
+      fragment: TODO
+      count: 0
+      exact: true
 - interpreter/src/test/resources/test.lox:
   - description: test.lox file contains no TODOs
     category: TODOs
