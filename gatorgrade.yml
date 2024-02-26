@@ -14,6 +14,14 @@ setup: |
   check: ExecuteCommand
   options:
     command: mvn test -Dtest=BaseTests#testTernaryExpression -f "interpreter/pom.xml"
+- interpreter/src/test/resources/test.lox:
+  - description: test.lox file contains no TODOs
+    category: TODOs
+    check: MatchFileFragment
+    options:
+      fragment: TODO
+      count: 0
+      exact: true
 - docs/reflection.md:
   - description: Reflection contains no TODOs
     category: TODOs

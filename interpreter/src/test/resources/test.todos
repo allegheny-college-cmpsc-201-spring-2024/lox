@@ -4,6 +4,11 @@ var breakNext = false;
 // Iterate
 for(a = 0; a < 10; a = a + 1) {
     if (a == 7 and breakNext) {
+       /*
+        * TODO: Uncomment break statement when ready to test
+        *       break statement functionality for Challenge 1;
+        *       delete or replace this comment as well
+        */
        break;
     }
     if (a == 6) {
@@ -13,6 +18,10 @@ for(a = 0; a < 10; a = a + 1) {
 }
 // Display end of loop value
 print "LOOP ENDED AT: " + a;
+/* 
+ * TODO: Uncomment the ternary to solve Challenge 2;
+ *       delete or replace this comment as well
+ */
 // Test end of loop value using ternary
 var b = a == 7 ? true: false;
 print "LOOP BROKE AT " + a + ": " + b;

@@ -210,7 +210,7 @@ class Parser {
     Expr expr = or();
     while(match(COMMA)) {
       Token operator = previous();
-      Expr right = and();
+      Expr right = or();
       expr = new Expr.Binary(expr, operator, right);
     }
     return expr;
@@ -228,10 +228,9 @@ class Parser {
 
   private Expr and() {
     Expr expr = conditional();
-    //Expr expr = equality();
     while (match(AND)) {
       Token operator = previous();
-      Expr right = conditional();//equality();
+      Expr right = conditional();
       expr = new Expr.Logical(expr, operator, right);
     }
     return expr;
