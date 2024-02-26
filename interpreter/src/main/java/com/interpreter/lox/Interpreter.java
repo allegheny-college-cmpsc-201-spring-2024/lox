@@ -139,6 +139,9 @@ class Interpreter implements Expr.Visitor<Object>,
       try {
         execute(stmt.body);
       } catch (ContinueException ex) {
+        // Note: this implementation is very bad; it assumes that loops only ever count _up_;
+        //       however, if students were to do this, I'd accept it. When I implement a
+        //       forStatement-based one, I'll comment this block out, but it's...workable?
         Expr.Binary sentinel = (Expr.Binary)stmt.condition;
         if( ((Expr.Literal)sentinel.right).value instanceof Double ){
             double value = (double)this.environment.get(((Expr.Variable)sentinel.left).name);
