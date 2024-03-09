@@ -8,6 +8,10 @@ class Interpreter implements Expr.Visitor<Object>,
 
   final Environment globals = new Environment();
   private Environment environment = globals;
+  private static Object uninitialized = new Object();
+  private static boolean toBeContinued = false;
+  private static class BreakException extends RuntimeException {}
+  private static class ContinueException extends RuntimeException {}
 
   Interpreter() {
     globals.define("clock", new LoxCallable() {
@@ -33,6 +37,16 @@ class Interpreter implements Expr.Visitor<Object>,
       }
     } catch (RuntimeError error) {
       Main.runtimeError(error);
+    }
+  }
+
+  String interpret(Expr expression) {
+    try{
+        Object value = evaluate(expression);
+        return stringify(value);
+    } catch (RuntimeError error) {
+        Main.runtimeError(error);
+        return null;
     }
   }
 
@@ -74,7 +88,12 @@ class Interpreter implements Expr.Visitor<Object>,
 
   @Override
   public Object visitVariableExpr(Expr.Variable expr) {
-    return environment.get(expr.name);
+    Object value = environment.get(expr.name);
+    if (value == uninitialized) {
+        throw new RuntimeError(expr.name,
+            "Variable must be initialized before using.");
+    }
+    return value;
   }
 
   private void checkNumberOperand(Token operator, Object operand) {
@@ -101,6 +120,10 @@ class Interpreter implements Expr.Visitor<Object>,
     try {
       this.environment = environment;
       for (Stmt statement : statements) {
+        if(toBeContinued) {
+          toBeContinued = false;
+          continue;
+        }
         execute(statement);
       }
     } finally {
@@ -130,7 +153,7 @@ class Interpreter implements Expr.Visitor<Object>,
 
   @Override
   public Void visitVarStmt(Stmt.Var stmt) {
-    Object value = null;
+    Object value = uninitialized;
     if (stmt.initializer != null) {
       value = evaluate(stmt.initializer);
     }
@@ -141,8 +164,16 @@ class Interpreter implements Expr.Visitor<Object>,
 
   @Override
   public Void visitWhileStmt(Stmt.While stmt) {
+    try {
     while (isTruthy(evaluate(stmt.condition))) {
-      execute(stmt.body);
+      try {
+        execute(stmt.body);
+      } catch (ContinueException ex) {
+        toBeContinued = true;
+      }
+    }
+    } catch (BreakException ex) {
+        // Do nary a thing.
     }
     return null;
   }
@@ -205,6 +236,14 @@ class Interpreter implements Expr.Visitor<Object>,
         if (left instanceof String && right instanceof String) {
           return (String)left + (String)right;
         }
+        if (left instanceof String && right instanceof Double) {
+          double value = (double)right;
+          return (String)left + String.valueOf(value);
+        }
+        if (left instanceof String && right instanceof Boolean) {
+          boolean value = (boolean)right;
+          return (String)left + Boolean.toString(value);
+        }
         throw new RuntimeError(expr.operator,
           "Operands must be two numbers or two strings.");
       case SLASH:
@@ -244,6 +283,26 @@ class Interpreter implements Expr.Visitor<Object>,
     }
 
     return function.call(this, arguments);
+  }
+
+  public Object visitConditionalExpr(Expr.Conditional expr) {
+    Expr condition = expr.expression;
+    if(isTruthy(evaluate(condition))){
+        return evaluate(expr.thenBranch);
+    } else if (!isTruthy(evaluate(condition)) && expr.elseBranch != null) {
+        return evaluate(expr.elseBranch);
+    }
+    return null;
+  }
+
+  @Override
+  public Void visitBreakStmt(Stmt.Break stmt) {
+    throw new BreakException();
+  }
+
+  @Override
+  public Void visitContinueStmt(Stmt.Continue stmt) {
+    throw new ContinueException();
   }
 
   private boolean isTruthy(Object object) {

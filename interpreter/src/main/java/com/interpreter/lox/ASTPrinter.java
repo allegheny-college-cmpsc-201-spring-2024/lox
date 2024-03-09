@@ -9,6 +9,10 @@ class ASTPrinter implements Expr.Visitor<String>,
     return expr.accept(this);
   }
 
+  String print(Stmt stmt) {
+    return stmt.accept(this);
+  }
+
   @Override
   public String visitBinaryExpr(Expr.Binary expr) {
     return parenthesize(expr.operator.lexeme,
@@ -17,12 +21,12 @@ class ASTPrinter implements Expr.Visitor<String>,
 
   @Override
   public String visitCallExpr(Expr.Call expr) {
-    return astParenthesize("call", expr.callee, expr.arguments);
+    return parenthesize("call", expr.callee, expr.arguments);
   }
 
   @Override
   public String visitAssignExpr(Expr.Assign expr) {
-    return astParenthesize("=", expr.name.lexeme, expr.value);
+    return parenthesize("=", expr.name.lexeme, expr.value);
   }
 
   @Override
@@ -42,6 +46,14 @@ class ASTPrinter implements Expr.Visitor<String>,
   }
 
   @Override
+  public String visitConditionalExpr(Expr.Conditional expr) {
+    if(expr.elseBranch == null) {
+        return parenthesize("if", expr.expression, expr.thenBranch);
+    }
+    return parenthesize("if-else", expr.expression, expr.thenBranch, expr.elseBranch);
+  }
+
+  @Override
   public String visitVariableExpr(Expr.Variable expr) {
     return expr.name.lexeme;
   }
@@ -49,10 +61,10 @@ class ASTPrinter implements Expr.Visitor<String>,
   @Override
   public String visitVarStmt(Stmt.Var stmt) {
     if (stmt.initializer == null) {
-      return astParenthesize("var", stmt.name);
+      return parenthesize("var", stmt.name);
     }
 
-    return astParenthesize("var", stmt.name, "=", stmt.initializer);
+    return parenthesize("var", stmt.name, "=", stmt.initializer);
   }
 
   @Override
@@ -112,15 +124,25 @@ class ASTPrinter implements Expr.Visitor<String>,
   @Override
   public String visitIfStmt(Stmt.If stmt) {
     if (stmt.elseBranch == null) {
-      return astParenthesize("if", stmt.condition, stmt.thenBranch);
+      return parenthesize("if", stmt.condition, stmt.thenBranch);
     }
-    return astParenthesize("if-else", stmt.condition, stmt.thenBranch,
-                           stmt.elseBranch);
+    return parenthesize("if-else", stmt.condition, stmt.thenBranch,
+                        stmt.elseBranch);
   }
 
   @Override
   public String visitWhileStmt(Stmt.While stmt) {
-    return astParenthesize("while", stmt.condition, stmt.body);
+    return parenthesize("while", stmt.condition, stmt.body);
+  }
+
+  @Override
+  public String visitBreakStmt(Stmt.Break stmt) {
+    return null;
+  }
+
+  @Override
+  public String visitContinueStmt(Stmt.Continue stmt) {
+    return null;
   }
 
   private String parenthesize(String name, Expr... exprs) {
@@ -136,7 +158,7 @@ class ASTPrinter implements Expr.Visitor<String>,
     return builder.toString();
   }
 
-  private String astParenthesize(String name, Object... parts) {
+  private String parenthesize(String name, Object... parts) {
     StringBuilder builder = new StringBuilder();
     builder.append("(").append(name);
     transform(builder, parts);

@@ -47,19 +47,30 @@ public class Main {
       System.exit(65);
     }
     if (hadRuntimeError) {
-      System.exit(70);
+        throw new IOException();
+        //System.exit(70);
     }
   }
 
-  private static void runPrompt() throws IOException {
+  public static void runPrompt() throws IOException {
     InputStreamReader input = new InputStreamReader(System.in);
     BufferedReader reader = new BufferedReader(input);
     for (;;) {
-      System.out.print("> ");
-      String line = reader.readLine();
-      if (line == null) break;
-      run(line);
       hadError = false;
+      System.out.print("> ");
+      Scanner scanner = new Scanner(reader.readLine());
+      List<Token> tokens = scanner.scanTokens();
+      Parser parser = new Parser(tokens);
+      Object syntax = parser.parseRepl();
+      if(hadError) continue;
+      if(syntax instanceof List) {
+        interpreter.interpret((List<Stmt>)syntax);
+      } else if (syntax instanceof Expr) {
+        String result = interpreter.interpret((Expr)syntax);
+        if (result != null) {
+            System.out.println("= " + result);
+        }
+      }
     }
   }
 
@@ -70,6 +81,12 @@ public class Main {
     List<Stmt> statements = parser.parse();
     if (hadError) return;
     interpreter.interpret(statements);
+    /* Uncomment to look at AST
+    for(Stmt statement : statements) {
+        System.out.print(new ASTPrinter().print(statement));
+    }
+    System.out.println();
+    */
   }
 
   public static void main(String[] args) throws IOException {

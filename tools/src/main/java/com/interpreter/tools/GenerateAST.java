@@ -27,7 +27,12 @@ public class GenerateAST {
     writer.println("  static class " + className + " extends " +
         baseName + " {");
     writer.println("    " + className + "(" + fieldList + ") {");
-    String[] fields = fieldList.split(", ");
+    String[] fields;
+    if (fieldList.isEmpty()) {
+        fields = new String[0];
+    } else {
+        fields = fieldList.split(", ");
+    }
     for (String field : fields) {
       String name = field.split(" ")[1];
       writer.println("      this." + name + " = " + name + ";");
@@ -92,10 +97,14 @@ public class GenerateAST {
       "Literal: Object value",
       "Logical: Expr left, Token operator, Expr right",
       "Unary: Token operator, Expr right",
-      "Variable: Token name"
+      "Variable: Token name",
+      "Conditional: Expr expression, Expr thenBranch, Expr elseBranch"
     ));
+
     defineAST(outputDir, "Stmt", Arrays.asList(
       "Block     : List<Stmt> statements",
+      "Break     : ",
+      "Continue  : ",
       "Expression: Expr expression",
       "Function  : Token name, List<Token> params," +
                  " List<Stmt> body",

@@ -29,6 +29,10 @@ class Scanner {
     keywords.put("true",   TRUE);
     keywords.put("var",    VAR);
     keywords.put("while",  WHILE);
+    // REMOVE
+    keywords.put("break",  BREAK);
+    keywords.put("continue", CONTINUE);
+    // REMOVE
   }
 
   private final String source;
@@ -64,6 +68,8 @@ class Scanner {
       case '+': addToken(PLUS); break;
       case ';': addToken(SEMICOLON); break;
       case '*': addToken(STAR); break;
+      case '?': addToken(QUESTION); break;
+      case ':': addToken(COLON); break;
       case '!':
         addToken(match('=') ? BANG_EQUAL : BANG);
         break;
@@ -79,6 +85,9 @@ class Scanner {
       case '/':
         if (match('/')) {
           while (peek() != '\n' && !isAtEnd()) advance();
+        } else if (match('*')) {
+          while (peek() != '/' && !isAtEnd()) advance();
+          advance();
         } else {
           addToken(SLASH);
         }
