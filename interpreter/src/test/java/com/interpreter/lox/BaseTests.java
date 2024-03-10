@@ -153,7 +153,7 @@ class BaseTests {
       assertThrows(
         java.io.IOException.class,
         () -> {Main.main(args);}
-      )
+      );
   }
 
   @AfterAll
