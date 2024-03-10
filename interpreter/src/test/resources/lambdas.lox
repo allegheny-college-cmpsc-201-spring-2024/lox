@@ -9,7 +9,7 @@ fun runMe(func) {
   return func(-2);
 }
 
-var absValue = runMe(fun(val){if(val < 0) val = val * - 1; return val;});
-print "ABS: " + absValue;
+var absVal = runMe(fun(val){if(val < 0) val = val * - 1; return val;});
+print "ABS: " + absVal;
 
-print "POW: " + (fun(val, pow){for(var i = 1; i < pow; i = i + 1){val = val + val;}return val;})(absValue, 3);
+print "POW: " + (fun(val, pow){for(var i = 1; i < pow; i = i + 1){val = val + val;}return val;})(absVal, 3);
