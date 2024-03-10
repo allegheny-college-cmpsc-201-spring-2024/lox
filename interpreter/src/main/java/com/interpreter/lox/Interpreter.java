@@ -12,6 +12,7 @@ class Interpreter implements Expr.Visitor<Object>,
   private static boolean toBeContinued = false;
   private static class BreakException extends RuntimeException {}
   private static class ContinueException extends RuntimeException {}
+  private static boolean isCorrectType = true;
 
   Interpreter() {
     globals.define("clock", new LoxCallable() {
@@ -45,14 +46,42 @@ class Interpreter implements Expr.Visitor<Object>,
             return -1 * arg;
           }
         } catch (NumberFormatException err) {
-          // TODO: How to catch and throw productive Lox error?
+          isCorrectType = false;
         }
         return null;
       }
 
       @Override
-      public String toString() {return "<native fn>"; }
+      public String toString() { return "<native fn>"; }
     });
+
+    globals.define("pow", new LoxCallable() {
+
+      @Override
+      public int arity() { return 2; }
+
+      @Override
+      public Object call(Interpreter interpreter,
+                         List<Object> arguments) {
+        double m1;
+        double m2;
+        try {
+          m1 = Double.parseDouble(arguments.get(0).toString());
+          m2 = Double.parseDouble(arguments.get(1).toString());
+          for (int i = 0; i < m2; i++) {
+            m1 += m1;
+          }
+          return m1;
+        } catch (NumberFormatException err) {
+          isCorrectType = false;
+        }
+        return null;
+      }
+
+      @Override
+      public String toString() { return "<native fn>"; }
+    });
+    // REMOVE
   }
 
   void interpret(List<Stmt> statements) {
@@ -311,6 +340,12 @@ class Interpreter implements Expr.Visitor<Object>,
     if (!(callee instanceof LoxCallable)) {
       throw new RuntimeError(expr.paren,
         "Can call only functions and classes.");
+    }
+
+    if (!isCorrectType) {
+      for(Expr arg : expr.arguments) {
+        checkNumberOperand(expr.paren, arg);
+      }
     }
 
     LoxCallable function = (LoxCallable)callee;

@@ -9,4 +9,6 @@ whichFn(fun (b) {
 fun named(a) { print a; }
 whichFn(named);
 
-print abs("Test");
+print abs("true");
+// print abs(-1);
+print pow(3, 4);
