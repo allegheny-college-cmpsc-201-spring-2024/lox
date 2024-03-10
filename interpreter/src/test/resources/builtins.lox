@@ -1,4 +1,10 @@
-var absValue = abs(-2);
-var powValue = pow(absValue, 3);
+print "================";
+print "TESTING BUILTINS";
+print "================";
+print "";
 
-print powValue;
+var absValue = abs(-2);
+print "ABS: " + absValue;
+
+var powValue = pow(absValue, 3);
+print "POW: " + powValue;

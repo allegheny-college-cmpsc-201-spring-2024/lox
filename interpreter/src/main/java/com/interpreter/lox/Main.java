@@ -79,20 +79,13 @@ public class Main {
     List<Stmt> statements = parser.parse();
     if (hadError) return;
     interpreter.interpret(statements);
-    /* Uncomment to look at AST
-    for(Stmt statement : statements) {
-        System.out.print(new ASTPrinter().print(statement));
-    }
-    System.out.println();
-    */
   }
 
   public static void main(String[] args) throws IOException {
-    if (args.length > 1) {
-      System.out.println("Usage: jlox [script]");
-      System.exit(64);
-    } else if (args.length == 1) {
-      runFile(args[0]);
+    if (args.length >= 1) {
+      for (String file : args) {
+        runFile(file);
+      }
     } else {
       runPrompt();
     }

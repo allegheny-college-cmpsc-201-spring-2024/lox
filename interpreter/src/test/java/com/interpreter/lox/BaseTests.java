@@ -43,8 +43,8 @@ class BaseTests {
     System.setErr(new PrintStream(errContent));
   }
 
-  static Stream<Arguments> testBreakStatement() throws Exception {
-    URL resource = BaseTests.class.getClassLoader().getResource("test.lox");
+  static Stream<Arguments> testPOWBuiltIn() throws Exception {
+    URL resource = BaseTests.class.getClassLoader().getResource("builtins.lox");
     File file = Paths.get(resource.toURI()).toFile();
     String absPath = file.getAbsolutePath();
     return Stream.of(
@@ -52,8 +52,8 @@ class BaseTests {
     );
   }
 
-  static Stream<Arguments> testTernaryExpression() throws Exception {
-    URL resource = BaseTests.class.getClassLoader().getResource("test.lox");
+  static Stream<Arguments> testABSBuiltIn() throws Exception {
+    URL resource = BaseTests.class.getClassLoader().getResource("builtins.lox");
     File file = Paths.get(resource.toURI()).toFile();
     String absPath = file.getAbsolutePath();
     return Stream.of(
@@ -61,8 +61,26 @@ class BaseTests {
     );
   }
 
-  static Stream<Arguments> testContinueStatement() throws Exception {
-    URL resource = BaseTests.class.getClassLoader().getResource("test.lox");
+  static Stream<Arguments> testNamelessFunction() throws Exception {
+    URL resource = BaseTests.class.getClassLoader().getResource("lambdas.lox");
+    File file = Paths.get(resource.toURI()).toFile();
+    String absPath = file.getAbsolutePath();
+    return Stream.of(
+      Arguments.of((Object) new String[]{absPath})
+    );
+  }
+
+  static Stream<Arguments> testLambdaArgs() throws Exception {
+    URL resource = BaseTests.class.getClassLoader().getResource("lambdas.lox");
+    File file = Paths.get(resource.toURI()).toFile();
+    String absPath = file.getAbsolutePath();
+    return Stream.of(
+      Arguments.of((Object) new String[]{absPath})
+    );
+  }
+
+  static Stream<Arguments> testLambdaExpr() throws Exception {
+    URL resource = BaseTests.class.getClassLoader().getResource("lambdas.lox");
     File file = Paths.get(resource.toURI()).toFile();
     String absPath = file.getAbsolutePath();
     return Stream.of(
@@ -72,33 +90,54 @@ class BaseTests {
 
   @MethodSource
   @ParameterizedTest
-  void testBreakStatement(String[] args) throws Exception {
+  void testPOWBuiltIn(String[] args) throws Exception {
     Main.main(args);
     assertThat(
         outContent.toString().strip(),
-        containsString("LOOP ENDED AT: 7.0")
+        containsString("POW: 8")
     );
   }
 
   @MethodSource
   @ParameterizedTest
-  void testTernaryExpression(String[] args) throws Exception {
+  void testABSBuiltIn(String[] args) throws Exception {
     Main.main(args);
     assertThat(
         outContent.toString().strip(),
-        containsString("LOOP BROKE AT 7.0: true")
+        containsString("ABS: 2")
     );
   }
 
   @MethodSource
   @ParameterizedTest
-  void testContinueStatement(String[] args) throws Exception {
+  void testNamelessFunction(String[] args) throws Exception {
     Main.main(args);
     assertThat(
         outContent.toString().strip(),
-        not(containsString("3"))
+        containsString("<fn>")
     );
   }
+
+  @MethodSource
+  @ParameterizedTest
+  void testLambdaArgs(String[] args) throws Exception {
+    Main.main(args);
+    assertThat(
+        outContent.toString().strip(),
+        containsString("ABS: 2")
+    );
+  }
+
+  @MethodSource
+  @ParameterizedTest
+  void testLambdaExpr(String[] args) throws Exception {
+    Main.main(args);
+    assertThat(
+        outContent.toString().strip(),
+        containsString("POW: 8")
+    );
+  }
+
 
   @AfterAll
   public void restoreStreams() {

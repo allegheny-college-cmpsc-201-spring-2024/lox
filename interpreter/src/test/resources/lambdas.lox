@@ -1,0 +1,15 @@
+print "";
+print "===============";
+print "TESTING LAMBDAS";
+print "===============";
+print "";
+
+fun runMe(func) {
+  print func;
+  return func(-2);
+}
+
+var abs = runMe(fun(val){if(val < 0) val = val * - 1; return val;});
+print "ABS: " + abs;
+
+print "POW: " + (fun(val, pow){for(var i = 1; i < pow; i = i + 1){val = val + val;}return val;})(abs, 3);

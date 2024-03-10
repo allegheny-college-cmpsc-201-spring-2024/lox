@@ -4,21 +4,26 @@ setup: |
   echo "🛠️\tCompiling program (mvn compile)"
   mvn compile -q || true
 ---
-- description: Break statement ends loop at the correct number (a == 7)
+- description: abs() builtin produces the correct value
   category: Tests
   check: ExecuteCommand
   options:
-    command: mvn test -Dtest=BaseTests#testBreakStatement -f "interpreter/pom.xml"
-- description: Continue statement bypasses the fourth iteration
+    command: mvn test -Dtest=BaseTests#testABSBuiltIn -f "interpreter/pom.xml"
+- description: pow() builtin produces the correct value
   category: Tests
   check: ExecuteCommand
   options:
-    command: mvn test -Dtest=BaseTests#testContinueStatement -f "interpreter/pom.xml"
-- description: Ternary expression assesses value of a and returns correct branch
+    command: mvn test -Dtest=BaseTests#testPOWBuiltIn -f "interpreter/pom.xml"
+- description: Interpreter allows anonymous functions as arguments
   category: Tests
   check: ExecuteCommand
   options:
-    command: mvn test -Dtest=BaseTests#testTernaryExpression -f "interpreter/pom.xml"
+    command: mvn test -Dtest=BaseTests#testLambdaArgs -f "interpreter/pom.xml"
+- description: Interpreter correctly interprets independent anonymous functions as standalone expressions
+  category: Tests
+  check: ExecuteCommand
+  options:
+    command: mvn test -Dtest=BaseTests#testLambdaExpr -f "interpreter/pom.xml"
 - interpreter/src/main/java/com/interpreter/lox/Interpreter.java:
   - description: Interpreter.java file contains no TODOs
     category: TODOs
@@ -35,29 +40,29 @@ setup: |
       fragment: TODO
       count: 0
       exact: true
-- interpreter/src/main/java/com/interpreter/lox/Scanner.java:
-  - description: Scanner.java file contains no TODOs
+- interpreter/src/main/java/com/interpreter/lox/LoxFunction:
+  - description: LoxFunction contains no TODOs
     category: TODOs
     check: MatchFileFragment
     options:
       fragment: TODO
       count: 0
       exact: true
-- interpreter/src/main/java/com/interpreter/lox/TokenType.java:
-  - description: TokenType.java file contains no TODOs
+- interpreter/src/main/java/com/interpreter/lox/Expr.java:
+  - description: Expr.java contains updated definitions for function expressions (compile, run GenerateAST)
     category: TODOs
     check: MatchFileFragment
     options:
-      fragment: TODO
-      count: 0
+      fragment: "Function(List<Token> parameters, List<Stmt> body)"
+      count: 1
       exact: true
-- interpreter/src/test/resources/test.lox:
-  - description: test.lox file contains no TODOs
+- interpreter/src/main/java/com/interpreter/lox/Stmt.java:
+  - description: Stmt.java contains updated definitions for function statements (compile, run GenerateAST)
     category: TODOs
     check: MatchFileFragment
     options:
-      fragment: TODO
-      count: 0
+      fragment: "Function(Token name, Expr.Function function)"
+      count: 1
       exact: true
 - docs/reflection.md:
   - description: Reflection contains no TODOs

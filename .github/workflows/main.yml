@@ -2,14 +2,14 @@ name: GatorGrader
 
 on:
   push:
-    branches: [7-control-flow]
+    branches: [8-functions]
 
 jobs: 
   grade:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
-      with: 
+      with:
         fetch-depth: '0'
     - name: Setup Maven
       if: always()
@@ -40,7 +40,7 @@ jobs:
       uses: term-world/wizard@v0.7.4
       with:
         grader-report: 'gatorgrade_summary.json'
-        report-name: '7 - Control Flow'
+        report-name: '8 - Functions'
       if: always()
     env:
       GITHUB_TOKEN: ${{ secrets.WIZARD }}
