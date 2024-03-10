@@ -85,6 +85,23 @@ To complete this, you'll need to revise:
 > the `tools` Maven project. This will make the correct changes to `Expr.java` and `Stmt.java`; it's
 > worth a few moments to see how function expressions and statements change.
 
+#### Additional notes
+
+This challenge relies on the idea that functions can also be _expressions_. One of the main differences
+distinguishing function _statements_ from _expressions_ has to do with _naming_. As you might intuit, 
+anonymous functions are, as the title implies, _nameless_. This means that we might need to separate 
+the name and body of our functions while recognizing that function bodies can live as both _expressions_
+and parts of _statements_.
+
+In many cases, this means separating extant code. In others, you'll need to add the `FUN` token as a
+`match` rule in the grammar once all of the rules have been parsed out. (The hint here: this `match`
+should occur in `primary`.)
+
+One of the distinctions also has to do with `declarations`: we need to be able to tell if a function
+is just the `FUN` token and _no_ name or if the function is a named function.
+
+#### Reflecting on this challenge
+
 There're also questions about this challenge in our [`docs/reflection.md`](docs/reflection.md) file.
 
 ### Challenge 3
