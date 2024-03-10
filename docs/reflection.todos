@@ -20,4 +20,8 @@ TODO: Respond to the question above.
 
 5. What would Python do in this situation? Why do you think Python's designers adopted this approach?
 
+> Some resources that might be helpful:
+> * [Python Like You Mean It: Scope](https://www.pythonlikeyoumeanit.com/Module2_EssentialsOfPython/Scope.html)
+> * [What are the pros and cons of allowing variable shadowing in the general case?](https://langdev.stackexchange.com/questions/289/what-are-the-pros-and-cons-of-allowing-variable-shadowing-in-the-general-case)
+
 TODO: Respond to the question above.
