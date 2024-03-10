@@ -37,6 +37,10 @@ key "when it comes to making your language actually good at doing useful stuff."
 (often called a "batteries included" language) contains a wide variety of native functions to provide
 basic user support.
 
+This challenge comes in _two_ parts.
+
+#### Part 1
+
 In this challenge, you'll be asked to provide _two_ native functions that exist in most languages:
 
 |Function |Description |Arity |
@@ -44,11 +48,22 @@ In this challenge, you'll be asked to provide _two_ native functions that exist 
 |`abs()`  |Returns the absolute value of a number | `1` |
 |`pow()`  |Raises a number to a power and returns the result | `2` |
 
-Implement both of these in:
+#### Part 2
+
+When operands appear that _aren't_ numbers, we should throw an error. (What is, for example, `abs("FISHY")`?)
+Add a method to the interpreter called `checkNumberArgument` (which mimics `checkNumberOperand`) that `throw`s
+a `RuntimeError` if _any_ of the arguments passed to built-ins _aren't_ numbers. 
+
+This will take a bit of work in the built-ins themselves and in the correct `visit` function(s).
+
+#### Implementation details and Testing
+
+Implement both parts in:
 
 * `Interpreter.java`
 
-Our test case(s) run using the[`src/test/resources/builtins.lox`](src/test/resources/builtins.lox).
+Our test case(s) run using the[`src/test/resources/builtins.lox`](src/test/resources/builtins.lox). You 
+do not need to alter these files. They should run as-is.
 
 ### Challenge 2
 
@@ -70,7 +85,7 @@ To complete this, you'll need to revise:
 > the `tools` Maven project. This will make the correct changes to `Expr.java` and `Stmt.java`; it's
 > worth a few moments to see how function expressions and statements change.
 
-There's also a question about this challenge in our [`docs/reflection.md`](docs/reflection.md) file.
+There're also questions about this challenge in our [`docs/reflection.md`](docs/reflection.md) file.
 
 ### Challenge 3
 
@@ -84,4 +99,5 @@ scope("global");
 Is this legal in `Lox`? Why or why not? Provide your answer in the [`docs/reflection.md`](docs/reflection.md) file,
 keeping in mind the context the book provides us:
 
-> In other words, are a function’s parameters in the same scope as its local variables, or in an outer scope? What does Lox do?
+> In other words, are a function’s parameters in the same scope as its local variables, or in an outer scope? What does Lox do
+> in this case?
