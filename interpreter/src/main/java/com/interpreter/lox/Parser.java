@@ -44,7 +44,13 @@ class Parser {
 
   private Stmt declaration() {
     try {
-      if (match(FUN)) return function("function");
+      //if (match(FUN)) return function("function");
+      // REMOVE
+      if (check(FUN) && checkNext(IDENTIFIER)) {
+        consume(FUN, null);
+        return function("function");
+      }
+      // REMOVE
       if (match(VAR)) return varDeclaration();
       return statement();
     } catch (ParseError error) {
@@ -192,8 +198,16 @@ class Parser {
     return new Stmt.Expression(expr);
   }
 
+  // REMOVE
   private Stmt.Function function(String kind) {
     Token name = consume(IDENTIFIER, "Expect " + kind + " name.");
+    return new Stmt.Function(name, functionBody(kind));
+  }
+  // REMOVE
+
+  //private Stmt.Function function(String kind) {
+  private Expr.Function functionBody(String kind) {
+    //Token name = consume(IDENTIFIER, "Expect " + kind + " name.");
     consume(LEFT_PAREN, "Expect '(' after " + kind + " name.");
     List<Token> parameters = new ArrayList<>();
     if (!check(RIGHT_PAREN)) {
@@ -208,7 +222,8 @@ class Parser {
     consume(RIGHT_PAREN, "Expect ')' after parameters.");
     consume(LEFT_BRACE, "Expect '{' before " + kind + " body.");
     List<Stmt> body = block();
-    return new Stmt.Function(name, parameters, body);
+    return new Expr.Function(parameters, body);
+    //return new Stmt.Function(name, parameters, body);
   }
 
   private List<Stmt> block() {
@@ -367,6 +382,10 @@ class Parser {
     if (match(TRUE)) return new Expr.Literal(true);
     if (match(NIL)) return new Expr.Literal(null);
 
+    // REMOVE
+    if (match(FUN)) return functionBody("function");
+    // REMOVE
+
     if (match(NUMBER, STRING)) {
       return new Expr.Literal(previous().literal);
     }
@@ -404,6 +423,14 @@ class Parser {
     if (isAtEnd()) return false;
     return peek().type == type;
   }
+
+  // REMOVE
+  private boolean checkNext(TokenType tokenType) {
+    if (isAtEnd()) return false;
+    if (tokens.get(current + 1).type == EOF) return false;
+    return tokens.get(current + 1).type == tokenType;
+  }
+  // REMOVE
 
   private Token advance() {
     if (!isAtEnd()) current++;

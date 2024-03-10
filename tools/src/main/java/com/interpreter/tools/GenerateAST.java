@@ -98,7 +98,8 @@ public class GenerateAST {
       "Logical: Expr left, Token operator, Expr right",
       "Unary: Token operator, Expr right",
       "Variable: Token name",
-      "Conditional: Expr expression, Expr thenBranch, Expr elseBranch"
+      "Conditional: Expr expression, Expr thenBranch, Expr elseBranch",
+      "Function: List<Token> parameters, List<Stmt> body"
     ));
 
     defineAST(outputDir, "Stmt", Arrays.asList(
@@ -106,14 +107,13 @@ public class GenerateAST {
       "Break     : ",
       "Continue  : ",
       "Expression: Expr expression",
-      "Function  : Token name, List<Token> params," +
-                 " List<Stmt> body",
       "If        : Expr condition, Stmt thenBranch," +
                  " Stmt elseBranch ",
       "Print     : Expr expression",
       "Return    : Token keyword, Expr value",
       "Var       : Token name, Expr initializer",
-      "While     : Expr condition, Stmt body"
+      "While     : Expr condition, Stmt body",
+      "Function  : Token name, Expr.Function function"
     ));
   }
 

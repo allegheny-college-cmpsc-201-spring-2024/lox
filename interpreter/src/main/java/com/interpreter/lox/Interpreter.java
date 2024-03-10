@@ -193,10 +193,21 @@ class Interpreter implements Expr.Visitor<Object>,
 
   @Override
   public Void visitFunctionStmt(Stmt.Function stmt) {
-    LoxFunction function = new LoxFunction(stmt, environment);
-    environment.define(stmt.name.lexeme, function);
+    // REMOVE
+    String fnName = stmt.name.lexeme;
+    environment.define(fnName, new LoxFunction(fnName, stmt.function, environment));
+    // REMOVE
+    // LoxFunction function = new LoxFunction(stmt, environment);
+    // environment.define(stmt.name.lexeme, function);
     return null;
   }
+
+  // REMOVE
+  @Override
+  public Object visitFunctionExpr(Expr.Function expr) {
+    return new LoxFunction(null, expr, environment);
+  }
+  // REMOVE
 
   @Override
   public Void visitIfStmt(Stmt.If stmt) {
@@ -243,6 +254,9 @@ class Interpreter implements Expr.Visitor<Object>,
         if (left instanceof String && right instanceof Boolean) {
           boolean value = (boolean)right;
           return (String)left + Boolean.toString(value);
+        }
+        if (left instanceof Double && right instanceof String) {
+          return String.valueOf((double)left) + (String)right;
         }
         throw new RuntimeError(expr.operator,
           "Operands must be two numbers or two strings.");

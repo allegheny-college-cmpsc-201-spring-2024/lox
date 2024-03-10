@@ -1,21 +1,10 @@
-// Set up sentinel variables
-var a = nil;
-var breakNext = false;
-// Iterate
-for(a = 0; a < 10; a = a + 1) {
-    if (a == 7 and breakNext) {
-       break;
-    }
-    if (a == 3) {
-        continue;
-    }
-    if (a == 6) {
-      breakNext = true;
-    }
-    print a;
+fun whichFn(fn) {
+  print fn;
 }
-// Display end of loop value
-print "LOOP ENDED AT: " + a;
-// Test end of loop value using ternary
-var b = a == 7 ? true: false;
-print "LOOP BROKE AT " + a + ": " + b;
+
+whichFn(fun (b) {
+ print b;
+});
+
+fun named(a) { print a; }
+whichFn(named);
