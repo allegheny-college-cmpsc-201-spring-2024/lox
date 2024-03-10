@@ -1,18 +1,12 @@
-# The Lox Programming Language: Iteration and Flow Control
+# The Lox Programming Language: Functions
 
-This branch mirrors content from chapter `9` of _Crafting Interpreters_. Our work on implementing
-statements and declarations in last week's lab goes a step further as we explore how iteration 
-and other control of flow operations occur in `Lox`. Here, we mean `if`, `for`, and `while`
-statements. These structures embed logical statements such as those arbitrated by `and` and `or`
-operators. 
+This branch mirrors content from chapter `10` of _Crafting Interpreters_. Here, we implement functions in the `Lox`
+language, exploring their characteristics, similarities, and differences to other structures we've written into
+our interpreter. Our challenges this week look at `native functions` and give users of the interpreter the ability
+to use a `native interface` to write their own in the `Lox` programming language itself. As an added treat, we'll
+look at anonymous functions (i.e., `lambda` functions) and implement them in the interpreter. 
 
-Our challenges explore integrating previous functionality (`ternary` statements) into the new grammar 
-and how to incorporate new functionality such as `break` and `continue`, which also affect the flow 
-control of a program. To complete this work, you've been given a novel program written in the `Lox` language, 
-located in [`interpreter/test/resources/test.lox`](interpreter/test/resources/test.lox).
-
-You will need to remove comments marked by `TODO`s in order to expose some of the functionality to
-write your solutions.
+Work for this week's challenges is split between two files, named in each challenge below.
 
 This exercise will use the `Lox` programming language. For a primer on the language's general syntax and usage, 
 refer to  [Crafting Interpreters, Chapter 3](https://www.craftinginterpreters.com/the-lox-language.html).
@@ -22,8 +16,8 @@ refer to  [Crafting Interpreters, Chapter 3](https://www.craftinginterpreters.co
 This assignment directly addresses the following course learning objectives:
 
 * Correctly identify and describe the steps in the design and implementation of a programming language
-* Interpret and use an existing programming language grammar
 * Using knowledge of the general principles of programming languages, correctly implement a computer program in a heretofore unknown programming language
+* Effectively use programming language constructs to design correct, efficient, and well-tested programs in multiple programming languages, including but not limited to Java.
 
 ## Using this repository
 
@@ -37,56 +31,57 @@ Unless tagged as optional, all challenges below are required by this week's work
 
 ### Challenge 1
 
-When iterating, there are times that we want to jump of out a loop when a certain combination of
-conditions occurs that are _not_ the sentinel condition (e.g., breaking out of a forced infinite
-loop). In other instances, we want to skip the product of an iteration and start with the next
-iteration without bothering with the functionality in the `for` or `while` statement's body.
+Right now, `Lox` has only 1 `native function`: `clock()` which will come in handy if we want to conduct
+interpreter optimization or benchmarking. However, as Nystrom points out, these kinds of functions are
+key "when it comes to making your language actually good at doing useful stuff." For example, `Python`
+(often called a "batteries included" language) contains a wide variety of native functions to provide
+basic user support.
 
-Implement the `break` keyword to bail on loops instantly, a functionality like that of Python's
-`break`.
+In this challenge, you'll be asked to provide _two_ native functions that exist in most languages:
 
-> Hint: you'll want to implement `break` first, as the solution shows you the various areas
-> of the files to work in.
+|Function |Description |Arity |
+|:--------|:-----------|:-----|
+|`abs()`  |Returns the absolute value of a number | `1` |
+|`pow()`  |Raises a number to a power and returns the result | `2` |
 
-To complete this work, you'll largely be in:
+Implement both of these in:
 
-* `Parser.java`
-* `Scanner.java`
 * `Interpreter.java`
-* `TokenType.java`
 
-There are some supporting functions already created for you. However, they are not necessarily
-populated with helpful code.
-
-#### Extra 
-
-It's also possible to implement the `continue` keyword. For the chance to earn an entire complete branch,
-implement the `continue` keyword. Discuss with the instructor so that you can get the additional test
-to verify.
+Our test case(s) run using the[`src/test/resources/builtins.lox`](src/test/resources/builtins.lox).
 
 ### Challenge 2
 
-In a previous week, we implemented other pieces of an advanced grammar. Primarily, we're concerned with the
-`conditional` (i.e. `ternary`) rule. However, it's not accounted for in the current grammar. Provide 
-an implementation of the `conditional` structure such that it satisfies the `TODO`'d-out functionality in 
-`test.lox`.
+Many languages support anonymous functions, but not `Lox`...yet. To use a familiar example of this from `Python`:
+```python
+mult = lambda m1, m2: m1 * m2
+print(mult(2,2))
+```
+Given what we know about functions in `Lox`, how can we modify our interpreter to allow anonymous
+functions? We need to support the functions written in [`src/test/resources/lambda.lox`](src/test/resources/lambda.lox).
 
-To complete this work, work in:
+To complete this, you'll need to revise:
 
+* `LoxFunction.java`
 * `Parser.java`
 * `Interpreter.java`
 
+> Note: When you're ready to tackle this challenge, you'll need to run `GenerateAST` (which lives
+> the `tools` Maven project. This will make the correct changes to `Expr.java` and `Stmt.java`; it's
+> worth a few moments to see how function expressions and statements change.
+
+There's also a question about this challenge in our [`docs/reflection.md`](docs/reflection.md) file.
+
 ### Challenge 3
 
-Here, we see iteration in its plainest form. As we prepare for next chapter's work on functions, there's yet
-another way that we can integrate recursion into our programs using functions. You're probably aware of versions
-of this method of looping (i.e. it has a special name, starting with the letter `r`). However, there's a key
-difference between `for` loops and what is described above.
+Nystron proposes the following program:
+```
+fun scope(a) {
+  var a = "local";
+}
+scope("global");
+```
+Is this legal in `Lox`? Why or why not? Provide your answer in the [`docs/reflection.md`](docs/reflection.md) file,
+keeping in mind the context the book provides us:
 
-Versions of this method enable an optimization that allows for deep (i.e. long) loops. What is the name of this
-specific type of iteration? What is an example of a language that implements this as its primary (or only) method
-of iteration?
-
-> Hint: we've golfed using this language.
-
-Discuss this using the prompts in our [`docs/reflection.md`](docs/reflection.md) file.
+> In other words, are a function’s parameters in the same scope as its local variables, or in an outer scope? What does Lox do?

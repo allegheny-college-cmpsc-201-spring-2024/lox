@@ -38,19 +38,20 @@ class Interpreter implements Expr.Visitor<Object>,
       @Override
       public Object call(Interpreter interpreter,
                          List<Object> arguments) {
-        if(arguments.size() != arity()){
-          throw new RuntimeError(null, "abs() expects only 1 argument");
-        }
-        Object arg = arguments.get(0);
-
-        if((double)arg < 0) {
-          return -1 * (double)arg;
+        double arg;
+        try{
+          arg = Double.parseDouble(arguments.get(0).toString());
+          if(arg < 0) {
+            return -1 * arg;
+          }
+        } catch (NumberFormatException err) {
+          // TODO: How to catch and throw productive Lox error?
         }
         return null;
       }
 
       @Override
-      public String toString() { return "<native fn>"; }
+      public String toString() {return "<native fn>"; }
     });
   }
 
@@ -313,9 +314,8 @@ class Interpreter implements Expr.Visitor<Object>,
     }
 
     LoxCallable function = (LoxCallable)callee;
-
     if (arguments.size() != function.arity()) {
-      throw new RuntimeError(expr.paren, "Expected" +
+      throw new RuntimeError(expr.paren, function + " expected " +
         function.arity() + " arguments but got " +
         arguments.size() + ".");
     }

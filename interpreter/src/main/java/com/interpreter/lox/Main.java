@@ -28,8 +28,7 @@ public class Main {
   }
 
   static void runtimeError(RuntimeError error) {
-    System.err.println(error.getMessage() +
-      "\n[line " + error.token.line + "]");
+    System.err.println("[line " + error.token.line + "] " + error.getMessage());
     hadRuntimeError = true;
   }
 
@@ -47,8 +46,7 @@ public class Main {
       System.exit(65);
     }
     if (hadRuntimeError) {
-        throw new IOException();
-        //System.exit(70);
+        System.exit(70);
     }
   }
 
