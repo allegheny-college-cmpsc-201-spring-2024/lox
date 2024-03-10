@@ -161,6 +161,11 @@ class Interpreter implements Expr.Visitor<Object>,
     throw new RuntimeError(operator, "Operands must be numbers.");
   }
 
+  private void checkNumberArgument(Token operator, Object argument) {
+    if (argument instanceof Double) return;
+    throw new RuntimeError(operator, "Argument must be numeric.");
+  }
+
   private Object evaluate(Expr expr) {
     return expr.accept(this);
   }
@@ -345,7 +350,7 @@ class Interpreter implements Expr.Visitor<Object>,
 
     if (!isCorrectType) {
       for(Expr arg : expr.arguments) {
-        checkNumberOperand(expr.paren, arg);
+        checkNumberArgument(expr.paren, evaluate(arg));
       }
     }
 

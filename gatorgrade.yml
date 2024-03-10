@@ -24,6 +24,15 @@ setup: |
   check: ExecuteCommand
   options:
     command: mvn test -Dtest=BaseTests#testLambdaExpr -f "interpreter/pom.xml"
+- description: Interpreter throws an error on invalid, non-numeric argument types for abs() and pow()
+  category: Tests
+  check: ExecuteCommand
+  options:
+    command: mvn test -Dtest=BaseTests#testInvalidOperands -f "interpreter/pom/xml"
+  category: Tests
+  check: ExecuteCommand
+  options:
+    command: mvn test -Dtest=BaseTests#testLambdaExpr -f "interpreter/pom.xml"
 - interpreter/src/main/java/com/interpreter/lox/Interpreter.java:
   - description: Interpreter.java file contains no TODOs
     category: TODOs

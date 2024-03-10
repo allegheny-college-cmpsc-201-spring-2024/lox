@@ -88,6 +88,15 @@ class BaseTests {
     );
   }
 
+  static Stream<Arguments> testInvalidArguments() throws Exception {
+    URL resource = BaseTests.class.getClassLoader().getResource("invalids.lox");
+    File file = Paths.get(resource.toURI()).toFile();
+    String absPath = file.getAbsolutePath();
+    return Stream.of(
+      Arguments.of((Object) new String[]{absPath})
+    );
+  }
+
   @MethodSource
   @ParameterizedTest
   void testPOWBuiltIn(String[] args) throws Exception {
@@ -138,6 +147,14 @@ class BaseTests {
     );
   }
 
+  @MethodSource
+  @ParameterizedTest
+  void testInvalidArguments(String[] args) throws Exception {
+      assertThrows(
+        java.io.IOException.class,
+        () -> {Main.main(args);}
+      )
+  }
 
   @AfterAll
   public void restoreStreams() {
