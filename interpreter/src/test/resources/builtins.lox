@@ -1,0 +1,4 @@
+var absValue = abs(-2);
+var powValue = pow(absValue, 3);
+
+print powValue;

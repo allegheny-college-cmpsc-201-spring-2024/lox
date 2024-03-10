@@ -43,8 +43,9 @@ class Interpreter implements Expr.Visitor<Object>,
         try{
           arg = Double.parseDouble(arguments.get(0).toString());
           if(arg < 0) {
-            return -1 * arg;
+            arg = -1 * arg;
           }
+          return arg;
         } catch (NumberFormatException err) {
           isCorrectType = false;
         }
@@ -68,7 +69,7 @@ class Interpreter implements Expr.Visitor<Object>,
         try {
           m1 = Double.parseDouble(arguments.get(0).toString());
           m2 = Double.parseDouble(arguments.get(1).toString());
-          for (int i = 0; i < m2; i++) {
+          for (int i = 1; i < m2; i++) {
             m1 += m1;
           }
           return m1;
