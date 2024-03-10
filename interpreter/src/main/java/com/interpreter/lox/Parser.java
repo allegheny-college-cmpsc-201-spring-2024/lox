@@ -242,8 +242,7 @@ class Parser {
   }
 
   private Expr assignment() {
-    Expr expr = comma();
-    //Expr expr = or();
+    Expr expr = or();
     if (match(EQUAL)) {
       Token equals = previous();
       Expr value = assignment();
@@ -254,16 +253,6 @@ class Parser {
       }
 
       error(equals, "Invalid assignment target.");
-    }
-    return expr;
-  }
-
-  private Expr comma() {
-    Expr expr = or();
-    while(match(COMMA)) {
-      Token operator = previous();
-      Expr right = or();
-      expr = new Expr.Binary(expr, operator, right);
     }
     return expr;
   }

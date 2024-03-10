@@ -28,6 +28,30 @@ class Interpreter implements Expr.Visitor<Object>,
       @Override
       public String toString() { return "<native fn>"; }
     });
+
+    // REMOVE
+    globals.define("abs", new LoxCallable() {
+
+      @Override
+      public int arity() { return 1; }
+
+      @Override
+      public Object call(Interpreter interpreter,
+                         List<Object> arguments) {
+        if(arguments.size() != arity()){
+          throw new RuntimeError(null, "abs() expects only 1 argument");
+        }
+        Object arg = arguments.get(0);
+
+        if((double)arg < 0) {
+          return -1 * (double)arg;
+        }
+        return null;
+      }
+
+      @Override
+      public String toString() { return "<native fn>"; }
+    });
   }
 
   void interpret(List<Stmt> statements) {

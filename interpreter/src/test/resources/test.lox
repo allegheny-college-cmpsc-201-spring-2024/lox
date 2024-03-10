@@ -1,3 +1,8 @@
+fun test2(a, b){
+  print a;
+  print b;
+}
+
 fun whichFn(fn) {
   print fn;
 }
@@ -8,3 +13,6 @@ whichFn(fun (b) {
 
 fun named(a) { print a; }
 whichFn(named);
+
+print abs(-1);
+test2("1", "2");
