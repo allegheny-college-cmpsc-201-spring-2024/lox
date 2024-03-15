@@ -81,6 +81,8 @@ To complete this, you'll need to revise:
 * `Parser.java`
 * `Interpreter.java`
 
+(It makes the most sense to tackle them in the order listed above.)
+
 > Note: When you're ready to tackle this challenge, you'll need to run `GenerateAST` (which lives
 > the `tools` Maven project. This will make the correct changes to `Expr.java` and `Stmt.java`; it's
 > worth a few moments to see how function expressions and statements change.

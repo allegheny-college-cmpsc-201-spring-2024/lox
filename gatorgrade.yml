@@ -28,7 +28,7 @@ setup: |
   category: Tests
   check: ExecuteCommand
   options:
-    command: mvn test -Dtest=BaseTests#testInvalidOperands -f "interpreter/pom/xml"
+    command: mvn test -Dtest=BaseTests#testInvalidArguments -f "interpreter/pom.xml"
   category: Tests
   check: ExecuteCommand
   options:
@@ -49,7 +49,7 @@ setup: |
       fragment: TODO
       count: 0
       exact: true
-- interpreter/src/main/java/com/interpreter/lox/LoxFunction:
+- interpreter/src/main/java/com/interpreter/lox/LoxFunction.java:
   - description: LoxFunction contains no TODOs
     category: TODOs
     check: MatchFileFragment
