@@ -5,13 +5,15 @@ import java.util.List;
 abstract class Stmt {
   interface Visitor<R> {
     R visitBlockStmt(Block stmt);
+    R visitBreakStmt(Break stmt);
+    R visitContinueStmt(Continue stmt);
     R visitExpressionStmt(Expression stmt);
-    R visitFunctionStmt(Function stmt);
     R visitIfStmt(If stmt);
     R visitPrintStmt(Print stmt);
     R visitReturnStmt(Return stmt);
     R visitVarStmt(Var stmt);
     R visitWhileStmt(While stmt);
+    R visitFunctionStmt(Function stmt);
   }
   static class Block extends Stmt {
     Block(List<Stmt> statements) {
@@ -25,6 +27,26 @@ abstract class Stmt {
 
     final List<Stmt> statements;
   }
+  static class Break extends Stmt {
+    Break() {
+    }
+
+    @Override
+    <R> R accept(Visitor<R> visitor) {
+      return visitor.visitBreakStmt(this);
+    }
+
+  }
+  static class Continue extends Stmt {
+    Continue() {
+    }
+
+    @Override
+    <R> R accept(Visitor<R> visitor) {
+      return visitor.visitContinueStmt(this);
+    }
+
+  }
   static class Expression extends Stmt {
     Expression(Expr expression) {
       this.expression = expression;
@@ -36,22 +58,6 @@ abstract class Stmt {
     }
 
     final Expr expression;
-  }
-  static class Function extends Stmt {
-    Function(Token name, List<Token> params, List<Stmt> body) {
-      this.name = name;
-      this.params = params;
-      this.body = body;
-    }
-
-    @Override
-    <R> R accept(Visitor<R> visitor) {
-      return visitor.visitFunctionStmt(this);
-    }
-
-    final Token name;
-    final List<Token> params;
-    final List<Stmt> body;
   }
   static class If extends Stmt {
     If(Expr condition, Stmt thenBranch, Stmt elseBranch) {
@@ -122,6 +128,20 @@ abstract class Stmt {
 
     final Expr condition;
     final Stmt body;
+  }
+  static class Function extends Stmt {
+    Function(Token name, Expr.Function function) {
+      this.name = name;
+      this.function = function;
+    }
+
+    @Override
+    <R> R accept(Visitor<R> visitor) {
+      return visitor.visitFunctionStmt(this);
+    }
+
+    final Token name;
+    final Expr.Function function;
   }
 
   abstract <R> R accept(Visitor<R> visitor);

@@ -1,0 +1,29 @@
+# CMPSC 201: Functions
+
+## Anonymous functions
+
+1. Define the term "anonymous function".
+
+TODO: Respond to the question above.
+
+2. How do anonymous functions differ from native or native interface functions?
+
+TODO: Respond to the question above.
+
+3. Why are these functions useful? 
+
+TODO: Respond to the question above.
+
+## Functional scope
+
+4. Is this program legal? Why or why not?
+
+TODO: Respond to the question above.
+
+5. What would Python do in this situation? Why do you think Python's designers adopted this approach?
+
+> Some resources that might be helpful:
+> * [Python Like You Mean It: Scope](https://www.pythonlikeyoumeanit.com/Module2_EssentialsOfPython/Scope.html)
+> * [What are the pros and cons of allowing variable shadowing in the general case?](https://langdev.stackexchange.com/questions/289/what-are-the-pros-and-cons-of-allowing-variable-shadowing-in-the-general-case)
+
+TODO: Respond to the question above.

@@ -42,6 +42,13 @@ class Environment {
       "Undefined variable '" + name.lexeme + "'.");
   }
 
+  String get(String name) {
+    if(values.containsKey(name)){
+      return values.get(name).toString();
+    }
+    return null;
+  }
+
   void define(String name, Object value) {
     values.put(name, value);
   }

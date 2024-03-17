@@ -28,8 +28,7 @@ public class Main {
   }
 
   static void runtimeError(RuntimeError error) {
-    System.err.println(error.getMessage() +
-      "\n[line " + error.token.line + "]");
+    System.err.println("[line " + error.token.line + "] " + error.getMessage());
     hadRuntimeError = true;
   }
 
@@ -47,19 +46,30 @@ public class Main {
       System.exit(65);
     }
     if (hadRuntimeError) {
-      System.exit(70);
+        throw new IOException();
+        //System.exit(0);
     }
   }
 
-  private static void runPrompt() throws IOException {
+  public static void runPrompt() throws IOException {
     InputStreamReader input = new InputStreamReader(System.in);
     BufferedReader reader = new BufferedReader(input);
     for (;;) {
-      System.out.print("> ");
-      String line = reader.readLine();
-      if (line == null) break;
-      run(line);
       hadError = false;
+      System.out.print("> ");
+      Scanner scanner = new Scanner(reader.readLine());
+      List<Token> tokens = scanner.scanTokens();
+      Parser parser = new Parser(tokens);
+      Object syntax = parser.parseRepl();
+      if(hadError) continue;
+      if(syntax instanceof List) {
+        interpreter.interpret((List<Stmt>)syntax);
+      } else if (syntax instanceof Expr) {
+        String result = interpreter.interpret((Expr)syntax);
+        if (result != null) {
+            System.out.println("= " + result);
+        }
+      }
     }
   }
 
@@ -76,11 +86,10 @@ public class Main {
   }
 
   public static void main(String[] args) throws IOException {
-    if (args.length > 1) {
-      System.out.println("Usage: jlox [script]");
-      System.exit(64);
-    } else if (args.length == 1) {
-      runFile(args[0]);
+    if (args.length >= 1) {
+      for (String file : args) {
+        runFile(file);
+      }
     } else {
       runPrompt();
     }

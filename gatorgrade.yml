@@ -1,0 +1,83 @@
+setup: |
+  echo "🧹\tClean from previous compilation (mvn clean)"
+  mvn clean -q || true
+  echo "🛠️\tCompiling program (mvn compile)"
+  mvn compile -q || true
+---
+- description: abs() builtin produces the correct value
+  category: Tests
+  check: ExecuteCommand
+  options:
+    command: mvn test -Dtest=BaseTests#testABSBuiltIn -f "interpreter/pom.xml"
+- description: pow() builtin produces the correct value
+  category: Tests
+  check: ExecuteCommand
+  options:
+    command: mvn test -Dtest=BaseTests#testPOWBuiltIn -f "interpreter/pom.xml"
+- description: Interpreter allows anonymous functions as arguments
+  category: Tests
+  check: ExecuteCommand
+  options:
+    command: mvn test -Dtest=BaseTests#testLambdaArgs -f "interpreter/pom.xml"
+- description: Interpreter correctly interprets independent anonymous functions as standalone expressions
+  category: Tests
+  check: ExecuteCommand
+  options:
+    command: mvn test -Dtest=BaseTests#testLambdaExpr -f "interpreter/pom.xml"
+- description: Interpreter throws an error on invalid, non-numeric argument types for abs() and pow()
+  category: Tests
+  check: ExecuteCommand
+  options:
+    command: mvn test -Dtest=BaseTests#testInvalidArguments -f "interpreter/pom.xml"
+  category: Tests
+  check: ExecuteCommand
+  options:
+    command: mvn test -Dtest=BaseTests#testLambdaExpr -f "interpreter/pom.xml"
+- interpreter/src/main/java/com/interpreter/lox/Interpreter.java:
+  - description: Interpreter.java file contains no TODOs
+    category: TODOs
+    check: MatchFileFragment
+    options:
+      fragment: TODO
+      count: 0
+      exact: true
+- interpreter/src/main/java/com/interpreter/lox/Parser.java:
+  - description: Parser.java file contains no TODOs
+    category: TODOs
+    check: MatchFileFragment
+    options:
+      fragment: TODO
+      count: 0
+      exact: true
+- interpreter/src/main/java/com/interpreter/lox/LoxFunction.java:
+  - description: LoxFunction contains no TODOs
+    category: TODOs
+    check: MatchFileFragment
+    options:
+      fragment: TODO
+      count: 0
+      exact: true
+- interpreter/src/main/java/com/interpreter/lox/Expr.java:
+  - description: Expr.java contains updated definitions for function expressions (compile, run GenerateAST)
+    category: TODOs
+    check: MatchFileFragment
+    options:
+      fragment: "Function(List<Token> parameters, List<Stmt> body)"
+      count: 1
+      exact: true
+- interpreter/src/main/java/com/interpreter/lox/Stmt.java:
+  - description: Stmt.java contains updated definitions for function statements (compile, run GenerateAST)
+    category: TODOs
+    check: MatchFileFragment
+    options:
+      fragment: "Function(Token name, Expr.Function function)"
+      count: 1
+      exact: true
+- docs/reflection.md:
+  - description: Reflection contains no TODOs
+    category: TODOs
+    check: MatchFileFragment
+    options:
+      fragment: TODO
+      count: 0
+      exact: true
