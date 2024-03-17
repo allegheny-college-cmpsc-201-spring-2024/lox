@@ -15,6 +15,41 @@ setup: |
   options:
     command: mvn test -Dtest=BaseTests#testAnonymousFunctionResolution -f "interpreter/pom.xml"
 - interpreter/src/main/java/com/interpreter/lox/Resolver.java:
+  - description: Resolver.java contains a definition for visitBreakStatement
+    category: Updating Language Features
+    check: MatchFileRegex
+    options:
+      regex: '(.*)@Override\n(.*)public Void visitFunctionExpr\(Expr.Function expr\)'
+      count: 1
+      exact: true
+  - description: Resolver.java contains a definition for visitConditionalExpr
+    category: Updating Language Features
+    check: MatchFileRegex
+    options:
+      regex: '(.*)@Override\n(.*)public Void visitConditionalExpr\(Expr.Conditional expr\)'
+      count: 1
+      exact: true
+  - description: Resolver.java resolves function statement bodies as redefined in Stmt.java
+    category: Updating Language Features
+    check: MatchFileFragment
+    options:
+      fragment: 'resolveFunction(stmt.function, FunctionType.FUNCTION)'
+      count: 1
+      exact: true
+  - description: Resolver.java contains a definition for visitFunctionExpr
+    category: Updating Language Features
+    check: MatchFileRegex
+    options:
+      regex: '(.*)@Override\n(.*)public Void visitFunctionExpr\(Expr.Function expr\)'
+      count: 1
+      exact: true
+  - description: Resolver.java resolves function expressions (i.e., anonymous functions) as redefined in Expr.java
+    category: Updating Language Features
+    check: MatchFileFragment
+    options:
+      fragment: 'resolveFunction(expr, FunctionType.'
+      count: 1
+      exact: true
   - description: Resolver.java contains no TODOs
     category: TODOs
     check: MatchFileFragment
