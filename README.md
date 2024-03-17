@@ -1,15 +1,11 @@
 # The Lox Programming Language: Functions
 
-This branch mirrors content from chapter `10` of _Crafting Interpreters_. Here, we implement functions in the `Lox`
-language, exploring their characteristics, similarities, and differences to other structures we've written into
-our interpreter. Our challenges this week look at `native functions` and give users of the interpreter the ability
-to use a `native interface` to write their own in the `Lox` programming language itself. As an added treat, we'll
-look at anonymous functions (i.e., `lambda` functions) and implement them in the interpreter. 
-
-Work for this week's challenges is split between two files, named in each challenge below.
-
-This exercise will use the `Lox` programming language. For a primer on the language's general syntax and usage, 
-refer to  [Crafting Interpreters, Chapter 3](https://www.craftinginterpreters.com/the-lox-language.html).
+This branch mirrors content from chapter `11` of _Crafting Interpreters_. This week's work may look a lot like last
+week's -- at least in terms of the final outcome. This week we're concerned with functions, but not functions _qua_ functions.
+Functions create inner scopes which our work allows, but _doesn't_ enforce. We a problem: scoping favors the global,
+even if we have local declarations of variables meant to replace them. On its own, not a big deal. However, it points
+out a problem with our implementation thus far: our environments aren't necessarily water-tight. As an ocean-going craft,
+we'd sink pretty fast. As Nystrom writes in the chapter underlying this week's work: we're defintely taking on water.
 
 ## Learning objectives
 
@@ -31,92 +27,93 @@ Unless tagged as optional, all challenges below are required by this week's work
 
 ### Challenge 1
 
-Right now, `Lox` has only 1 `native function`: `clock()` which will come in handy if we want to conduct
-interpreter optimization or benchmarking. However, as Nystrom points out, these kinds of functions are
-key "when it comes to making your language actually good at doing useful stuff." For example, `Python`
-(often called a "batteries included" language) contains a wide variety of native functions to provide
-basic user support.
+While Nystrom's work in the chapter fixes our seaworthiness, there's a feature that would help prove it: implementing 
+error-throwing when variables are _declared_, or _assigned_, but _not_ used in a local scope. (For this challenge, you
+do not need to consider global variables.) Here, this largely means in the closures made by functions. The `test.lox` file
+uses both named functions and anonymous functions to demonstrate. Your program should, ultimately, render the following result:
+```
+[line 1] Error at 'c': Local variable is never used.
+[line 13] Error at 'l': Local variable is never used.
+```
+As with all great challenges, though, there's a bit of adventure built in.
 
-This challenge comes in _two_ parts.
+> Note: All parts of this challenge should be completed in `Resolver.java`, though referencing other files to account for
+> changes is probably a _very good idea_. Here, I'd focus on `Expr.java` and `Stmt.java` as guides.
 
 #### Part 1
 
-In this challenge, you'll be asked to provide _two_ native functions that exist in most languages:
+> Note: It is expected that the program will produce errors at this stage. Your goal is to read them and _fix_ them using
+> the considerations below.
 
-|Function |Description |Arity |
-|:--------|:-----------|:-----|
-|`abs()`  |Returns the absolute value of a number | `1` |
-|`pow()`  |Raises a number to a power and returns the result | `2` |
+Before we can get to the A-Ha! Moment<sup>R</sup> of seeing our local variable resolution work, we have to account for changes
+we've made to the language. Namely:
+
+* `break` and (possibly) `continue` statements<sup>`†`</sup>
+* `conditional` expressions (i.e., ternary expressions)
+* modifications we made to allow anonymous and named functions
+
+These need accounting for in `Resolver.java`, and we've got to wire them in.
+
+`†`: They're handled the same way, so if you completed the `continue` statement, you're not penalized for doing the extra work.
+You'll need to write an extra function, but it's really just cooking copypasta.
 
 #### Part 2
 
-When operands appear that _aren't_ numbers, we should throw an error. (What is, for example, `abs("FISHY")`?)
-Add a method to the interpreter called `checkNumberArgument` (which mimics `checkNumberOperand`) that `throw`s
-a `RuntimeError` if _any_ of the arguments passed to built-ins _aren't_ numbers. 
+> Note: Once we get to this state, the program should run, even if it doesn't provide expected output. There shouldn't be any]
+> `Java` or `Lox` errors at this stage.
 
-This will take a bit of work in the built-ins themselves and in the correct `visit` function(s).
+Once all of our additions and corrections work again, you need to set about accounting for variables. Here, we need to think 
+through what it means for a variable to be used. Considering this challenge, a variable can have one of `3` states:
 
-#### Implementation details and Testing
+1. Declared
+2. Defined
+3. Read/Used
 
-Implement both parts in:
+At various points of the resolver, we can figure up which one of these we have. Two possible ways to solve them:
 
-* `Interpreter.java`
+1. Using `boolean` values to track whether or not we've achieved a status
+2. Using an `enum` (see `FunctionType` in `Resolver.java`) to track same
 
-Our test case(s) run using the[`src/test/resources/builtins.lox`](src/test/resources/builtins.lox). You 
-do not need to alter these files. They should run as-is.
+If we arrive at `endScope` and a variable's status doesn't reflect usage, we know we have an unused variable.
 
 ### Challenge 2
 
-Many languages support anonymous functions, but not `Lox`...yet. To use a familiar example of this from `Python`:
-```python
-mult = lambda m1, m2: m1 * m2
-print(mult(2,2))
+In our [`docs/reflection.md`](docs/reflection.md) file, answer the following question:
+
+> Consider the following function:
+> ```
+ fun l(o,x) {  
+  if (o + x == 0) return;
+  print o + x;
+  l(o - 1, x - 1);
+}
+
+l(10, 10);
 ```
-Given what we know about functions in `Lox`, how can we modify our interpreter to allow anonymous
-functions? We need to support the functions written in [`src/test/resources/lambda.lox`](src/test/resources/lambda.lox).
-
-To complete this, you'll need to revise:
-
-* `LoxFunction.java`
-* `Parser.java`
-* `Interpreter.java`
-
-(It makes the most sense to tackle them in the order listed above.)
-
-> Note: When you're ready to tackle this challenge, you'll need to run `GenerateAST` (which lives
-> the `tools` Maven project. This will make the correct changes to `Expr.java` and `Stmt.java`; it's
-> worth a few moments to see how function expressions and statements change.
-
-#### Additional notes
-
-This challenge relies on the idea that functions can also be _expressions_. One of the main differences
-distinguishing function _statements_ from _expressions_ has to do with _naming_. As you might intuit, 
-anonymous functions are, as the title implies, _nameless_. This means that we might need to separate 
-the name and body of our functions while recognizing that function bodies can live as both _expressions_
-and parts of _statements_.
-
-In many cases, this means separating extant code. In others, you'll need to add the `FUN` token as a
-`match` rule in the grammar once all of the rules have been parsed out. (The hint here: this `match`
-should occur in `primary`.)
-
-One of the distinctions also has to do with `declarations`: we need to be able to tell if a function
-is just the `FUN` token and _no_ name or if the function is a named function.
-
-#### Reflecting on this challenge
-
-There're also questions about this challenge in our [`docs/reflection.md`](docs/reflection.md) file.
+>If we argue that we can't _use_ a variable before it's defined, why do this work?
 
 ### Challenge 3
 
-Nystron proposes the following program:
-```
-fun scope(a) {
-  var a = "local";
-}
-scope("global");
-```
-Is this legal in `Lox`? Why or why not? Provide your answer in the [`docs/reflection.md`](docs/reflection.md) file,
-keeping in mind the context the book provides us:
+In our [`docs/reflection.md`](docs/reflection.md) file, answer the following question:
 
-> In other words, are a function’s parameters in the same scope as its local variables, or in an outer scope? What does Lox do
-> in this case?
+> We know that the following `Lox` code is OK:
+> ```
+var a = "outer";
+{
+  var a = 4;
+  print a;
+}
+print a;
+```
+>However, this is _not_:
+>```
+var a = "outer";
+{
+  var a = a;
+}
+```
+> The answer to this question comes in `3` parts:
+> 
+> - Why is this illegal in `Lox`?
+> - Does `Java` support this? How does the language design enable or prohibit it?
+> - Likewise, does `Python` support this? In what ways does language design enable or prohibit it?
