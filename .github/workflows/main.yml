@@ -2,7 +2,7 @@ name: GatorGrader
 
 on:
   push:
-    branches: [8-functions]
+    branches: [9-resolving-binding]
 
 jobs: 
   grade:
@@ -40,7 +40,7 @@ jobs:
       uses: term-world/wizard@v0.7.4
       with:
         grader-report: 'gatorgrade_summary.json'
-        report-name: '8 - Functions'
+        report-name: '9 - Resolving & Binding'
       if: always()
     env:
       GITHUB_TOKEN: ${{ secrets.WIZARD }}

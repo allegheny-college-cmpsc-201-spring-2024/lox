@@ -43,7 +43,12 @@ public class Main {
     byte[] bytes = Files.readAllBytes(Paths.get(path));
     run(new String(bytes, Charset.defaultCharset()));
     if (hadError) {
-      System.exit(65);
+      try{
+        throw new IOException();
+      } catch (IOException e) {
+      }
+      //System.exit(0);
+      //System.exit(65);
     }
     if (hadRuntimeError) {
         throw new IOException();

@@ -43,8 +43,8 @@ class BaseTests {
     System.setErr(new PrintStream(errContent));
   }
 
-  static Stream<Arguments> testPOWBuiltIn() throws Exception {
-    URL resource = BaseTests.class.getClassLoader().getResource("builtins.lox");
+  static Stream<Arguments> testNamedFunctionResolution() throws Exception {
+    URL resource = BaseTests.class.getClassLoader().getResource("test.lox");
     File file = Paths.get(resource.toURI()).toFile();
     String absPath = file.getAbsolutePath();
     return Stream.of(
@@ -52,44 +52,8 @@ class BaseTests {
     );
   }
 
-  static Stream<Arguments> testABSBuiltIn() throws Exception {
-    URL resource = BaseTests.class.getClassLoader().getResource("builtins.lox");
-    File file = Paths.get(resource.toURI()).toFile();
-    String absPath = file.getAbsolutePath();
-    return Stream.of(
-      Arguments.of((Object) new String[]{absPath})
-    );
-  }
-
-  static Stream<Arguments> testNamelessFunction() throws Exception {
-    URL resource = BaseTests.class.getClassLoader().getResource("lambdas.lox");
-    File file = Paths.get(resource.toURI()).toFile();
-    String absPath = file.getAbsolutePath();
-    return Stream.of(
-      Arguments.of((Object) new String[]{absPath})
-    );
-  }
-
-  static Stream<Arguments> testLambdaArgs() throws Exception {
-    URL resource = BaseTests.class.getClassLoader().getResource("lambdas.lox");
-    File file = Paths.get(resource.toURI()).toFile();
-    String absPath = file.getAbsolutePath();
-    return Stream.of(
-      Arguments.of((Object) new String[]{absPath})
-    );
-  }
-
-  static Stream<Arguments> testLambdaExpr() throws Exception {
-    URL resource = BaseTests.class.getClassLoader().getResource("lambdas.lox");
-    File file = Paths.get(resource.toURI()).toFile();
-    String absPath = file.getAbsolutePath();
-    return Stream.of(
-      Arguments.of((Object) new String[]{absPath})
-    );
-  }
-
-  static Stream<Arguments> testInvalidArguments() throws Exception {
-    URL resource = BaseTests.class.getClassLoader().getResource("invalids.lox");
+  static Stream<Arguments> testAnonymousFunctionResolution() throws Exception {
+    URL resource = BaseTests.class.getClassLoader().getResource("test.lox");
     File file = Paths.get(resource.toURI()).toFile();
     String absPath = file.getAbsolutePath();
     return Stream.of(
@@ -99,61 +63,22 @@ class BaseTests {
 
   @MethodSource
   @ParameterizedTest
-  void testPOWBuiltIn(String[] args) throws Exception {
+  void testNamedFunctionResolution(String[] args) throws Exception {
     Main.main(args);
     assertThat(
-        outContent.toString().strip(),
-        containsString("POW: 8")
+        errContent.toString().strip(),
+        containsString("Error at 'c': Local variable is never used.")
     );
   }
 
   @MethodSource
   @ParameterizedTest
-  void testABSBuiltIn(String[] args) throws Exception {
+  void testAnonymousFunctionResolution(String[] args) throws Exception {
     Main.main(args);
     assertThat(
-        outContent.toString().strip(),
-        containsString("ABS: 2")
+        errContent.toString().strip(),
+        containsString("Error at 'l': Local variable is never used.")
     );
-  }
-
-  @MethodSource
-  @ParameterizedTest
-  void testNamelessFunction(String[] args) throws Exception {
-    Main.main(args);
-    assertThat(
-        outContent.toString().strip(),
-        containsString("<fn>")
-    );
-  }
-
-  @MethodSource
-  @ParameterizedTest
-  void testLambdaArgs(String[] args) throws Exception {
-    Main.main(args);
-    assertThat(
-        outContent.toString().strip(),
-        containsString("ABS: 2")
-    );
-  }
-
-  @MethodSource
-  @ParameterizedTest
-  void testLambdaExpr(String[] args) throws Exception {
-    Main.main(args);
-    assertThat(
-        outContent.toString().strip(),
-        containsString("POW: 8")
-    );
-  }
-
-  @MethodSource
-  @ParameterizedTest
-  void testInvalidArguments(String[] args) throws Exception {
-      assertThrows(
-        java.io.IOException.class,
-        () -> {Main.main(args);}
-      );
   }
 
   @AfterAll

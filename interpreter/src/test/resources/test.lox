@@ -2,8 +2,14 @@ fun sum(a, b, c) {
   return a + b;
 }
 
-var d = sum(2, 3, 5);
+var d = 6;
+var e = 7;
+var f = 8;
 
-var e = (fun(f, g, h){ return f + g; })(d, 5);
+var g = d + e;
 
-print e;
+var h = sum(g, 3, 5);
+
+var i = (fun(j, k, l){ return j + k; })(h, 5);
+
+print i;
