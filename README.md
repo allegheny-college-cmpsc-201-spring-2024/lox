@@ -82,14 +82,14 @@ In our [`docs/reflection.md`](docs/reflection.md) file, answer the following que
 
 > Consider the following function:
 > ```
- fun l(o,x) {  
-  if (o + x == 0) return;
-  print o + x;
-  l(o - 1, x - 1);
-}
-
-l(10, 10);
-```
+> fun l(o,x) {  
+>  if (o + x == 0) return;
+>  print o + x;
+>  l(o - 1, x - 1);
+> }
+>
+> l(10, 10);
+>```
 >If we argue that we can't _use_ a variable before it's defined, why do this work?
 
 ### Challenge 3
@@ -98,20 +98,20 @@ In our [`docs/reflection.md`](docs/reflection.md) file, answer the following que
 
 > We know that the following `Lox` code is OK:
 > ```
-var a = "outer";
-{
-  var a = 4;
-  print a;
-}
-print a;
-```
+> var a = "outer";
+> {
+>   var a = 4;
+>   print a;
+> }
+> print a;
+> ```
 >However, this is _not_:
 >```
-var a = "outer";
-{
-  var a = a;
-}
-```
+> var a = "outer";
+> {
+>  var a = a;
+> }
+> ```
 > The answer to this question comes in `3` parts:
 > 
 > - Why is this illegal in `Lox`?
