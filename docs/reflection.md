@@ -1,52 +1,68 @@
-# CMPSC 201: Functions
+# CMPSC 201: Resolving and Binding Scopes
 
-## Anonymous functions
-
-1. Define the term "anonymous function".
-
-Any function that isn't bound the programmatic environment by a name.
-
-2. How do anonymous functions differ from native or native interface functions?
-
-They:
-
-* don't have names and aren't stored using `IDENTIFIER`s
-* they're not callable for multiple uses unless embedded in a native interface function
-
-3. Why are these functions useful? 
-
-If we're not calling something more than once and want to make potentially more readble units of code,
-they're pretty useful. The three generally-cited reasons:
-
-* no name for a function necessary if not intended for reuse (no need to add objects to namespace)
-* inlines can access variables in the parent scope
-* code is self-contained and legible; no need to search the file for referents or mix up flow control
-
-## Functional scope
-
-4. Is this program legal? Why or why not?
-
-Nah. We can't shadow like this. The scopes used for arguments/parameters and internal block statements
-are the same.
-
-5. What would Python do in this situation? Why do you think Python's designers adopted this approach?
-
-> Some resources that might be helpful:
-> * [Python Like You Mean It: Scope](https://www.pythonlikeyoumeanit.com/Module2_EssentialsOfPython/Scope.html)
-> * [What are the pros and cons of allowing variable shadowing in the general case?](https://langdev.stackexchange.com/questions/289/what-are-the-pros-and-cons-of-allowing-variable-shadowing-in-the-general-case)
-
-A python version would look like:
-```python
-def shadow_me(a):
-  a = 2
-  return a
-
-a(3)
+1. Consider the following function:
 ```
-The above would print `2`, because the language allows redefinition after declaration due to language semantics.
+fun l(o,x) {  
+  if (o + x == 0) return;
+  print o + x;
+  l(o - 1, x - 1);
+}
 
-This is probably due to the 4D chess game that Python's inheritance vehicle plays. Really, my thoughts center on the 
-"ask forgiveness, not permission" build ethos of the language. You should be able to do things like this because, while 
-they violate general legibility, there's a use case for them that would create too much of a workaround to satisfy making
-the end result code much worse. Honestly, it's really just a choice that developer make. They accept all sorts
-of trade-offs and if this one doesn't rate, it's simply not important.
+l(10, 10);
+```
+If we argue that we can't _use_ a variable before it's defined, why do this work?
+
+Recursion is possible because by the time `fun l` is bound to the program (i.e. is in the environment), the `block` statement can refer
+to it for that reason. The line `l(10,10)` demonstrates this because it can call the function by name.
+
+2. We know that the following `Lox` code is OK:
+```
+var a = "outer";
+{
+  var a = 4;
+  print a;
+}
+print a;
+```
+However, this is _not_:
+```
+var a = "outer";
+{
+  var a = a;
+}
+```
+The answer to this question comes in `3` parts:
+
+- Why is this illegal in `Lox`?
+- Does `Java` support this? How does the language design enable or prohibit it?
+- Likewise, does `Python` support this? In what ways does language design enable or prohibit it?
+
+`Lox` relies on definite scopes. Here, there are global and local declarations -- which is fine, generally. However, because binding
+the value relies on local scope, we can't use the word in the definition, so to speak; there's no value for `a` to refer to outside
+of its scope because it has been replaced locally.
+
+Java doesn't support this because everything is automatically scoped to _some_ structure. There's no way to instantiate anything
+outside of a scope and this wheel-within-a-wheel approach prevents this behavior by design.
+
+Python is largely consistent, though we can break the rules a bit. Consider:
+```python
+a = 4
+
+def f():
+  a = a
+
+f()
+```
+For the same reason our `Lox` code fails, this one fails. But, let's punch a hole through the universe:
+```python
+a = 4
+
+def f():
+  global a
+  a = a
+
+f()
+```
+This works. It's nonsense, but that's OK because it proves our point: the `global` keyword allows us to _reach beyond_ the local
+scope of `f()` to connect the two levels of the program. While I may dislike this, it has its uses though, in the hands of nearly
+any programmer, absolute power corrupts absolutely.

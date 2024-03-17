@@ -1,29 +1,39 @@
-# CMPSC 201: Functions
+# CMPSC 201: Resolving and Binding Scopes
 
-## Anonymous functions
+1. Consider the following function:
+```
+fun l(o,x) {  
+  if (o + x == 0) return;
+  print o + x;
+  l(o - 1, x - 1);
+}
 
-1. Define the term "anonymous function".
-
-TODO: Respond to the question above.
-
-2. How do anonymous functions differ from native or native interface functions?
-
-TODO: Respond to the question above.
-
-3. Why are these functions useful? 
-
-TODO: Respond to the question above.
-
-## Functional scope
-
-4. Is this program legal? Why or why not?
+l(10, 10);
+```
+If we argue that we can't _use_ a variable before it's defined, why do this work?
 
 TODO: Respond to the question above.
 
-5. What would Python do in this situation? Why do you think Python's designers adopted this approach?
+2. We know that the following `Lox` code is OK:
+```
+var a = "outer";
+{
+  var a = 4;
+  print a;
+}
+print a;
+```
+However, this is _not_:
+```
+var a = "outer";
+{
+  var a = a;
+}
+```
+The answer to this question comes in `3` parts:
 
-> Some resources that might be helpful:
-> * [Python Like You Mean It: Scope](https://www.pythonlikeyoumeanit.com/Module2_EssentialsOfPython/Scope.html)
-> * [What are the pros and cons of allowing variable shadowing in the general case?](https://langdev.stackexchange.com/questions/289/what-are-the-pros-and-cons-of-allowing-variable-shadowing-in-the-general-case)
+- Why is this illegal in `Lox`?
+- Does `Java` support this? How does the language design enable or prohibit it?
+- Likewise, does `Python` support this? In what ways does language design enable or prohibit it?
 
 TODO: Respond to the question above.
