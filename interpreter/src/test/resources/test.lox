@@ -1,0 +1,9 @@
+fun sum(a, b, c) {
+  return a + b;
+}
+
+var d = sum(2, 3, 5);
+
+var e = (fun(f, g, h){ return f + g; })(d, 5);
+
+print e;
