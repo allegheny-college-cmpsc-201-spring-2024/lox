@@ -1,62 +1,67 @@
 setup: |
+  echo "🧹\tClean from previous compilation (mvn clean)"
+  mvn clean -q || true
   echo "🛠️\tCompiling program (mvn compile)"
   mvn compile -q || true
-  echo "🧪\tRunning Maven tests (mvn test)"
-  mvn test -q || true
 ---
-- description: Lox interpreter correctly interprets a novel expression
+- description: Named functions resolve correctly (variable c reported unused)
   category: Tests
-  check: MatchCommandFragment
+  check: ExecuteCommand
   options:
-    command: mvn test -Dtest=BaseTests#testTokenOutput -q
-    fragment: "VAR var null\nIDENTIFIER token null\nEQUAL = null\nNUMBER 3.14 3.14\nSEMICOLON ; null\nEOF  null"
-    count: 1
-    exact: true
-- description: Lox interpreter still parses single-line comments correctly
+    command: mvn test -Dtest=BaseTests#testNamedFunctionResolution -f "interpreter/pom.xml"
+- description: Anonymous functions resolve correctly (variable l reported unused)
   category: Tests
-  check: MatchCommandRegex
+  check: ExecuteCommand
   options:
-    command: mvn test -Dtest=BaseTests#testTokenOutput -q
-    regex: 'ignore|me\s'
-    count: 0
-    exact: true
-- description: Lox interpreter correctly implements multiline comments
-  category: Tests
-  check: MatchCommandRegex
-  options:
-    command: mvn test -Dtest=BaseTests#testTokenOutput -q
-    regex: 'SLASH|STAR|this|serves|as|the|multiline|comment'
-    count: 0
-    exact: true
-- src/main/java/com/interpreter/lox/Main.java:
-  - description: src/main/java/com/interpreter/lox/Main.java exists and contains no TODOs
-    category: Files
+    command: mvn test -Dtest=BaseTests#testAnonymousFunctionResolution -f "interpreter/pom.xml"
+- interpreter/src/main/java/com/interpreter/lox/Resolver.java:
+  - description: Resolver.java contains a definition for visitBreakStatement
+    category: Updating Language Features
+    check: MatchFileRegex
+    options:
+      regex: '(.*)@Override\n(.*)public Void visitFunctionExpr\(Expr.Function expr\)'
+      count: 1
+      exact: true
+  - description: Resolver.java contains a definition for visitConditionalExpr
+    category: Updating Language Features
+    check: MatchFileRegex
+    options:
+      regex: '(.*)@Override\n(.*)public Void visitConditionalExpr\(Expr.Conditional expr\)'
+      count: 1
+      exact: true
+  - description: Resolver.java resolves function statement bodies as redefined in Stmt.java
+    category: Updating Language Features
     check: MatchFileFragment
     options:
-      fragment: "TODO"
+      fragment: 'resolveFunction(stmt.function, FunctionType.FUNCTION)'
+      count: 1
+      exact: true
+  - description: Resolver.java contains a definition for visitFunctionExpr
+    category: Updating Language Features
+    check: MatchFileRegex
+    options:
+      regex: '(.*)@Override\n(.*)public Void visitFunctionExpr\(Expr.Function expr\)'
+      count: 1
+      exact: true
+  - description: Resolver.java resolves function expressions (i.e., anonymous functions) as redefined in Expr.java
+    category: Updating Language Features
+    check: MatchFileFragment
+    options:
+      fragment: 'resolveFunction(expr, FunctionType.'
+      count: 1
+      exact: true
+  - description: Resolver.java contains no TODOs
+    category: TODOs
+    check: MatchFileFragment
+    options:
+      fragment: TODO
       count: 0
       exact: true
-- src/main/java/com/interpreter/lox/Scanner.java:
-  - description: src/main/java/com/interpreter/lox/Scanner.java exists and contains no TODOs
-    category: Files
+- docs/reflection.md:
+  - description: Reflection contains no TODOs
+    category: TODOs
     check: MatchFileFragment
     options:
-      fragment: "TODO"
-      count: 0
-      exact: true
-- src/main/java/com/interpreter/lox/Token.java:
-  - description: src/main/java/com/interpreter/lox/Token.java exists and contains no TODOs
-    category: Files
-    check: MatchFileFragment
-    options:
-      fragment: "TODO"
-      count: 0
-      exact: true
-- src/main/java/com/interpreter/lox/TokenType.java:
-  - description: src/main/com/java/interpreter/lox/TokenType.java exists and contains no TODOs
-    category: Files
-    check: MatchFileFragment
-    options:
-      fragment: "TODO"
+      fragment: TODO
       count: 0
       exact: true

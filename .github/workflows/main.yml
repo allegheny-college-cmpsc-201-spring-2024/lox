@@ -2,14 +2,14 @@ name: GatorGrader
 
 on:
   push:
-    branches: [main]
+    branches: [9-resolving-binding]
 
 jobs: 
   grade:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
-      with: 
+    - uses: actions/checkout@v4
+      with:
         fetch-depth: '0'
     - name: Setup Maven
       if: always()
@@ -17,10 +17,9 @@ jobs:
         sudo apt-get install default-jre
         sudo apt-get install default-jdk
         sudo apt-get install maven
-        mvn install
     - name: Setup Python
       if: always()
-      uses: actions/setup-python@v2
+      uses: actions/setup-python@v4
       with:
         python-version: 3.10.6
     - name: Set up grading environment
@@ -28,18 +27,20 @@ jobs:
         sudo apt-get update
         sudo python -m pip install --upgrade pip
         sudo python -m pip install gatorgrade --ignore-installed PyYAML
+      if: always()
     - name: Grade repository
       run: |
         gatorgrade --config gatorgrade.yml --report file json gatorgrade_summary.json
       if: always()
-      env:   
+      env:
         PIPENV_VENV_IN_PROJECT: 1
         PIPENV_IGNORE_VIRTUALENVS: 1
     - name: Create Wizard report
       id: wizard
-      uses: term-world/wizard@v0.6.5
+      uses: term-world/wizard@v0.7.4
       with:
         grader-report: 'gatorgrade_summary.json'
+        report-name: '9 - Resolving & Binding'
       if: always()
     env:
       GITHUB_TOKEN: ${{ secrets.WIZARD }}

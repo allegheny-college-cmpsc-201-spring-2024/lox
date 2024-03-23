@@ -4,6 +4,7 @@ enum TokenType {
   // Single-character tokens.
   LEFT_PAREN, RIGHT_PAREN, LEFT_BRACE, RIGHT_BRACE,
   COMMA, DOT, MINUS, PLUS, SEMICOLON, SLASH, STAR,
+  QUESTION, COLON,
 
   // One or two character tokens.
   BANG, BANG_EQUAL, EQUAL, EQUAL_EQUAL,
@@ -11,6 +12,10 @@ enum TokenType {
 
   // Literals
   IDENTIFIER, STRING, NUMBER,
+
+  // REMOVE
+  BREAK, CONTINUE,
+  // REMOVE
 
   // Keywords.
   AND, CLASS, ELSE, FALSE, FUN, FOR, IF, NIL, OR,
