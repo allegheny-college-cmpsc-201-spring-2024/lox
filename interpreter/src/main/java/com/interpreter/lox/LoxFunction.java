@@ -46,9 +46,12 @@ class LoxFunction implements LoxCallable {
   public Object call(Interpreter interpreter,
                      List<Object> arguments) {
     Environment environment = new Environment(closure);
-    for (int i = 0; i < declaration.parameters.size(); i++) {
-      environment.define(declaration.parameters.get(i).lexeme,
-        arguments.get(i));
+    // STUDENT: Once again, the IF statement
+    if (declaration.parameters != null) {
+      for (int i = 0; i < declaration.parameters.size(); i++) {
+        environment.define(declaration.parameters.get(i).lexeme,
+          arguments.get(i));
+      }
     }
     try {
       interpreter.executeBlock(declaration.body, environment);
@@ -59,6 +62,13 @@ class LoxFunction implements LoxCallable {
 
     if (isInitializer) return closure.getAt(0, "this");
     return null;
+  }
+
+  // STUDENT: This function should be derived by the student,
+  //          though it's possible to do this in another place,
+  //          way.
+  public boolean isGetter() {
+    return declaration.parameters == null;
   }
 
 }

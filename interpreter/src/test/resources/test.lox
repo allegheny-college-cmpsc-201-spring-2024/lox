@@ -12,11 +12,18 @@ class Breakfast {
   serve() {
     print "Enjoy your breakfast, " + this.who + ".";
   }
+
+  name {
+    return this.who;
+  }
+
 }
 
 var meal = Breakfast("Ulysses");
 meal.cook();
 meal.serve();
+
+print meal.name;
 
 var f = Found();
 print f.message;

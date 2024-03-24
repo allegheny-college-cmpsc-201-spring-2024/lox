@@ -59,10 +59,15 @@ class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
     FunctionType enclosingFunction = currentFunction;
     currentFunction = type;
     beginScope();
-    for (Token param : function.parameters) {
-      declare(param);
-      define(param);
+    // STUDENT: Again, really just the IF statement to
+    //          guard null parameter list
+    if ( function.parameters != null ) {
+      for (Token param : function.parameters) {
+        declare(param);
+        define(param);
+      }
     }
+    // STUDENT
     resolve(function.body);
     endScope();
     currentFunction = enclosingFunction;
