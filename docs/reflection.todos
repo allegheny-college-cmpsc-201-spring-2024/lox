@@ -17,7 +17,7 @@ import "fish";
 
 `TODO: Respond to above question`
 
-4. As mentioned in the `README`, this isn't precisely OOP implementation, but it does something for our language. Why include this in `Lox`?
+4. As mentioned in the `README`, `import`s aren't precisely OOP implementation, but it does something for our language. Why include this in `Lox`?
 
 `TODO: Respond to the above question`
 
