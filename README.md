@@ -76,8 +76,18 @@ However, they are _different_ in that they _do not process a list of parameters_
 challenge revolves around making this possible by altering the various levels of parsing, resolving, and interpreting function
 statements.
 
+The areas of work to achieve the above:
+
+* Parser.java
+* Resolver.java
+* Interpreter.java
+* LoxFunction.java
+
 Given that these bound methods are also _callables_ (or, as Nystrom calls them in program and text: "get expressions"), we need to 
 force these `get`s to (if `function` calls) operate a lot like merely accessing a property -- not like calling a function.
+
+* Interpreter.java's `visitGetExpr` method
+* Perhaps a helper method in LoxFunction.java to determine if a function has required parameters at all (i.e. parameters property is `null`).
 
 #### Reflecting on this challenge
 
