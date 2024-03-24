@@ -29,3 +29,4 @@ tools/target/*
 
 # nano artifacts
 *.save
+*.swp

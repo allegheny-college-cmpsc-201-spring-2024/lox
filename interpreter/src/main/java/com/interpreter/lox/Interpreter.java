@@ -1,9 +1,11 @@
 package com.interpreter.lox;
 
+import java.lang.Math;
 import java.util.Map;
 import java.util.List;
 import java.util.HashMap;
 import java.util.ArrayList;
+import java.util.Random;
 
 class Interpreter implements Expr.Visitor<Object>,
                              Stmt.Visitor<Void> {
@@ -84,6 +86,35 @@ class Interpreter implements Expr.Visitor<Object>,
 
       @Override
       public String toString() { return "<native fn>"; }
+    });
+
+    globals.define("random", new LoxCallable() {
+
+      @Override
+      public int arity() { return 2; }
+
+      @Override
+      public Object call(Interpreter interpreter,
+                         List<Object> arguments) {
+        double start;
+        double end;
+        try {
+          start = Double.parseDouble(arguments.get(0).toString());
+          end = Double.parseDouble(arguments.get(1).toString());
+          Random rand = new Random();
+          int seed = rand.nextInt(
+            ((int) Math.floor(end) + 1) - (int) Math.floor(start)
+          ) + (int) Math.floor(start);
+          return (double) seed;
+        } catch (NumberFormatException err) {
+         isCorrectType = false;
+        }
+        return null;
+      }
+
+      @Override
+      public String toString() { return "<native fn>"; }
+
     });
   }
 

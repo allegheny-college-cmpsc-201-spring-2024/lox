@@ -1,31 +1,5 @@
 package com.interpreter.lox;
 
-<<<<<<< HEAD
-import java.io.*;
-import java.net.*;
-import java.nio.file.*;
-import java.util.Scanner;
-import java.util.stream.Stream;
-
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.TestInstance;
-import org.junit.jupiter.api.TestInstance.Lifecycle;
-
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.MethodSource;
-import org.junit.jupiter.params.provider.ValueSource;
-import org.junit.jupiter.params.provider.Arguments;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
-class BaseTests {
-
-  private final static Main lox = new Main();
-
-  static Stream<Arguments> testTokenOutput() throws Exception {
-    URL resource = BaseTests.class.getClassLoader().getResource("tokens.lox");
-=======
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -34,6 +8,7 @@ import java.io.InputStream;
 import java.net.URL;
 import java.nio.file.Paths;
 import java.util.stream.Stream;
+import java.util.regex.Pattern;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.AfterAll;
@@ -47,6 +22,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.CoreMatchers.containsString;
+import static org.hamcrest.Matchers.matchesPattern;
 import static org.hamcrest.CoreMatchers.not;
 
 class BaseTests {
@@ -69,18 +45,8 @@ class BaseTests {
     System.setErr(new PrintStream(errContent));
   }
 
-  static Stream<Arguments> testNamedFunctionResolution() throws Exception {
+  static Stream<Arguments> testImportInclusion() throws Exception {
     URL resource = BaseTests.class.getClassLoader().getResource("test.lox");
-    File file = Paths.get(resource.toURI()).toFile();
-    String absPath = file.getAbsolutePath();
-    return Stream.of(
-      Arguments.of((Object) new String[]{absPath})
-    );
-  }
-
-  static Stream<Arguments> testAnonymousFunctionResolution() throws Exception {
-    URL resource = BaseTests.class.getClassLoader().getResource("test.lox");
->>>>>>> 9-resolving-binding
     File file = Paths.get(resource.toURI()).toFile();
     String absPath = file.getAbsolutePath();
     return Stream.of(
@@ -90,35 +56,12 @@ class BaseTests {
 
   @MethodSource
   @ParameterizedTest
-<<<<<<< HEAD
-  void testTokenOutput(String[] args) throws Exception {
-    System.out.println("🖨️\tOUTPUT (mvn exec:java)\r\n");
-    lox.main(args);
-  }
-
-  @Test
-  void testErrorMessage() {
-    assertEquals(
-      "[line 0] Error: Test Error",
-      lox.error(0, "Test Error")
-    );
-    lox.hadError = false;
-=======
-  void testNamedFunctionResolution(String[] args) throws Exception {
+  void testImportInclusion(String[] args) throws Exception {
     Main.main(args);
+    Pattern pattern = Pattern.compile(".*It's a (bass|boot|salmon)!$");
     assertThat(
-        errContent.toString().strip(),
-        containsString("Error at 'c': Local variable is never used.")
-    );
-  }
-
-  @MethodSource
-  @ParameterizedTest
-  void testAnonymousFunctionResolution(String[] args) throws Exception {
-    Main.main(args);
-    assertThat(
-        errContent.toString().strip(),
-        containsString("Error at 'l': Local variable is never used.")
+      outContent.toString().strip(),
+      matchesPattern(pattern)
     );
   }
 
@@ -127,7 +70,6 @@ class BaseTests {
     System.setIn(originalIn);
     System.setOut(originalOut);
     System.setErr(originalErr);
->>>>>>> 9-resolving-binding
   }
 
 }

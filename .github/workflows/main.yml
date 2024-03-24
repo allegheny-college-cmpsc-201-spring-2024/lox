@@ -2,9 +2,9 @@ name: GatorGrader
 
 on:
   push:
-    branches: [9-resolving-binding]
+    branches: [10-classes]
 
-jobs: 
+jobs:
   grade:
     runs-on: ubuntu-latest
     steps:
@@ -40,7 +40,7 @@ jobs:
       uses: term-world/wizard@v0.7.4
       with:
         grader-report: 'gatorgrade_summary.json'
-        report-name: '9 - Resolving & Binding'
+        report-name: '10 - Classes'
       if: always()
     env:
       GITHUB_TOKEN: ${{ secrets.WIZARD }}

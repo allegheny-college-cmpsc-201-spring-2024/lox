@@ -4,6 +4,76 @@ setup: |
   echo "🛠️\tCompiling program (mvn compile)"
   mvn compile -q || true
 ---
+- interpreter/src/main/java/com/interpreter/lox/TokenType.java:
+  - description: TokenType.java contains no TODOs
+    category: TODOs
+    check: MatchFileFragment
+    options:
+      fragment: TODO
+      count: 0
+      exact: true
+  - description: TokenType.java contains the IMPORT token definition
+    category: Tokens
+    check: MatchFileFragment
+    options:
+      fragment: IMPORT
+      count: 1
+      exact: true
+- interpreter/src/main/java/com/interpreter/lox/Scanner.java:
+  - description: Scanner.java contains no TODOs
+    category: TODOs
+    check: MatchFileFragment
+    options:
+      fragment: TODO
+      count: 0
+      exact: true
+  - description: Scanner.java defines IMPORT as a keyword
+    category: Tokens
+    check: MatchFileRegex
+    options:
+      regex: 'keywords\.put\("import",(\s)?IMPORT\);'
+      count: 1
+      exact: true
+- interpreter/src/main/java/com/interpreter/lox/Parser.java:
+  - description: Parser.java contains no TODOs
+    category: TODOs
+    check: MatchFileFragment
+    options:
+      fragment: TODO
+      count: 0
+      exact: true
+- interpreter/src/main/java/com/interpreter/lox/LoxFunction.java:
+  - description: LoxFunction.java contains no TODOs
+    category: TODOs
+    check: MatchFileFragment
+    options:
+      fragment: TODO
+      count: 0
+      exact: true
+- interpreter/src/main/java/com/interpreter/lox/Resolver.java:
+  - description: Resolver.java contains no TODOs
+    category: TODOs
+    check: MatchFileFragment
+    options:
+      fragment: TODO
+      count: 0
+      exact: true
+- interpreter/src/main/java/com/interpreter/lox/Interpreter.java:
+  - description: Interpreter.java contains no TODOs
+    category: TODOs
+    check: MatchFileFragment
+    options:
+      fragment: TODO
+      count: 0
+      exact: true
+- interpreter/src/test/resources/test.lox:
+  - description: test.lox contains no TODOs
+    category: TODOs
+    check: MatchFileFragment
+    options:
+      fragment: TODO
+      count: 0
+      exact: true
 - docs/reflection.md:
   - description: Reflection contains no TODOs
     category: TODOs

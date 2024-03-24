@@ -1,29 +1,43 @@
-import "file";
+// Uncomment import to test import functionality
+import "fish";
 
-class Breakfast {
-  init(who) {
-    this.who = who;
+class fishingTrip {
+
+  init() {
+    this.count = 0;
   }
 
-  cook() {
-    print "Eggs a-fryin'!";
+  goFish() {
+    var chance = random(1, 10);
+    if (chance == 10) {
+      print "You got one!";
+      this.count = this.count + 1;
+      // Uncomment this.fish assignment to test import functionality
+      this.fish = fish();
+    } else {
+      print "Just got away!";
+    }
   }
 
-  serve() {
-    print "Enjoy your breakfast, " + this.who + ".";
-  }
-
-  name {
-    return this.who;
+  caught {
+    // Comment this.count when finished with import implementation
+    // return this.count;
+    // Uncomment the if statement to finish testing import and "getter"
+    // functionality.
+    if (this.count > 0) {
+      return this.fish.type;
+    }
   }
 
 }
 
-var meal = Breakfast("Ulysses");
-meal.cook();
-meal.serve();
+var trip = fishingTrip();
+for(;;) {
+  trip.goFish();
+  if (trip.count > 0) {
+    break;
+  }
+}
 
-print meal.name;
-
-var f = Found();
-print f.message;
+// Uncomment to finish testing imports and "getter" functionality
+print "Check it out! It's a " + trip.caught + "!";
