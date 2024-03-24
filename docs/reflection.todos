@@ -1,2 +1,26 @@
 # CMPSC 201: Implementing Classes
 
+1. Describe the grammar of the `import` statement as implemented.
+```
+import "fish";
+```
+
+`TODO: Respond to above question`
+
+2. In the table below, add the files requiring changes and add a brief description of those changes.
+
+|File |Change summary |
+|:----|:--------------|
+|`TODO: Write name of file` |`TODO: Describe changes made and _why_ they were necessary |
+
+3. Describe your overall approach to implementing the `import` functionality. What could you reuse? What did you have to write yourself?
+
+`TODO: Respond to above question`
+
+4. As mentioned in the `README`, this isn't precisely OOP implementation, but it does something for our language. Why include this in `Lox`?
+
+`TODO: Respond to the above question`
+
+5. What is the purpose of a `getter` method? How are they useful or significant?
+
+`TODO: Respond to the above question`

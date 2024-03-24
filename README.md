@@ -78,3 +78,7 @@ statements.
 
 Given that these bound methods are also _callables_ (or, as Nystrom calls them in program and text: "get expressions"), we need to 
 force these `get`s to (if `function` calls) operate a lot like merely accessing a property -- not like calling a function.
+
+#### Reflecting on this challenge
+
+Our [docs/reflection.md](docs/reflection.md) file contains one question about this challenge.
