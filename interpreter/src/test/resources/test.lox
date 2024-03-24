@@ -10,20 +10,12 @@ class fishingTrip {
   goFish() {
     var chance = random(1, 10);
     if (chance == 10) {
-      print "You got one!";
       this.count = this.count + 1;
-      // Uncomment this.fish assignment to test import functionality
       this.fish = fish();
-    } else {
-      print "Just got away!";
     }
   }
 
   caught {
-    // Comment this.count when finished with import implementation
-    // return this.count;
-    // Uncomment the if statement to finish testing import and "getter"
-    // functionality.
     if (this.count > 0) {
       return this.fish.type;
     }
@@ -39,5 +31,4 @@ for(;;) {
   }
 }
 
-// Uncomment to finish testing imports and "getter" functionality
-print "Check it out! It's a " + trip.caught + "!";
+print "It's a " + trip.caught + "!";

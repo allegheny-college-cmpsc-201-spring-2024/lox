@@ -58,7 +58,7 @@ class BaseTests {
   @ParameterizedTest
   void testImportInclusion(String[] args) throws Exception {
     Main.main(args);
-    Pattern pattern = Pattern.compile(".*It's a (bass|boot|salmon)!$");
+    Pattern pattern = Pattern.compile("It's a boot!$|It's a salmon!$|It's a bass!$");
     assertThat(
       outContent.toString().strip(),
       matchesPattern(pattern)

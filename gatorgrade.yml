@@ -66,14 +66,6 @@ setup: |
       fragment: TODO
       count: 0
       exact: true
-- interpreter/src/test/resources/test.lox:
-  - description: test.lox contains no TODOs
-    category: TODOs
-    check: MatchFileFragment
-    options:
-      fragment: TODO
-      count: 0
-      exact: true
 - docs/reflection.md:
   - description: Reflection contains no TODOs
     category: TODOs
@@ -82,3 +74,8 @@ setup: |
       fragment: TODO
       count: 0
       exact: true
+- description: Program produces correct output, accounting for 'getters' and imports
+  category: Tests
+  check: ExecuteCommand
+  options:
+    command: mvn test -Dtest=BaseTests#testImportInclusion -f "interpreter/pom.xml"
