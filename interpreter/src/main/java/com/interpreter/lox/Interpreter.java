@@ -16,6 +16,7 @@ class Interpreter implements Expr.Visitor<Object>,
   private static class BreakException extends RuntimeException {}
   private static class ContinueException extends RuntimeException {}
   private static boolean isCorrectType = true;
+  private static boolean isMissingImport = false;
 
   Interpreter() {
     globals.define("clock", new LoxCallable() {
@@ -247,11 +248,11 @@ class Interpreter implements Expr.Visitor<Object>,
   @Override
   public Void visitImportStmt(Stmt.Import stmt) {
     try {
-      Object value = evaluate(stmt.path);
-      Main.main(new String[]{stringify(value) + ".lox"});
+      Object value = stmt.path.lexeme.replaceAll("^\"|\"$", "");;
+      Main.main(new String[]{Main.importPath + "/" + value + ".lox"});
     } catch (Exception e) {
       System.out.println(e);
-      //throw new RuntimeError(stmt.path, "Invalid import!");
+      throw new RuntimeError(stmt.path, "Illegal import: " + stmt.path.lexeme);
     }
     return null;
   }

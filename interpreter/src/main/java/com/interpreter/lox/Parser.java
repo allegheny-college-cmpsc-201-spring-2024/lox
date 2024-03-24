@@ -45,6 +45,7 @@ class Parser {
   private Stmt declaration() {
     try {
       if (match(CLASS)) return classDeclaration();
+      if (match(IMPORT)) return importDeclaration();
       if (check(FUN) && checkNext(IDENTIFIER)) {
         consume(FUN, null);
         return function("function");
@@ -69,6 +70,12 @@ class Parser {
     return new Stmt.Class(name, methods);
   }
 
+  private Stmt importDeclaration() {
+    Token name = consume(STRING, "Expect import file name");
+    consume(SEMICOLON, "Expect ';' after import declaration");
+    return new Stmt.Import(name);
+  }
+
   private Stmt statement() {
     if (match(FOR)) return forStatement();
     if (match(IF)) return ifStatement();
@@ -78,7 +85,6 @@ class Parser {
     if (match(LEFT_BRACE)) return new Stmt.Block(block());
     if (match(BREAK)) return breakStatement();
     if (match(CONTINUE)) return continueStatement();
-    if (match(IMPORT)) return importStatement();
     return expressionStatement();
   }
 
@@ -123,12 +129,6 @@ class Parser {
     } finally {
         loopDepth--;
     }
-  }
-
-  private Stmt importStatement() {
-    Expr value = expression();
-    consume(SEMICOLON, "Expect ';' after import statement.");
-    return new Stmt.Import(value);
   }
 
   private Stmt ifStatement() {
@@ -463,6 +463,7 @@ class Parser {
 
       switch (peek().type) {
         case CLASS:
+        case IMPORT:
         case FUN:
         case VAR:
         case FOR:

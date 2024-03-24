@@ -6,6 +6,7 @@ import java.io.InputStreamReader;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.nio.file.Path;
 import java.util.List;
 
 public class Main {
@@ -14,6 +15,8 @@ public class Main {
 
   static boolean hadError = false;
   static boolean hadRuntimeError = false;
+
+  public static Path importPath = null;
 
   static void error(int line, String message) {
     report(line, "", message);
@@ -40,13 +43,14 @@ public class Main {
   }
 
   private static void runFile(String path) throws IOException {
+    importPath = Paths.get(path).getParent();
     byte[] bytes = Files.readAllBytes(Paths.get(path));
     run(new String(bytes, Charset.defaultCharset()));
     if (hadError) {
       try{
         throw new IOException();
       } catch (IOException e) {
-      }
+    }
       //System.exit(0);
       //System.exit(65);
     }

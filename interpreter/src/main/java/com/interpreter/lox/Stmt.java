@@ -160,7 +160,7 @@ abstract class Stmt {
     final Expr.Function function;
   }
   static class Import extends Stmt {
-    Import(Expr path) {
+    Import(Token path) {
       this.path = path;
     }
 
@@ -169,7 +169,7 @@ abstract class Stmt {
       return visitor.visitImportStmt(this);
     }
 
-    final Expr path;
+    final Token path;
   }
 
   abstract <R> R accept(Visitor<R> visitor);
