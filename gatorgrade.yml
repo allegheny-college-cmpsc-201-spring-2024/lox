@@ -13,7 +13,7 @@ setup: |
       count: 0
       exact: true
   - description: TokenType.java contains the IMPORT token definition
-    category: Tokens
+    category: import statements
     check: MatchFileFragment
     options:
       fragment: IMPORT
@@ -28,7 +28,7 @@ setup: |
       count: 0
       exact: true
   - description: Scanner.java defines IMPORT as a keyword
-    category: Tokens
+    category: import statements
     check: MatchFileRegex
     options:
       regex: 'keywords\.put\("import",(\s)?IMPORT\);'
@@ -41,6 +41,13 @@ setup: |
     options:
       fragment: TODO
       count: 0
+      exact: true
+  - description: Parser.java calls separate declaration for imports if matching IMPORT keyword
+    category: import statements
+    check: MatchFileRegex
+    options:
+      regex: 'if(\s)?\(match\(IMPORT\)\)(\s)?return(\s)[a-zA-Z_]+\(\);'
+      count: 1
       exact: true
 - interpreter/src/main/java/com/interpreter/lox/LoxFunction.java:
   - description: LoxFunction.java contains no TODOs
