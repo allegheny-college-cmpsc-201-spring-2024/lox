@@ -1,14 +1,23 @@
 # The Lox Programming Language: Functions
 
-This branch mirrors content from chapter `12` of _Crafting Interpreters_. 
+This branch mirrors content from chapter `12` of _Crafting Interpreters_, in which we give our implementation of the `Lox` language
+object-oriented programming (OOP) features. Here, we add:
+
+* `class`es
+* `getter` methods
+* `import` statements
+
+Plus, we get to go fishing.
 
 ## Learning objectives
 
 This assignment directly addresses the following course learning objectives:
 
 * Correctly identify and describe the steps in the design and implementation of a programming language
-* Using knowledge of the general principles of programming languages, correctly implement a computer program in a heretofore unknown programming language
 * Effectively use programming language constructs to design correct, efficient, and well-tested programs in multiple programming languages, including but not limited to Java.
+* Interpret and use an existing programming language grammar.
+* Design, implement, and evaluate a correct scanner and parser for a programming language.
+* Using knowledge of the general principles of programming languages, correctly implement a computer program in a heretofore unknown programming language.
 
 ## Notes on repository setup
 
@@ -22,93 +31,50 @@ Unless tagged as optional, all challenges below are required by this week's work
 
 ### Challenge 1
 
-While Nystrom's work in the chapter fixes our seaworthiness, there's a feature that would help prove it: implementing 
-error-throwing when variables are _declared_, or _assigned_, but _not_ used in a local scope. (For this challenge, you
-do not need to consider global variables.) Here, this largely means in the closures made by functions. The `test.lox` file
-uses both named functions and anonymous functions to demonstrate. Your program should, ultimately, render the following result:
-```
-[line 1] Error at 'c': Local variable is never used.
-[line 13] Error at 'l': Local variable is never used.
-```
-As with all great challenges, though, there's a bit of adventure built in.
+Though not necessarily the province of OOP, `import` statements allow us to organize our programs by the kinds of objects or
+operations comprising our programmatic task. In this instance, we'll `import` the `fish.lox` file (located at
+[interpreter/src/test/resources/fish.lox](interpreter/src/test/resources/fish.lox). The code is already written for us and
+the correct `Lox` statements implemented in our traditional `test.lox` file. To accomplish this task, we don't edit those
+files but, instead, provide support for our defintion of a `Lox` import statement: `import → IDENTIFIER` which translates to
+something very `print` statement -like: `import "fish"`<sup>†</sup>.
 
-> Note: All parts of this challenge should be completed in `Resolver.java`, though referencing other files to account for
-> changes is probably a _very good idea_. Here, I'd focus on `Expr.java` and `Stmt.java` as guides.
+This task contemplates a range of skills that you've acquired across the semester, including lexical and syntactic analysis,
+resolution, and interpretation. The range of files you'll need to work in is comprehensive of this task.
 
-#### Part 1
+<sup>†</sup> This assumes that all valid `Lox` importables are `.lox` files
 
-> Note: It is expected that the program will produce errors at this stage. Your goal is to read them and _fix_ them using
-> the considerations below.
+#### Reflecting on this challenge
 
-Before we can get to the A-Ha! Moment<sup>R</sup> of seeing our local variable resolution work, we have to account for changes
-we've made to the language. Namely:
-
-* `break` and (possibly) `continue` statements<sup>`†`</sup>
-* `conditional` expressions (i.e., ternary expressions)
-* modifications we made to allow anonymous and named functions
-
-These need accounting for in `Resolver.java`, and we've got to wire them in.
-
-`†`: They're handled the same way, so if you completed the `continue` statement, you're not penalized for doing the extra work.
-You'll need to write an extra function, but it's really just cooking copypasta.
-
-#### Part 2
-
-> Note: Once we get to this state, the program should run, even if it doesn't provide expected output. There shouldn't be any]
-> `Java` or `Lox` errors at this stage.
-
-Once all of our additions and corrections work again, you need to set about accounting for variables. Here, we need to think 
-through what it means for a variable to be used. Considering this challenge, a variable can have one of `3` states:
-
-1. Declared
-2. Defined
-3. Read/Used
-
-At various points of the resolver, we can figure up which one of these we have. Two possible ways to solve them:
-
-1. Using `boolean` values to track whether or not we've achieved a status
-2. Using an `enum` (see `FunctionType` in `Resolver.java`) to track same
-
-If we arrive at `endScope` and a variable's status doesn't reflect usage, we know we have an unused variable.
+As written, this challenge synthesizes much of what we've been up to this semester. The questions in our [docs/reflection.md](docs/reflection.md)
+file represent this. Answer the questions in this document to finish this challenge.
 
 ### Challenge 2
 
-In our [`docs/reflection.md`](docs/reflection.md) file, answer the following question:
+In many languages, there exists a type of method known as a `getter`: a _read-only_ class-bound method that returns values or
+calculations including values. For example, Nystrom uses circle area as one instance where this is useful:
+```lox
+class Circle {
+  init(radius) {
+    this.radius = radius;
+  }
 
-> Consider the following function:
-> ```
-> fun l(o,x) {  
->  if (o + x == 0) return;
->  print o + x;
->  l(o - 1, x - 1);
-> }
->
-> l(10, 10);
->```
->If we argue that we can't _use_ a variable before it's defined, why do this work?
+  // area is a "getter" method
+  area {
+    return 3.141592653 * this.radius * this.radius;
+  }
+}
 
-### Challenge 3
+var circle = Circle(4);
+print circle.area;
+```
+These methods are _like_ other methods in that they have:
 
-In our [`docs/reflection.md`](docs/reflection.md) file, answer the following question:
+* a name
+* their own local scopes
 
-> We know that the following `Lox` code is OK:
-> ```
-> var a = "outer";
-> {
->   var a = 4;
->   print a;
-> }
-> print a;
-> ```
->However, this is _not_:
->```
-> var a = "outer";
-> {
->  var a = a;
-> }
-> ```
-> The answer to this question comes in `3` parts:
-> 
-> - Why is this illegal in `Lox`?
-> - Does `Java` support this? How does the language design enable or prohibit it?
-> - Likewise, does `Python` support this? In what ways does language design enable or prohibit it?
+However, they are _different_ in that they _do not process a list of parameters_ partly because they _don't have_ parameters. This
+challenge revolves around making this possible by altering the various levels of parsing, resolving, and interpreting function
+statements.
+
+Given that these bound methods are also _callables_ (or, as Nystrom calls them in program and text: "get expressions"), we need to 
+force these `get`s to (if `function` calls) operate a lot like merely accessing a property -- not like calling a function.
