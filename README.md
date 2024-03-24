@@ -1,11 +1,6 @@
 # The Lox Programming Language: Functions
 
-This branch mirrors content from chapter `11` of _Crafting Interpreters_. This week's work may look a lot like last
-week's -- at least in terms of the final outcome. This week we're concerned with functions, but not functions _qua_ functions.
-Functions create inner scopes which our work allows, but _doesn't_ enforce. We a problem: scoping favors the global,
-even if we have local declarations of variables meant to replace them. On its own, not a big deal. However, it points
-out a problem with our implementation thus far: our environments aren't necessarily water-tight. As an ocean-going craft,
-we'd sink pretty fast. As Nystrom writes in the chapter underlying this week's work: we're defintely taking on water.
+This branch mirrors content from chapter `12` of _Crafting Interpreters_. 
 
 ## Learning objectives
 

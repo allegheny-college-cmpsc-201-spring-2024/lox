@@ -245,6 +245,18 @@ class Interpreter implements Expr.Visitor<Object>,
   }
 
   @Override
+  public Void visitImportStmt(Stmt.Import stmt) {
+    try {
+      Object value = evaluate(stmt.path);
+      Main.main(new String[]{stringify(value) + ".lox"});
+    } catch (Exception e) {
+      System.out.println(e);
+      //throw new RuntimeError(stmt.path, "Invalid import!");
+    }
+    return null;
+  }
+
+  @Override
   public Void visitReturnStmt(Stmt.Return stmt) {
     Object value = null;
     if (stmt.value != null) value = evaluate(stmt.value);

@@ -117,7 +117,8 @@ public class GenerateAST {
       "Return    : Token keyword, Expr value",
       "Var       : Token name, Expr initializer",
       "While     : Expr condition, Stmt body",
-      "Function  : Token name, Expr.Function function"
+      "Function  : Token name, Expr.Function function",
+      "Import    : Expr path"
     ));
   }
 

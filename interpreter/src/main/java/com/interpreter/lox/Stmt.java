@@ -15,6 +15,7 @@ abstract class Stmt {
     R visitVarStmt(Var stmt);
     R visitWhileStmt(While stmt);
     R visitFunctionStmt(Function stmt);
+    R visitImportStmt(Import stmt);
   }
   static class Block extends Stmt {
     Block(List<Stmt> statements) {
@@ -157,6 +158,18 @@ abstract class Stmt {
 
     final Token name;
     final Expr.Function function;
+  }
+  static class Import extends Stmt {
+    Import(Expr path) {
+      this.path = path;
+    }
+
+    @Override
+    <R> R accept(Visitor<R> visitor) {
+      return visitor.visitImportStmt(this);
+    }
+
+    final Expr path;
   }
 
   abstract <R> R accept(Visitor<R> visitor);

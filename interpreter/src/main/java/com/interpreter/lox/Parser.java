@@ -78,6 +78,7 @@ class Parser {
     if (match(LEFT_BRACE)) return new Stmt.Block(block());
     if (match(BREAK)) return breakStatement();
     if (match(CONTINUE)) return continueStatement();
+    if (match(IMPORT)) return importStatement();
     return expressionStatement();
   }
 
@@ -122,6 +123,12 @@ class Parser {
     } finally {
         loopDepth--;
     }
+  }
+
+  private Stmt importStatement() {
+    Expr value = expression();
+    consume(SEMICOLON, "Expect ';' after import statement.");
+    return new Stmt.Import(value);
   }
 
   private Stmt ifStatement() {

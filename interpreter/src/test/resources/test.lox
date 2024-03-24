@@ -1,13 +1,22 @@
+import "file";
+
 class Breakfast {
+  init(who) {
+    this.who = who;
+  }
+
   cook() {
     print "Eggs a-fryin'!";
   }
 
-  serve(who) {
-    print "Enjoy your breakfast, " + who + ".";
+  serve() {
+    print "Enjoy your breakfast, " + this.who + ".";
   }
 }
 
-var meal = Breakfast();
+var meal = Breakfast("Ulysses");
 meal.cook();
-meal.serve("Ulysses");
+meal.serve();
+
+var f = Found();
+print f.message;

@@ -1,0 +1,7 @@
+class Found {
+  
+  init() {
+    this.message = "Found!";
+  }
+
+}
