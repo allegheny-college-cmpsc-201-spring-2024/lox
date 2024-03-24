@@ -1,4 +1,3 @@
-// Uncomment import to test import functionality
 import "fish";
 
 class fishingTrip {

@@ -79,3 +79,19 @@ setup: |
   check: ExecuteCommand
   options:
     command: mvn test -Dtest=BaseTests#testImportInclusion -f "interpreter/pom.xml"
+- description: test.lox program is unedited
+  category: Tests
+  check: MatchCommandFragment
+  options:
+    command: cat interpreter/src/test/resources/test.lox | sed '/^\s*#/d;/^\s*$/d' | wc -c
+    fragment: 419
+    count: 1
+    exact: true
+- description: fish.lox program is unedited
+  category: Tests
+  check: MatchCommandFragment
+  options:
+    command: cat interpreter/src/test/resources/fish.lox | sed '/^\s*#/d;/^\s*$/d' | wc -c
+    fragment: 253
+    count: 1
+    exact: true
