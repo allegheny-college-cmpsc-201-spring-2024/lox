@@ -19,7 +19,7 @@ tool commonly used with Java. Instructions for using this repository exist in th
 |7    |Control Flow |[![Gatorgrader](../../actions/workflows/main.yml/badge.svg?branch=7-control-flow)](../../actions/workflows/main.yml) |[Chapter 9](../../tree/7-control-flow) | 11 March | 
 |8    |Functions |[![Gatorgrader](../../actions/workflows/main.yml/badge.svg?branch=8-functions)](../../actions/workflows/main.yml) |[Chapter 10](../../tree/8-functions) | 18 March |
 |9    |Resolving and Binding |[![Gatorgrader](../../actions/workflows/main.yml/badge.svg?branch=9-resolving-binding)](../../actions/workflows/main.yml) |[Chapter 11](../../tree/9-resolving-binding) | 25 March |
-|10    |Classes |[![Gatorgrader](../../actions/workflows/main.yml/badge.svg?branch=10-representing-code)](../../actions/workflows/main.yml) |[Chapter 12](../../tree/10-classes) | 1 April (that's no joke) |
+|10    |Classes |[![Gatorgrader](../../actions/workflows/main.yml/badge.svg?branch=10-classes)](../../actions/workflows/main.yml) |[Chapter 12](../../tree/10-classes) | 1 April (that's no joke) |
 |11    |Inheritance |[![Gatorgrader](../../actions/workflows/main.yml/badge.svg?branch=11-inheritance)](../../actions/workflows/main.yml) |[Chapter 13](../../tree/13-inheritance) | 8 April |
 
 ## Programmatic content
