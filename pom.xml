@@ -41,31 +41,17 @@
         <version>5.10.0</version>
         <scope>test</scope>
     </dependency>
-<<<<<<< HEAD
-=======
     <dependency>
         <groupId>org.hamcrest</groupId>
         <artifactId>hamcrest</artifactId>
         <version>2.2</version>
         <scope>test</scope>
     </dependency>
->>>>>>> 10-classes
   </dependencies>
   <build>
     <pluginManagement>
       <plugins>
           <plugin>
-<<<<<<< HEAD
-              <groupId>org.codehaus.mojo</groupId>
-              <artifactId>exec-maven-plugin</artifactId>
-              <version>1.2.1</version>
-              <configuration>
-                  <mainClass>com.interpreter.lox.Main</mainClass>
-              </configuration>
-          </plugin>
-          <plugin>
-=======
->>>>>>> 10-classes
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-surefire-plugin</artifactId>
             <version>2.22.2</version>

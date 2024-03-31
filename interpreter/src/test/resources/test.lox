@@ -1,33 +1,13 @@
 import "fish";
 
-class fishingTrip {
-
+class catch < fish {
+  
   init() {
-    this.count = 0;
-  }
-
-  goFish() {
-    var chance = random(1, 10);
-    if (chance == 10) {
-      this.count = this.count + 1;
-      this.fish = fish();
-    }
-  }
-
-  caught {
-    if (this.count > 0) {
-      return this.fish.type;
-    }
+    super.init();
   }
 
 }
 
-var trip = fishingTrip();
-for(;;) {
-  trip.goFish();
-  if (trip.count > 0) {
-    break;
-  }
-}
-
-print "It's a " + trip.caught + "!";
+var c = catch();
+print "You caught a " + c.type + "!";
+  
