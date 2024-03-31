@@ -27,7 +27,12 @@ public class GenerateAST {
     writer.println("  static class " + className + " extends " +
         baseName + " {");
     writer.println("    " + className + "(" + fieldList + ") {");
-    String[] fields = fieldList.split(", ");
+    String[] fields;
+    if (fieldList.isEmpty()) {
+        fields = new String[0];
+    } else {
+        fields = fieldList.split(", ");
+    }
     for (String field : fields) {
       String name = field.split(" ")[1];
       writer.println("      this." + name + " = " + name + ";");
@@ -96,21 +101,26 @@ public class GenerateAST {
       "Super: Token keyword, Token method",
       "This: Token keyword",
       "Unary: Token operator, Expr right",
-      "Variable: Token name"
+      "Variable: Token name",
+      "Conditional: Expr expression, Expr thenBranch, Expr elseBranch",
+      "Function: List<Token> parameters, List<Stmt> body"
     ));
+
     defineAST(outputDir, "Stmt", Arrays.asList(
       "Block     : List<Stmt> statements",
       "Class     : Token name, Expr.Variable superclass," +
                  " List<Stmt.Function> methods",
+      "Break     : ",
+      "Continue  : ",
       "Expression: Expr expression",
-      "Function  : Token name, List<Token> params," +
-                 " List<Stmt> body",
       "If        : Expr condition, Stmt thenBranch," +
                  " Stmt elseBranch ",
       "Print     : Expr expression",
       "Return    : Token keyword, Expr value",
       "Var       : Token name, Expr initializer",
-      "While     : Expr condition, Stmt body"
+      "While     : Expr condition, Stmt body",
+      "Function  : Token name, Expr.Function function",
+      "Import    : Expr name"
     ));
   }
 

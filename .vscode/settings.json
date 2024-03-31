@@ -1,5 +1,6 @@
 {
     "java.configuration.updateBuildConfiguration": "automatic",
+    "maven.view": "hierarchical",
     "maven.terminal.favorites": [
         {
             "command": "exec:java",
@@ -10,5 +11,4 @@
             "debug": false
         }
     ],
-    "maven.view": "hierarchical"
 }

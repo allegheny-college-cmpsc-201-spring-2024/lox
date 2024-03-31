@@ -11,4 +11,29 @@
   </parent>
   <name>Interpreter</name>
   <artifactId>loxInterpreter</artifactId>
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <maven.compiler.source>11</maven.compiler.source>
+    <maven.compiler.target>11</maven.compiler.target>
+  </properties>
+  <build>
+  <plugins>
+    <plugin>
+      <groupId>org.codehaus.mojo</groupId>
+      <artifactId>exec-maven-plugin</artifactId>
+      <version>1.4.0</version>
+      <configuration>
+          <executable>java</executable>
+          <mainClass>com.interpreter.lox.Main</mainClass>
+          <arguments>
+            <argument>${session.executionRootDirectory}/src/test/resources/test.lox</argument>
+          </arguments>
+          <additionalClasspathElements>
+            <additionalClasspathElement>${session.executionRootDirectory}/interpreter/target/classes</additionalClasspathElement>
+          </additionalClasspathElements>
+      </configuration>
+      </plugin>
+  </plugins>
+  </build>
 </project>
+>>>>>>> 10-classes

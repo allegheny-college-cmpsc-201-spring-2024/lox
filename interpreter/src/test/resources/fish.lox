@@ -1,0 +1,19 @@
+class fish {
+
+  init() {
+    this.factor = random(1, 3);
+  }
+
+  type {
+    var kind;
+    if (this.factor == 1) {
+      kind = "bass";
+    } else if (this.factor == 2) {
+      kind = "salmon";
+    } else {
+      kind = "boot";
+    }
+    return kind;
+  }
+
+}

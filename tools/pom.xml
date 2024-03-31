@@ -8,18 +8,26 @@
   <name>AST Generator</name>
   <artifactId>loxTools</artifactId>
   <version>0.1.0</version>
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <maven.compiler.source>11</maven.compiler.source>
+    <maven.compiler.target>11</maven.compiler.target>
+  </properties>
   <build>
     <pluginManagement>
       <plugins>
           <plugin>
               <groupId>org.codehaus.mojo</groupId>
               <artifactId>exec-maven-plugin</artifactId>
-              <version>1.2.1</version>
+              <version>1.4.0</version>
               <configuration>
                   <mainClass>com.interpreter.tools.GenerateAST</mainClass>
                   <arguments>
-                    <argument>${session.executionRootDirectory}/interpreter/src/main/java/com/interpreter/lox</argument>
+                    <argument>${project.basedir}/../interpreter/src/main/java/com/interpreter/lox</argument>
                   </arguments>
+                  <additionalClasspathElements>
+                    <additionalClasspathElement>${session.executionRootDirectory}/tools/target/classes</additionalClasspathElement>
+                  </additionalClasspathElements>
               </configuration>
           </plugin>
       </plugins>

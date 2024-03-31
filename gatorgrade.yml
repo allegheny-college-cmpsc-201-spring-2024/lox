@@ -1,62 +1,104 @@
 setup: |
+  echo "🧹\tClean from previous compilation (mvn clean)"
+  mvn clean -q || true
   echo "🛠️\tCompiling program (mvn compile)"
   mvn compile -q || true
-  echo "🧪\tRunning Maven tests (mvn test)"
-  mvn test -q || true
 ---
-- description: Lox interpreter correctly interprets a novel expression
+- interpreter/src/main/java/com/interpreter/lox/TokenType.java:
+  - description: TokenType.java contains no TODOs
+    category: TODOs
+    check: MatchFileFragment
+    options:
+      fragment: TODO
+      count: 0
+      exact: true
+  - description: TokenType.java contains the IMPORT token definition
+    category: import statements
+    check: MatchFileFragment
+    options:
+      fragment: IMPORT
+      count: 1
+      exact: true
+- interpreter/src/main/java/com/interpreter/lox/Scanner.java:
+  - description: Scanner.java contains no TODOs
+    category: TODOs
+    check: MatchFileFragment
+    options:
+      fragment: TODO
+      count: 0
+      exact: true
+  - description: Scanner.java defines IMPORT as a keyword
+    category: import statements
+    check: MatchFileRegex
+    options:
+      regex: 'keywords\.put\("import",(\s)?IMPORT\);'
+      count: 1
+      exact: true
+- interpreter/src/main/java/com/interpreter/lox/Parser.java:
+  - description: Parser.java contains no TODOs
+    category: TODOs
+    check: MatchFileFragment
+    options:
+      fragment: TODO
+      count: 0
+      exact: true
+  - description: Parser.java calls separate declaration for imports if matching IMPORT keyword
+    category: import statements
+    check: MatchFileRegex
+    options:
+      regex: 'if(\s)?\(match\(IMPORT\)\)(\s)?return(\s)[a-zA-Z_]+\(\);'
+      count: 1
+      exact: true
+- interpreter/src/main/java/com/interpreter/lox/LoxFunction.java:
+  - description: LoxFunction.java contains no TODOs
+    category: TODOs
+    check: MatchFileFragment
+    options:
+      fragment: TODO
+      count: 0
+      exact: true
+- interpreter/src/main/java/com/interpreter/lox/Resolver.java:
+  - description: Resolver.java contains no TODOs
+    category: TODOs
+    check: MatchFileFragment
+    options:
+      fragment: TODO
+      count: 0
+      exact: true
+- interpreter/src/main/java/com/interpreter/lox/Interpreter.java:
+  - description: Interpreter.java contains no TODOs
+    category: TODOs
+    check: MatchFileFragment
+    options:
+      fragment: TODO
+      count: 0
+      exact: true
+- docs/reflection.md:
+  - description: Reflection contains no TODOs
+    category: TODOs
+    check: MatchFileFragment
+    options:
+      fragment: TODO
+      count: 0
+      exact: true
+- description: Program produces correct output, accounting for 'getters' and imports
+  category: Tests
+  check: ExecuteCommand
+  options:
+    command: mvn test -Dtest=BaseTests#testImportInclusion -f "interpreter/pom.xml"
+- description: test.lox program is unedited
   category: Tests
   check: MatchCommandFragment
   options:
-    command: mvn test -Dtest=BaseTests#testTokenOutput -q
-    fragment: "VAR var null\nIDENTIFIER token null\nEQUAL = null\nNUMBER 3.14 3.14\nSEMICOLON ; null\nEOF  null"
+    command: cat interpreter/src/test/resources/test.lox | sed '/^\s*#/d;/^\s*$/d' | wc -c
+    fragment: 419
     count: 1
     exact: true
-- description: Lox interpreter still parses single-line comments correctly
+- description: fish.lox program is unedited
   category: Tests
-  check: MatchCommandRegex
+  check: MatchCommandFragment
   options:
-    command: mvn test -Dtest=BaseTests#testTokenOutput -q
-    regex: 'ignore|me\s'
-    count: 0
+    command: cat interpreter/src/test/resources/fish.lox | sed '/^\s*#/d;/^\s*$/d' | wc -c
+    fragment: 253
+    count: 1
     exact: true
-- description: Lox interpreter correctly implements multiline comments
-  category: Tests
-  check: MatchCommandRegex
-  options:
-    command: mvn test -Dtest=BaseTests#testTokenOutput -q
-    regex: 'SLASH|STAR|this|serves|as|the|multiline|comment'
-    count: 0
-    exact: true
-- src/main/java/com/interpreter/lox/Main.java:
-  - description: src/main/java/com/interpreter/lox/Main.java exists and contains no TODOs
-    category: Files
-    check: MatchFileFragment
-    options:
-      fragment: "TODO"
-      count: 0
-      exact: true
-- src/main/java/com/interpreter/lox/Scanner.java:
-  - description: src/main/java/com/interpreter/lox/Scanner.java exists and contains no TODOs
-    category: Files
-    check: MatchFileFragment
-    options:
-      fragment: "TODO"
-      count: 0
-      exact: true
-- src/main/java/com/interpreter/lox/Token.java:
-  - description: src/main/java/com/interpreter/lox/Token.java exists and contains no TODOs
-    category: Files
-    check: MatchFileFragment
-    options:
-      fragment: "TODO"
-      count: 0
-      exact: true
-- src/main/java/com/interpreter/lox/TokenType.java:
-  - description: src/main/com/java/interpreter/lox/TokenType.java exists and contains no TODOs
-    category: Files
-    check: MatchFileFragment
-    options:
-      fragment: "TODO"
-      count: 0
-      exact: true

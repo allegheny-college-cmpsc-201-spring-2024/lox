@@ -1,9 +1,11 @@
 package com.interpreter.lox;
 
+import java.lang.Math;
 import java.util.Map;
 import java.util.List;
 import java.util.HashMap;
 import java.util.ArrayList;
+import java.util.Random;
 
 class Interpreter implements Expr.Visitor<Object>,
                              Stmt.Visitor<Void> {
@@ -11,6 +13,12 @@ class Interpreter implements Expr.Visitor<Object>,
   final Environment globals = new Environment();
   private Environment environment = globals;
   private final Map<Expr, Integer> locals = new HashMap<>();
+  private static Object uninitialized = new Object();
+  private static boolean toBeContinued = false;
+  private static class BreakException extends RuntimeException {}
+  private static class ContinueException extends RuntimeException {}
+  private static boolean isCorrectType = true;
+  private static boolean isMissingImport = false;
 
   Interpreter() {
     globals.define("clock", new LoxCallable() {
@@ -27,6 +35,87 @@ class Interpreter implements Expr.Visitor<Object>,
       @Override
       public String toString() { return "<native fn>"; }
     });
+
+    globals.define("abs", new LoxCallable() {
+
+      @Override
+      public int arity() { return 1; }
+
+      @Override
+      public Object call(Interpreter interpreter,
+                         List<Object> arguments) {
+        double arg;
+        try{
+          arg = Double.parseDouble(arguments.get(0).toString());
+          if(arg < 0) {
+            arg = -1 * arg;
+          }
+          return arg;
+        } catch (NumberFormatException err) {
+          isCorrectType = false;
+        }
+        return null;
+      }
+
+      @Override
+      public String toString() { return "<native fn>"; }
+    });
+
+    globals.define("pow", new LoxCallable() {
+
+      @Override
+      public int arity() { return 2; }
+
+      @Override
+      public Object call(Interpreter interpreter,
+                         List<Object> arguments) {
+        double m1;
+        double m2;
+        try {
+          m1 = Double.parseDouble(arguments.get(0).toString());
+          m2 = Double.parseDouble(arguments.get(1).toString());
+          for (int i = 1; i < m2; i++) {
+            m1 += m1;
+          }
+          return m1;
+        } catch (NumberFormatException err) {
+          isCorrectType = false;
+        }
+        return null;
+      }
+
+      @Override
+      public String toString() { return "<native fn>"; }
+    });
+
+    globals.define("random", new LoxCallable() {
+
+      @Override
+      public int arity() { return 2; }
+
+      @Override
+      public Object call(Interpreter interpreter,
+                         List<Object> arguments) {
+        double start;
+        double end;
+        try {
+          start = Double.parseDouble(arguments.get(0).toString());
+          end = Double.parseDouble(arguments.get(1).toString());
+          Random rand = new Random();
+          int seed = rand.nextInt(
+            ((int) Math.floor(end) + 1) - (int) Math.floor(start)
+          ) + (int) Math.floor(start);
+          return (double) seed;
+        } catch (NumberFormatException err) {
+         isCorrectType = false;
+        }
+        return null;
+      }
+
+      @Override
+      public String toString() { return "<native fn>"; }
+
+    });
   }
 
   void interpret(List<Stmt> statements) {
@@ -36,6 +125,16 @@ class Interpreter implements Expr.Visitor<Object>,
       }
     } catch (RuntimeError error) {
       Main.runtimeError(error);
+    }
+  }
+
+  String interpret(Expr expression) {
+    try{
+        Object value = evaluate(expression);
+        return stringify(value);
+    } catch (RuntimeError error) {
+        Main.runtimeError(error);
+        return null;
     }
   }
 
@@ -135,6 +234,11 @@ class Interpreter implements Expr.Visitor<Object>,
     throw new RuntimeError(operator, "Operands must be numbers.");
   }
 
+  private void checkNumberArgument(Token operator, Object argument) {
+    if (argument instanceof Double) return;
+    throw new RuntimeError(operator, "Argument must be numeric.");
+  }
+
   private Object evaluate(Expr expr) {
     return expr.accept(this);
   }
@@ -153,6 +257,10 @@ class Interpreter implements Expr.Visitor<Object>,
     try {
       this.environment = environment;
       for (Stmt statement : statements) {
+        if(toBeContinued) {
+          toBeContinued = false;
+          continue;
+        }
         execute(statement);
       }
     } finally {
@@ -186,7 +294,7 @@ class Interpreter implements Expr.Visitor<Object>,
 
     Map<String, LoxFunction> methods = new HashMap<>();
     for (Stmt.Function method : stmt.methods) {
-      LoxFunction function = new LoxFunction(method, environment,
+      LoxFunction function = new LoxFunction(method.function, environment,
           method.name.lexeme.equals("init"));
       methods.put(method.name.lexeme, function);
     }
@@ -210,6 +318,18 @@ class Interpreter implements Expr.Visitor<Object>,
   }
 
   @Override
+  public Void visitImportStmt(Stmt.Import stmt) {
+    try {
+      Object value = stmt.path.lexeme.replaceAll("^\"|\"$", "");;
+      Main.main(new String[]{Main.importPath + "/" + value + ".lox"});
+    } catch (Exception e) {
+      System.out.println(e);
+      throw new RuntimeError(stmt.path, "Illegal import: " + stmt.path.lexeme);
+    }
+    return null;
+  }
+
+  @Override
   public Void visitReturnStmt(Stmt.Return stmt) {
     Object value = null;
     if (stmt.value != null) value = evaluate(stmt.value);
@@ -218,7 +338,7 @@ class Interpreter implements Expr.Visitor<Object>,
 
   @Override
   public Void visitVarStmt(Stmt.Var stmt) {
-    Object value = null;
+    Object value = uninitialized;
     if (stmt.initializer != null) {
       value = evaluate(stmt.initializer);
     }
@@ -229,8 +349,16 @@ class Interpreter implements Expr.Visitor<Object>,
 
   @Override
   public Void visitWhileStmt(Stmt.While stmt) {
+    try {
     while (isTruthy(evaluate(stmt.condition))) {
-      execute(stmt.body);
+      try {
+        execute(stmt.body);
+      } catch (ContinueException ex) {
+        toBeContinued = true;
+      }
+    }
+    } catch (BreakException ex) {
+        // Do nary a thing.
     }
     return null;
   }
@@ -255,10 +383,14 @@ class Interpreter implements Expr.Visitor<Object>,
 
   @Override
   public Void visitFunctionStmt(Stmt.Function stmt) {
-    LoxFunction function = new LoxFunction(stmt, environment, 
-                                           false);
-    environment.define(stmt.name.lexeme, function);
+    String fnName = stmt.name.lexeme;
+    environment.define(fnName, new LoxFunction(fnName, stmt.function, environment));
     return null;
+  }
+
+  @Override
+  public Object visitFunctionExpr(Expr.Function expr) {
+    return new LoxFunction(null, expr, environment);
   }
 
   @Override
@@ -299,6 +431,17 @@ class Interpreter implements Expr.Visitor<Object>,
         if (left instanceof String && right instanceof String) {
           return (String)left + (String)right;
         }
+        if (left instanceof String && right instanceof Double) {
+          double value = (double)right;
+          return (String)left + String.valueOf(value);
+        }
+        if (left instanceof String && right instanceof Boolean) {
+          boolean value = (boolean)right;
+          return (String)left + Boolean.toString(value);
+        }
+        if (left instanceof Double && right instanceof String) {
+          return String.valueOf((double)left) + (String)right;
+        }
         throw new RuntimeError(expr.operator,
           "Operands must be two numbers or two strings.");
       case SLASH:
@@ -329,10 +472,15 @@ class Interpreter implements Expr.Visitor<Object>,
         "Can call only functions and classes.");
     }
 
-    LoxCallable function = (LoxCallable)callee;
+    if (!isCorrectType) {
+      for(Expr arg : expr.arguments) {
+        checkNumberArgument(expr.paren, evaluate(arg));
+      }
+    }
 
+    LoxCallable function = (LoxCallable)callee;
     if (arguments.size() != function.arity()) {
-      throw new RuntimeError(expr.paren, "Expected" +
+      throw new RuntimeError(expr.paren, function + " expected " +
         function.arity() + " arguments but got " +
         arguments.size() + ".");
     }
@@ -344,10 +492,37 @@ class Interpreter implements Expr.Visitor<Object>,
   public Object visitGetExpr(Expr.Get expr) {
     Object object = evaluate(expr.object);
     if (object instanceof LoxInstance) {
-      return ((LoxInstance) object).get(expr.name);
+      // STUDENT: Is more complicated here; not just an IF statement
+      //          guarding null parameters
+      Object result = ((LoxInstance) object).get(expr.name);
+      if (result instanceof LoxFunction && ((LoxFunction) result).isGetter()) {
+        result = ((LoxFunction) result).call(this, null);
+      }
+      // return ((LoxInstance) object).get(expr.name);
+      return result;
     }
-    throw new RuntimeError(expr.name, 
+    throw new RuntimeError(expr.name,
       "Only instances have properties.");
+  }
+
+  public Object visitConditionalExpr(Expr.Conditional expr) {
+    Expr condition = expr.expression;
+    if(isTruthy(evaluate(condition))){
+        return evaluate(expr.thenBranch);
+    } else if (!isTruthy(evaluate(condition)) && expr.elseBranch != null) {
+        return evaluate(expr.elseBranch);
+    }
+    return null;
+  }
+
+  @Override
+  public Void visitBreakStmt(Stmt.Break stmt) {
+    throw new BreakException();
+  }
+
+  @Override
+  public Void visitContinueStmt(Stmt.Continue stmt) {
+    throw new ContinueException();
   }
 
   private boolean isTruthy(Object object) {

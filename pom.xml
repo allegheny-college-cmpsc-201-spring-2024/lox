@@ -12,6 +12,8 @@
   <url>https://github.com/allegheny-college-cmpsc-201-spring-2024</url>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <maven.compiler.source>8</maven.compiler.source>
+    <maven.compiler.target>8</maven.compiler.target>
   </properties>
   <dependencies>
     <dependency>
@@ -39,11 +41,21 @@
         <version>5.10.0</version>
         <scope>test</scope>
     </dependency>
+<<<<<<< HEAD
+=======
+    <dependency>
+        <groupId>org.hamcrest</groupId>
+        <artifactId>hamcrest</artifactId>
+        <version>2.2</version>
+        <scope>test</scope>
+    </dependency>
+>>>>>>> 10-classes
   </dependencies>
   <build>
     <pluginManagement>
       <plugins>
           <plugin>
+<<<<<<< HEAD
               <groupId>org.codehaus.mojo</groupId>
               <artifactId>exec-maven-plugin</artifactId>
               <version>1.2.1</version>
@@ -52,6 +64,8 @@
               </configuration>
           </plugin>
           <plugin>
+=======
+>>>>>>> 10-classes
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-surefire-plugin</artifactId>
             <version>2.22.2</version>
@@ -73,7 +87,7 @@
     </pluginManagement>
   </build>
   <modules>
-    <module>tools</module>
     <module>interpreter</module>
+    <module>tools</module>
   </modules>
 </project>
