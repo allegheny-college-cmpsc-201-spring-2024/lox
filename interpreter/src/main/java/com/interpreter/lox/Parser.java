@@ -82,9 +82,17 @@ class Parser {
   }
 
   private Stmt importDeclaration() {
-    Token name = consume(STRING, "Expect import file name");
-    consume(SEMICOLON, "Expect ';' after import declaration");
-    return new Stmt.Import(name);
+   Token name = consume(STRING, "Expect import file name");
+   consume(SEMICOLON, "Expect ';' after import declaration");
+   try {
+      Object value = name.lexeme.replaceAll("^\"|\"$", "");;
+      Main.main(new String[]{Main.importPath + "/" + value + ".lox"});
+    } catch (Exception e) {
+      System.out.println(e);
+      throw new RuntimeError(name, "Illegal import: " + name.lexeme);
+    } finally {
+      return new Stmt.Import(name);
+    }
   }
 
   private Stmt statement() {

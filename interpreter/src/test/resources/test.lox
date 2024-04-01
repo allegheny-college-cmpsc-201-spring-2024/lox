@@ -1,7 +1,7 @@
 import "fish";
-//import "dinner";
+import "dinner";
 
-class catch < fish {
+class catch < fish, dinner {
 
   init() {
     super.init();
@@ -10,5 +10,7 @@ class catch < fish {
 }
 
 var c = catch();
+
 print "You caught a " + c.type + "!";
 
+c.cook();

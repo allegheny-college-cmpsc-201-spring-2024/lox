@@ -280,7 +280,6 @@ class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
         "Can't use 'this' outside of a class.");
       return null;
     }
-    // I'm going to guess...true here.
     resolveLocal(expr, expr.keyword,true);
     return null;
   }
@@ -367,5 +366,3 @@ class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
     }
   }
 }
-
-

@@ -17,16 +17,16 @@ class LoxClass implements LoxCallable {
   }
 
   LoxFunction findMethod(String name) {
-    if (methods.containsKey(name)) {
-      return methods.get(name);
-    }
-
     if (superclasses != null) {
       for (LoxClass inherited: superclasses) {
         if(inherited.findMethod(name) instanceof LoxFunction) {
           return inherited.findMethod(name);
         }
       }
+    }
+
+    if (methods.containsKey(name)) {
+      return methods.get(name);
     }
 
     return null;
