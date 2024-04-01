@@ -108,7 +108,7 @@ public class GenerateAST {
 
     defineAST(outputDir, "Stmt", Arrays.asList(
       "Block     : List<Stmt> statements",
-      "Class     : Token name, Expr.Variable superclass," +
+      "Class     : Token name, List<Expr.Variable> superclasses," +
                  " List<Stmt.Function> methods",
       "Break     : ",
       "Continue  : ",
@@ -120,7 +120,7 @@ public class GenerateAST {
       "Var       : Token name, Expr initializer",
       "While     : Expr condition, Stmt body",
       "Function  : Token name, Expr.Function function",
-      "Import    : Expr name"
+      "Import    : Token path"
     ));
   }
 

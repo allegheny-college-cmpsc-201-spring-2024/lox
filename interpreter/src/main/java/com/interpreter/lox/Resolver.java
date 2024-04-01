@@ -60,15 +60,12 @@ class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
     FunctionType enclosingFunction = currentFunction;
     currentFunction = type;
     beginScope();
-    // STUDENT: Again, really just the IF statement to
-    //          guard null parameter list
     if ( function.parameters != null ) {
       for (Token param : function.parameters) {
         declare(param);
         define(param);
       }
     }
-    // STUDENT
     resolve(function.body);
     endScope();
     currentFunction = enclosingFunction;
@@ -98,20 +95,27 @@ class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
     declare(stmt.name);
     define(stmt.name);
 
-    if (stmt.superclass != null &&
-        stmt.name.lexeme.equals(stmt.superclass.name.lexeme)) {
-          Main.error(stmt.superclass.name,
+    if (stmt.superclasses != null) {
+      for (Expr.Variable inheritance : stmt.superclasses) {
+        if (stmt.name.lexeme.equals(inheritance.name.lexeme)) {
+          Main.error(stmt.name,
             "A class can't inherit from itself!");
         }
-
-    if (stmt.superclass != null) {
-      currentClass = ClassType.SUBCLASS;
-      resolve(stmt.superclass);
+      }
     }
 
-    if (stmt.superclass != null) {
-      beginScope();
-      scopes.peek().put("super", new Variable(stmt.name, VariableState.DECLARED));
+    if (stmt.superclasses != null) {
+      currentClass = ClassType.SUBCLASS;
+      for(Expr.Variable superclass: stmt.superclasses) {
+        resolve(superclass);
+      }
+    }
+
+    if (stmt.superclasses != null) {
+      for(int i = stmt.superclasses.size() - 1; i >= 0; i--) {
+        beginScope();
+        scopes.peek().put("super", new Variable(stmt.superclasses.get(i).name, VariableState.DEFINED));
+      }
     }
 
     beginScope();
@@ -127,7 +131,11 @@ class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
 
     endScope();
 
-    if (stmt.superclass != null) endScope();
+    if (stmt.superclasses != null) {
+      for (Expr.Variable superclass : stmt.superclasses) {
+        endScope();
+      }
+    }
 
     currentClass = enclosingClass;
     return null;

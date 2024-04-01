@@ -276,21 +276,24 @@ class Interpreter implements Expr.Visitor<Object>,
 
   @Override
   public Void visitClassStmt(Stmt.Class stmt) {
-    Object superclass = null;
-    if (stmt.superclass != null) {
-      superclass = evaluate(stmt.superclass);
-      if (!(superclass instanceof LoxClass)) {
-        throw new RuntimeError(stmt.superclass.name,
-          "Superclass must be a class.");
+    if (stmt.superclasses != null) {
+      for (Expr.Variable superclass : stmt.superclasses) {
+        Object inheritance = evaluate(superclass);
+        if (!(inheritance instanceof LoxClass)) {
+          throw new RuntimeError(superclass.name,
+            "Superclass must be a class.");
+        }
       }
     }
 
     environment.define(stmt.name.lexeme, null);
 
-    if (stmt.superclass != null) {
-      environment = new Environment(environment);
-      environment.define("super", superclass);
-    }
+    if (stmt.superclasses != null) {
+      for (Expr.Variable superclass : stmt.superclasses) {
+        environment = new Environment(environment);
+        environment.define("super", superclass);
+      }
+   }
 
     Map<String, LoxFunction> methods = new HashMap<>();
     for (Stmt.Function method : stmt.methods) {
@@ -299,10 +302,22 @@ class Interpreter implements Expr.Visitor<Object>,
       methods.put(method.name.lexeme, function);
     }
 
-    LoxClass loxClass = new LoxClass(stmt.name.lexeme, 
-        (LoxClass)superclass, methods);
+    List<LoxClass> inheritances = null;
 
-    if (superclass != null) {
+    if (stmt.superclasses != null) {
+      inheritances = new ArrayList<>();
+      for (Expr.Variable inheritance : stmt.superclasses) {
+        Object superclass = evaluate(inheritance);
+        if(superclass instanceof LoxClass) {
+          inheritances.add((LoxClass)superclass);
+        }
+      }
+    }
+
+    LoxClass loxClass = new LoxClass(stmt.name.lexeme,
+        inheritances, methods);
+
+    if (stmt.superclasses != null) {
       environment = environment.enclosing;
     }
 

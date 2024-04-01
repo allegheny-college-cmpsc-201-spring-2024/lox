@@ -6,12 +6,12 @@ import java.util.List;
 class LoxClass implements LoxCallable {
 
   final String name;
-  final LoxClass superclass;
+  final List<LoxClass> superclasses;
   private final Map<String, LoxFunction> methods;
 
-  LoxClass(String name, LoxClass superclass,
+  LoxClass(String name, List<LoxClass> superclasses,
            Map<String, LoxFunction> methods) {
-    this.superclass = superclass;
+    this.superclasses = superclasses;
     this.name = name;
     this.methods = methods;
   }
@@ -21,8 +21,12 @@ class LoxClass implements LoxCallable {
       return methods.get(name);
     }
 
-    if (superclass != null) {
-      return superclass.findMethod(name);
+    if (superclasses != null) {
+      for (LoxClass inherited: superclasses) {
+        if(inherited.findMethod(name) instanceof LoxFunction) {
+          return inherited.findMethod(name);
+        }
+      }
     }
 
     return null;

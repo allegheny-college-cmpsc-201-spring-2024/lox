@@ -1,0 +1,7 @@
+class dinner {
+
+  cook() {
+    print "Cooked!";
+  }
+
+}
