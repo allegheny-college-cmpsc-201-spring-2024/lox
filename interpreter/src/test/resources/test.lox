@@ -1,7 +1,7 @@
 import "fish";
-import "dinner";
+//import "dinner";
 
-class catch < fish, dinner {
+class catch < fish {
 
   init() {
     super.init();

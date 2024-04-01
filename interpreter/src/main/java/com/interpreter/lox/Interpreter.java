@@ -309,6 +309,7 @@ class Interpreter implements Expr.Visitor<Object>,
       for (Expr.Variable inheritance : stmt.superclasses) {
         Object superclass = evaluate(inheritance);
         if(superclass instanceof LoxClass) {
+          System.out.println(superclass.getClass());
           inheritances.add((LoxClass)superclass);
         }
       }
