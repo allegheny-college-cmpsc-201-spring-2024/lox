@@ -1,13 +1,12 @@
 # The Lox Programming Language: Functions
 
-This branch mirrors content from chapter `12` of _Crafting Interpreters_, in which we give our implementation of the `Lox` language
-object-oriented programming (OOP) features. Here, we add:
-
-* `class`es
-* `getter` methods
-* `import` statements
-
-Plus, we get to go fishing.
+This branch mirrors content from chapter `13` of _Crafting Interpreters_, featuring supplemental work that supports our OOP mechanic of classes --
+an implementation of _inheritance_. With respect to this topic, we'll actually implement _multiple inheritance_: the ability for a class to 
+inherit pieces from multiple sibling-level classes such that:
+```
+class catch < fish, dinner
+```
+means that our class, `catch`, now has all of the methods and properties of `fish` _and_ `dinner`. Plus, if we get this done, we'll cook some fish.
 
 ## Learning objectives
 
@@ -25,70 +24,14 @@ While the repository's Maven configuration works from the command line, setup in
 the content of the [Getting Started guide](wiki/Getting-Started), which outlines how to set
 up the Java SDK and runtime in addition to helpful Maven tools for VSCode.
 
-## Challenges
+## Challenge
 
-Unless tagged as optional, all challenges below are required by this week's work.
+Our challenge is to implement _multiple inheritance_ as outlined above. However, there's a _catch_ (that's a good unanticipated joke): the implementation
+is _partially_ done, but it doesn't work. There's a variable (the second inheritance, `dinner`) which is _apparently_ never called -- the product
+of our work in a past week to throw an error when unused variables exist.
 
-### Challenge 1
-
-Though not necessarily the province of OOP, `import` statements allow us to organize our programs by the kinds of objects or
-operations comprising our programmatic task. In this instance, we'll `import` the `fish.lox` file (located at
-[interpreter/src/test/resources/fish.lox](interpreter/src/test/resources/fish.lox). The code is already written for us and
-the correct `Lox` statements implemented in our traditional `test.lox` file. To accomplish this task, we don't edit those
-files but, instead, provide support for our defintion of a `Lox` import statement: `import → IDENTIFIER` which translates to
-something very `print` statement -like: `import "fish"`<sup>†</sup>.
-
-This task contemplates a range of skills that you've acquired across the semester, including lexical and syntactic analysis,
-resolution, and interpretation. The range of files you'll need to work in is comprehensive of this task.
-
-<sup>†</sup> This assumes that all valid `Lox` importables are `.lox` files
-
-#### Reflecting on this challenge
+### Reflecting on this challenge
 
 As written, this challenge synthesizes much of what we've been up to this semester. The questions in our [docs/reflection.md](docs/reflection.md)
 file represent this. Answer the questions in this document to finish this challenge.
 
-### Challenge 2
-
-In many languages, there exists a type of method known as a `getter`: a _read-only_ class-bound method that returns values or
-calculations including values. For example, Nystrom uses circle area as one instance where this is useful:
-```lox
-class Circle {
-  init(radius) {
-    this.radius = radius;
-  }
-
-  // area is a "getter" method
-  area {
-    return 3.141592653 * this.radius * this.radius;
-  }
-}
-
-var circle = Circle(4);
-print circle.area;
-```
-These methods are _like_ other methods in that they have:
-
-* a name
-* their own local scopes
-
-However, they are _different_ in that they _do not process a list of parameters_ partly because they _don't have_ parameters. This
-challenge revolves around making this possible by altering the various levels of parsing, resolving, and interpreting function
-statements.
-
-The areas of work to achieve the above:
-
-* Parser.java
-* Resolver.java
-* Interpreter.java
-* LoxFunction.java
-
-Given that these bound methods are also _callables_ (or, as Nystrom calls them in program and text: "get expressions"), we need to 
-force these `get`s to (if `function` calls) operate a lot like merely accessing a property -- not like calling a function.
-
-* Interpreter.java's `visitGetExpr` method
-* Perhaps a helper method in LoxFunction.java to determine if a function has required parameters at all (i.e. parameters property is `null`).
-
-#### Reflecting on this challenge
-
-Our [docs/reflection.md](docs/reflection.md) file contains one question about this challenge.

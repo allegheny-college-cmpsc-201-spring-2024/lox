@@ -4,6 +4,11 @@ setup: |
   echo "🛠️\tCompiling program (mvn compile)"
   mvn compile -q || true
 ---
+- description: Program produces output consistent with allowed multiple inheritors
+  category: Tests
+  check: ExecuteCommand
+  options:
+    command: mvn test -Dtest=BaseTests#testMultipleInherit -f "interpreter/pom.xml"
 - docs/reflection.md:
   - description: Reflection contains no TODOs
     category: TODOs

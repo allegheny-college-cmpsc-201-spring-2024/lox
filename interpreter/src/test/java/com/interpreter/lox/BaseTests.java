@@ -44,7 +44,7 @@ class BaseTests {
     System.setErr(new PrintStream(errContent));
   }
 
-  static Stream<Arguments> testImportInclusion() throws Exception {
+  static Stream<Arguments> testMultipleInherit() throws Exception {
     URL resource = BaseTests.class.getClassLoader().getResource("test.lox");
     File file = Paths.get(resource.toURI()).toFile();
     String absPath = file.getAbsolutePath();
@@ -55,9 +55,9 @@ class BaseTests {
 
   @MethodSource
   @ParameterizedTest
-  void testImportInclusion(String[] args) throws Exception {
+  void testMultipleInherit(String[] args) throws Exception {
     Main.main(args);
-    Pattern pattern = Pattern.compile("It's a boot!$|It's a salmon!$|It's a bass!$");
+    Pattern pattern = Pattern.compile("Cooked perch$|Cooked halibut$|Cooked boot$");
     assertThat(
       outContent.toString().strip(),
       matchesPattern(pattern)
@@ -66,7 +66,6 @@ class BaseTests {
 
   @AfterAll
   public void restoreStreams() {
-    System.setIn(originalIn);
     System.setOut(originalOut);
     System.setErr(originalErr);
   }

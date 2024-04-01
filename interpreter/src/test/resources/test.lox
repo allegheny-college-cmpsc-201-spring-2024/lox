@@ -10,7 +10,4 @@ class catch < fish, dinner {
 }
 
 var c = catch();
-
-print "You caught a " + c.type + "!";
-
-c.cook();
+print c.cook() + c.type;
