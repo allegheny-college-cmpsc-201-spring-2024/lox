@@ -114,7 +114,7 @@ class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
     if (stmt.superclasses != null) {
       for(int i = stmt.superclasses.size() - 1; i >= 0; i--) {
         beginScope();
-        scopes.peek().put("super", new Variable(stmt.superclasses.get(i).name, VariableState.DEFINED));
+        scopes.peek().put("super", new Variable(stmt.superclasses.get(i).name, VariableState.READ));
       }
     }
 
