@@ -513,7 +513,6 @@ class Interpreter implements Expr.Visitor<Object>,
       if (result instanceof LoxFunction && ((LoxFunction) result).isGetter()) {
         result = ((LoxFunction) result).call(this, null);
       }
-      // return ((LoxInstance) object).get(expr.name);
       return result;
     }
     throw new RuntimeError(expr.name,
