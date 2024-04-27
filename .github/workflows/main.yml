@@ -1,5 +1,8 @@
 name: GatorGrader
 
+permissions:
+  contents: write
+
 on:
   push:
     branches: [10-classes]
@@ -30,7 +33,7 @@ jobs:
       if: always()
     - name: Grade repository
       run: |
-        gatorgrade --config gatorgrade.yml --report file json gatorgrade_summary.json
+        gatorgrade --config gatorgrade.yml --report file json gatorgrade_summary.json --report env md
       if: always()
       env:
         PIPENV_VENV_IN_PROJECT: 1
