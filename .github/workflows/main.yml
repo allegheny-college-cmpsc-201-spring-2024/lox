@@ -28,13 +28,14 @@ jobs:
     - name: Set up grading environment
       run: |
         sudo apt-get update
+        sudo apt-get install jq
         sudo python -m pip install --upgrade pip
         sudo python -m pip install gatorgrade --ignore-installed PyYAML
       if: always()
     - name: Grade repository
       run: |
         gatorgrade --config gatorgrade.yml --report file json gatorgrade_summary.json
-        echo "JSON_REPORT=$(cat gatorgrade_summary.json)" >> $GITHUB_ENV
+        echo "JSON_REPORT=$(cat gatorgrade_summary.json | jq -c | jq -R)" >> $GITHUB_ENV
       if: always()
       env:
         PIPENV_VENV_IN_PROJECT: 1
