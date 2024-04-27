@@ -1,5 +1,0 @@
-/* 
-   This serves as the
-   multiline comment
-*/
-var token = 3.14; // ignore me
