@@ -1,0 +1,10 @@
+import "toaster";
+import "bagel";
+
+var b = bagel();
+print b.dough + " bagel with " + b.topping;
+
+var t = toaster();
+t.toast(b);
+
+print b.toasted == true ? "toasted" : "untoasted";

@@ -1,0 +1,19 @@
+class spread { 
+
+  init() {
+  }
+
+  topping {
+    this.randSpread = random(1, 5);
+    if (this.randSpread == 1) {
+      return "butter";
+    } else if (this.randSpread == 2) {
+      return "lox";
+    } else if (this.randSpread == 3) {
+      return "jam";
+    } else {
+      return "cream cheese"; 
+    }
+  }
+
+}

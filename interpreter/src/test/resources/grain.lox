@@ -1,0 +1,19 @@
+class grain {
+
+  init() {
+  }
+
+  dough {
+    this.randDough = random(1, 5);
+    if (this.randDough == 1) {
+      return "sesame seed";
+    } else if (this.randDough == 2) {
+      return "everything";
+    } else if (this.randDough == 3) {
+      return "egg";
+    } else {
+      return "raisin";
+    }
+  }
+
+}
