@@ -61,7 +61,7 @@ jobs:
         repo-token: ${{ secrets.GITHUB_TOKEN }}
         branch: insight
         path: insight/insight-report-${{steps.current-time.outputs.formattedTime}}.json
-        source: branch-and-path
-        source-arg: 10-classes/gatorgrade_summary.json
+        source: content
+        source-arg: $(cat gatorgrade_summary.json)
     env:
       GITHUB_TOKEN: ${{ secrets.WIZARD }}
