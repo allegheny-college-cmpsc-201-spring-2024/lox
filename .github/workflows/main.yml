@@ -34,7 +34,7 @@ jobs:
     - name: Grade repository
       run: |
         gatorgrade --config gatorgrade.yml --report file json gatorgrade_summary.json
-        exprt JSON_REPORT=$(cat gatorgrade_summary.json)
+        export JSON_REPORT=$(cat gatorgrade_summary.json)
       if: always()
       env:
         PIPENV_VENV_IN_PROJECT: 1
