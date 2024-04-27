@@ -34,7 +34,7 @@ jobs:
     - name: Grade repository
       run: |
         gatorgrade --config gatorgrade.yml --report file json gatorgrade_summary.json
-        export JSON_REPORT=$(cat gatorgrade_summary.json)
+        echo "JSON_REPORT=$(cat gatorgrade_summary.json)" >> $GITHUB_ENV
       if: always()
       env:
         PIPENV_VENV_IN_PROJECT: 1
