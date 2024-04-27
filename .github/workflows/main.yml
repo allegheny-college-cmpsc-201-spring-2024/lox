@@ -35,11 +35,14 @@ jobs:
     - name: Grade repository
       run: |
         gatorgrade --config gatorgrade.yml --report file json gatorgrade_summary.json
-        echo "JSON_REPORT=$(cat gatorgrade_summary.json | jq -c)" >> $GITHUB_ENV
       if: always()
       env:
         PIPENV_VENV_IN_PROJECT: 1
         PIPENV_IGNORE_VIRTUALENVS: 1
+    - name: Set JSON_REPORT environment file
+      run: |
+        echo "JSON_REPORT=$(cat gatorgrade_summary.json | jq -c)" >> $GITHUB_ENV
+      if: always()
     - name: Create Wizard report
       id: wizard
       uses: term-world/wizard@v0.7.4

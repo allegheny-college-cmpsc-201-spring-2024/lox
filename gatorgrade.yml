@@ -12,6 +12,15 @@ setup: |
       fragment: TODO
       count: 0
       exact: true
+    objectives:
+      LO1:
+        degree:
+          SE: "D"
+          rationale: "Students should be able to identify this file's precendence and significance in program language construction"
+      LO2:
+        degree:
+          - SE: "D"
+            rationale: "Students should be able to identify this file's precedence and significance in parsing and scanning"
   - description: TokenType.java contains the IMPORT token definition
     category: import statements
     check: MatchFileFragment
@@ -19,6 +28,15 @@ setup: |
       fragment: IMPORT
       count: 1
       exact: true
+    objectives:
+      LO1:
+        degree:
+          SE: "D"
+          rationale: "Students should be able to identify this instruction's necessity for program language construction"
+      LO2:
+        degree:
+          - SE: "D"
+            rationale: "Students should be able to identify both this file's precedence and significance in parsing and scanning"
 - interpreter/src/main/java/com/interpreter/lox/Scanner.java:
   - description: Scanner.java contains no TODOs
     category: TODOs
@@ -27,6 +45,15 @@ setup: |
       fragment: TODO
       count: 0
       exact: true
+    objectives:
+      LO1:
+        degree:
+          SE: "D"
+          rationale: "Students should be able to identify this file's precendence and significance in program language construction"
+      LO2:
+        degree:
+          - SE: "D"
+            rationale: "Students should be able to identify both this file's precedence and significance in parsing and scanning"
   - description: Scanner.java defines IMPORT as a keyword
     category: import statements
     check: MatchFileRegex
@@ -34,6 +61,19 @@ setup: |
       regex: 'keywords\.put\("import",(\s)?IMPORT\);'
       count: 1
       exact: true
+    objectives:
+      LO1:
+        degree:
+          SE: "D"
+          rationale: "Students should be able to identify this instruction's significance program language construction"
+      LO2:
+        degree:
+          - SE: "D"
+            rationale: "Students should be able to identify this instruction's significance to parsing and scanning a novel Lox instruction"
+      LO4:
+        degree:
+          - SE: "D"
+            rationale: "Students must identify and use Java's ArrayList structure to implement the keyword"
 - interpreter/src/main/java/com/interpreter/lox/Parser.java:
   - description: Parser.java contains no TODOs
     category: TODOs
@@ -42,6 +82,15 @@ setup: |
       fragment: TODO
       count: 0
       exact: true
+    objectives:
+      LO1:
+        degree:
+          SE: "D"
+          rationale: "Students should be able to identify this file's precendence and significance in program language construction"
+      LO2:
+        degree:
+          - SE: "D"
+            rationale: "Students should be able to identify this instruction's significance to parsing and scanning a novel Lox instruction"
   - description: Parser.java calls separate declaration for imports if matching IMPORT keyword
     category: import statements
     check: MatchFileRegex
@@ -49,6 +98,23 @@ setup: |
       regex: 'if(\s)?\(match\(IMPORT\)\)(\s)?return(\s)[a-zA-Z_]+\(\);'
       count: 1
       exact: true
+    objectives:
+      LO1:
+        degree:
+          SE: "D"
+          rationale: "Students should be able to identify this file's precendence and significance in program language construction"
+      LO2:
+        degree:
+          - SE: "D"
+            rationale: "Students should be able to identify this instruction's significance  in parsing and scanning a novel Lox instruction"
+      LO3:
+        degree:
+          SE: "D"
+          rationale: "Students should be able to identify this how this instruction supplments the Lox grammar and its function as a regex"
+      LO4:
+        degree:
+          - SE: "D"
+            rationale: "Students must identify and use Java's ArrayList structure to implement the keyword"
 - interpreter/src/main/java/com/interpreter/lox/LoxFunction.java:
   - description: LoxFunction.java contains no TODOs
     category: TODOs
@@ -57,6 +123,15 @@ setup: |
       fragment: TODO
       count: 0
       exact: true
+    objectives:
+      LO1:
+        degree:
+          SE: "D"
+          rationale: "Students should be able to identify this file's precendence and significance in program language construction"
+      LO2:
+        degree:
+          - SE: "D"
+            rationale: "Students should be able to identify this instruction's significance  in parsing and scanning a novel Lox instruction"
 - interpreter/src/main/java/com/interpreter/lox/Resolver.java:
   - description: Resolver.java contains no TODOs
     category: TODOs
@@ -65,6 +140,15 @@ setup: |
       fragment: TODO
       count: 0
       exact: true
+    objectives:
+      LO1:
+        degree:
+          SE: "D"
+          rationale: "Students should be able to identify this file's precendence and significance in program language construction"
+      LO2:
+        degree:
+          - SE: "D"
+            rationale: "Students should be able to identify this instruction's significance  in parsing and scanning a novel Lox instruction"
 - interpreter/src/main/java/com/interpreter/lox/Interpreter.java:
   - description: Interpreter.java contains no TODOs
     category: TODOs
@@ -73,6 +157,15 @@ setup: |
       fragment: TODO
       count: 0
       exact: true
+    objectives:
+      LO1:
+        degree:
+          SE: "D"
+          rationale: "Students should be able to identify this file's precendence and significance in program language construction"
+      LO2:
+        degree:
+          - SE: "D"
+            rationale: "Students should be able to identify this instruction's significance  in parsing and scanning a novel Lox instruction"
 - docs/reflection.md:
   - description: Reflection contains no TODOs
     category: TODOs
@@ -86,6 +179,19 @@ setup: |
   check: ExecuteCommand
   options:
     command: mvn test -Dtest=BaseTests#testImportInclusion -f "interpreter/pom.xml"
+  objectives:
+      LO2:
+        degree:
+          - SE: "D"
+            rationale: "A check using jUnit testing framework in order to verify correct implementation of task via program execution"
+      LO4:
+        degree:
+          - SE: "D"
+            rationale: "A check using jUnit testing framework in order to verify correct implementation of task via program execution"
+      LO5:
+        degree:
+          - SE: "D"
+            rationale: "Passing this check indicates correct implementation of the keyword using approaches from the Python language to run Lox language programs via Java language implementation"
 - description: test.lox program is unedited
   category: Tests
   check: MatchCommandFragment
