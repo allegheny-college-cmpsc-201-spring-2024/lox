@@ -34,6 +34,7 @@ jobs:
     - name: Grade repository
       run: |
         gatorgrade --config gatorgrade.yml --report file json gatorgrade_summary.json
+        JSON_REPORT=$(cat gatorgrade_summary.json)
       if: always()
       env:
         PIPENV_VENV_IN_PROJECT: 1
@@ -62,6 +63,6 @@ jobs:
         branch: insight
         path: insight/insight-report-${{steps.current-time.outputs.formattedTime}}.json
         source: content
-        source-arg: $(cat gatorgrade_summary.json)
+        source-arg: JSON_REPORT
     env:
       GITHUB_TOKEN: ${{ secrets.WIZARD }}
