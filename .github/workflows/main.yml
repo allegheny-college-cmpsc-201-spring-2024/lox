@@ -62,7 +62,7 @@ jobs:
         repo-token: ${{ secrets.GITHUB_TOKEN }}
         branch: insight
         path: insight/insight-report-${{steps.current-time.outputs.formattedTime}}.json
-        source: content
+        source: env
         source-arg: JSON_REPORT
     env:
       GITHUB_TOKEN: ${{ secrets.WIZARD }}
